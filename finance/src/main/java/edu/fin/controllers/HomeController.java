@@ -19,10 +19,10 @@ public class HomeController {
 		return "dashboard";
 	}
 	
-	@GetMapping("/income")
-	public String income() {
-		return "income";
-	}
+	// @GetMapping("/income")
+	// public String income() {
+	// 	return "income";
+	// }
 
 	@GetMapping("/expenses")
 	public String expenses() {

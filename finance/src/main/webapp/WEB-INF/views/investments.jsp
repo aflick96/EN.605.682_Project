@@ -4,9 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+    <title>Insert title here</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/page.css">
 </head>
-<body>
+<body class="page-container">
 	<jsp:include page="components/main-navigation-bar.jsp" />
     <h2>Investment Section</h2>
     <p>Manage your investment logs here.</p>

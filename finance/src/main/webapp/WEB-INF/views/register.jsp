@@ -4,8 +4,9 @@
 <head>
 <meta charset="UTF-8">
 	<title>Register</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/page.css">
 </head>
-<body>
+<body class="page-container">
     <h2>Register</h2>
 
     <form action="${pageContext.request.contextPath}/auth/register" method="post">

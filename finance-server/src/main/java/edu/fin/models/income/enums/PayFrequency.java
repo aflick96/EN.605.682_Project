@@ -1,10 +1,10 @@
 package edu.fin.models.income.enums;
 
 public enum PayFrequency {
-	FIFTY_TWO(52),
-	TWENTY_SIX(26),
-	TWENTY_FOUR(24),
-	TWELVE(12);
+	WEEKLY(52),
+	BIWEEKLY(26),
+	SEMIMONTHLY(24),
+	MONTHLY(12);
 	
 	private final int periods;
 	

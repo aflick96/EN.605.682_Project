@@ -36,21 +36,38 @@ public class IncomeLogController {
 	}
 	
 	/* Income logs */
-	
-	//Create income log for user
-	@PostMapping
-	public ResponseEntity<IncomeLog> createIncomeLog(@RequestBody IncomeLog log) {
-		IncomeLog log_ = inc_repo.save(log);
-		return ResponseEntity.ok(log_);
-	}
-	
-	//Get income logs for user
-	@GetMapping("/user/{user_id}")
+	//########################################################################################
+	//GET by user id
+	@GetMapping("/user/{userId}")
 	public ResponseEntity<List<IncomeLog>> getIncomeLogsByUser(@PathVariable Long userId) {
 		List<IncomeLog> logs = inc_repo.findByUserId(userId);
 		return ResponseEntity.ok(logs);
 	}
 	
+	//POST income log for user
+	@PostMapping
+	public ResponseEntity<IncomeLog> createIncomeLog(@RequestBody IncomeLog log) {
+		System.out.println(log);
+		if (log.getAmount() == null || log.getAmount() < 0) {
+			return ResponseEntity.badRequest().body(null);
+		}
+		IncomeLog log_ = inc_repo.save(log);
+		return ResponseEntity.ok(log_);
+	}
+
+	//DELETE income log for user
+	@DeleteMapping("/{incomeLogId}")
+	public ResponseEntity<String> deleteIncomeLog(@PathVariable Long incomeLogId) {
+		if (!inc_repo.existsById(incomeLogId)) {
+			return ResponseEntity.badRequest().body("Income log not found");
+		}
+		add_repo.deleteByIncomeLogId(incomeLogId);
+		pre_repo.deleteByIncomeLogId(incomeLogId);
+		post_repo.deleteByIncomeLogId(incomeLogId);
+		inc_repo.deleteById(incomeLogId);
+		return ResponseEntity.ok("Income log deleted");
+	}
+	//########################################################################################
 
 	/* Additional incomes */
 	

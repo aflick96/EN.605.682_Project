@@ -1,5 +1,6 @@
 edu\fin\models\income\PosttaxDeduction.class
 edu\fin\models\income\IncomeLog.class
+edu\fin\controllers\IncomeController$1.class
 edu\fin\controllers\IncomeController.class
 edu\fin\models\income\AdditionalIncome.class
 edu\fin\models\user\User.class
@@ -7,5 +8,6 @@ edu\fin\config\APIConfig.class
 edu\fin\controllers\HomeController.class
 edu\fin\models\income\enums\PayFrequency.class
 edu\fin\FinanceWebApp.class
+edu\fin\models\income\IncomeByPayFrequencyDetail.class
 edu\fin\controllers\AuthController.class
 edu\fin\models\income\PretaxDeduction.class

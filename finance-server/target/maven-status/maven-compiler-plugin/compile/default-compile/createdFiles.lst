@@ -6,6 +6,7 @@ edu\fin\models\income\AdditionalIncome.class
 edu\fin\controllers\UserController.class
 edu\fin\models\property\LoanPayment.class
 edu\fin\controllers\InvestmentController.class
+edu\fin\services\UserService.class
 edu\fin\models\tax\StateTax$State.class
 edu\fin\models\tax\FederalTax$FilingStatus.class
 edu\fin\models\investment\InvestmentContribution.class
@@ -33,14 +34,17 @@ edu\fin\controllers\dtos\property\LoanSummary.class
 edu\fin\config\CORSConfig.class
 edu\fin\controllers\repositories\property\LoanPaymentRepository.class
 edu\fin\controllers\repositories\expense\ExpenseItemRepository.class
+edu\fin\controllers\dtos\income\IncomeByPayFrequencyDetail.class
 edu\fin\controllers\utils\UserControllerUtil.class
 edu\fin\controllers\repositories\expense\ExpenseLogRepository.class
 edu\fin\models\expense\ExpenseLog.class
 edu\fin\controllers\repositories\investment\InvestmentLogRepository.class
+edu\fin\services\IncomeByPayFrequencyService.class
 edu\fin\controllers\TaxController.class
 edu\fin\models\property\LoanItem.class
 edu\fin\models\expense\enums\ExpenseCategory.class
 edu\fin\models\tax\Deduction.class
+edu\fin\services\IncomeByPayFrequencyService$1.class
 edu\fin\controllers\repositories\user\UserRepository.class
 edu\fin\controllers\repositories\income\PretaxDeductionRepository.class
 edu\fin\FinanceServer.class

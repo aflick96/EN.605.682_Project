@@ -5,9 +5,11 @@ import edu.fin.models.income.AdditionalIncome;
 import edu.fin.models.income.PretaxDeduction;
 import edu.fin.models.income.PosttaxDeduction;
 import edu.fin.controllers.repositories.income.IncomeLogRepository;
+import edu.fin.controllers.dtos.income.IncomeByPayFrequencyDetail;
 import edu.fin.controllers.repositories.income.AdditionalIncomeRepository;
 import edu.fin.controllers.repositories.income.PosttaxDeductionRepository;
 import edu.fin.controllers.repositories.income.PretaxDeductionRepository;
+import edu.fin.services.IncomeByPayFrequencyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -21,18 +23,21 @@ public class IncomeLogController {
 	private final AdditionalIncomeRepository add_repo;
 	private final PretaxDeductionRepository pre_repo;
 	private final PosttaxDeductionRepository post_repo;
+	private final IncomeByPayFrequencyService inc_freq_service;
 	
 	//Constructor
 	public IncomeLogController(
 			IncomeLogRepository inc_repo, 
 			AdditionalIncomeRepository add_repo, 
 			PretaxDeductionRepository pre_repo, 
-			PosttaxDeductionRepository post_repo
+			PosttaxDeductionRepository post_repo,
+			IncomeByPayFrequencyService inc_freq_service
 			) {
 		this.inc_repo = inc_repo;
 		this.add_repo = add_repo;
 		this.pre_repo = pre_repo;
 		this.post_repo = post_repo;
+		this.inc_freq_service = inc_freq_service;
 	}
 	
 	/* Income logs */
@@ -66,6 +71,17 @@ public class IncomeLogController {
 		post_repo.deleteByIncomeLogId(incomeLogId);
 		inc_repo.deleteById(incomeLogId);
 		return ResponseEntity.ok("Income log deleted");
+	}
+	//########################################################################################
+
+	/* Service */
+
+	//########################################################################################
+	@GetMapping("/{incomeLogId}/details")
+	public ResponseEntity<List<IncomeByPayFrequencyDetail>> getIncomeLogDetails(@PathVariable Long incomeLogId) {
+		return inc_repo.findById(incomeLogId)
+				.map(incomeLog -> ResponseEntity.ok(inc_freq_service.calculatePayDetail(incomeLog)))
+				.orElseGet(() -> ResponseEntity.notFound().build());
 	}
 	//########################################################################################
 

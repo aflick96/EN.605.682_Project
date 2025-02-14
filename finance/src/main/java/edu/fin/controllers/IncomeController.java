@@ -3,7 +3,9 @@ package edu.fin.controllers;
 import edu.fin.config.APIConfig;
 import edu.fin.models.user.User;
 import edu.fin.models.income.IncomeLog;
+import edu.fin.models.income.IncomeByPayFrequencyDetail;
 import org.springframework.stereotype.Controller;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -26,6 +28,8 @@ public class IncomeController {
         this.rt = rt;
     }
 
+    /* Income Logs */
+    //##################################################################
     // show income logs
     @GetMapping
     public String showIncomeLogs(HttpSession session, Model model) {
@@ -65,7 +69,39 @@ public class IncomeController {
         rt.exchange(ac.deleteIncomeLogUrl(id), HttpMethod.DELETE, null, Void.class);
         return "redirect:/income";
     }
+    //##################################################################
 
+    /* Income Log Details */
+    //##################################################################
+    
+    // show income log details
+    @GetMapping("/{id}")
+    public String showIncomeLogDetails(@PathVariable Long id, HttpSession session, Model model) {
+        User user = checkSession(session);
+        if (user == null) { return redirectAuthLogin(); }
+
+        try {
+            String url = ac.getIncomeLogDetails(id);
+            ResponseEntity<List<IncomeByPayFrequencyDetail>> response = rt.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<IncomeByPayFrequencyDetail>>() {});
+            
+            List<IncomeByPayFrequencyDetail> detail = response.getBody();
+            if (detail == null) {
+                detail = List.of();
+            }
+        
+            model.addAttribute("incomeLogDetails", detail);
+
+            return "components/income/income-logger-detail";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", "Failed to load income log details");
+            return "error";
+        }
+    }
+    //##################################################################
+
+    /* Helpers */
+    //##################################################################
     // session attribute check
     private User checkSession(HttpSession session) {
         User user = (User) session.getAttribute("user");
@@ -75,4 +111,5 @@ public class IncomeController {
     private String redirectAuthLogin() {
         return "redirect:/auth/login";
     }
+    //##################################################################
 }

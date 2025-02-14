@@ -40,7 +40,9 @@ public class APIConfig {
 	public String deleteIncomeLogUrl(Long incomeLogId) {
 		return base + "/income-logs/" + incomeLogId;
 	}
-	// ###################################################
 
-	
+	public String getIncomeLogDetails(Long incomeLogId) {
+		return base + "/income-logs/" + incomeLogId + "/details";
+	}
+	// ###################################################
 }

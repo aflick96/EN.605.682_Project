@@ -1,26 +1,14 @@
 package edu.fin.models.expense;
 
 import edu.fin.models.user.User;
-import jakarta.persistence.*;
 import java.util.List;
 
-@Entity
-@Table(name="expense_logs")
 public class ExpenseLog {
-	
-	//fields
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
-	
-	@ManyToOne
-	@JoinColumn(name="user_id", nullable=false)
-	private User user;
-	
-	@OneToMany(mappedBy="expenseLog", cascade=CascadeType.ALL, orphanRemoval=true)
-	private List<ExpenseItem> items;
-
-	// getters and setters
+    private Long id;
+    private User user;
+    private List<ExpenseItem> items;
+ 
+    // getters and setters
 	public Long getExpenseLogId() { return id; }
 	public void setExpenseLogId(Long expenseLogId) { this.id = expenseLogId; }
 

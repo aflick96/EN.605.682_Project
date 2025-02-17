@@ -1,36 +1,15 @@
 package edu.fin.models.expense;
 
 import edu.fin.models.expense.enums.ExpenseCategory;
-import jakarta.persistence.*;
 import java.time.LocalDate;
 
-@Entity
-@Table(name="expense_items")
 public class ExpenseItem {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long expenseItemId;
-	
-	@Column(nullable=false)
-	private String name;
-	
-	@Enumerated(EnumType.STRING)
-	@Column(nullable=false)
-	private ExpenseCategory category;
-	
-	@Column(nullable=false)
-	private Double amount;
-	
-	@Column(name="start_date", nullable=false)
-	private LocalDate startDate;
-	
-	@Column(name="end_date")
-	private LocalDate endDate;
-	
-	@ManyToOne
-	@JoinColumn(name="expense_log_id", nullable=false)
-	private ExpenseLog expenseLog;
+    private Long expenseItemId;
+    private String name;
+    private ExpenseCategory category;
+    private double amount;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
 	public Long getExpenseItemId() { return expenseItemId; }
 	public void setExpenseItemId(Long expenseItemId) { this.expenseItemId = expenseItemId; }
@@ -49,7 +28,4 @@ public class ExpenseItem {
 
 	public LocalDate getEndDate() { return endDate; }
 	public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
-
-	public ExpenseLog getExpenseLog() {	return expenseLog; }
-	public void setExpenseLog(ExpenseLog expenseLog) { this.expenseLog = expenseLog; }
 }

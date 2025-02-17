@@ -4,6 +4,7 @@ import edu.fin.config.APIConfig;
 import edu.fin.models.user.User;
 import edu.fin.models.income.IncomeLog;
 import edu.fin.models.income.IncomeByPayFrequencyDetail;
+import edu.fin.utils.auth.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.ui.Model;
@@ -22,10 +23,12 @@ public class IncomeController {
     
     private APIConfig ac;
     private RestTemplate rt;
+    private Session s;
 
-    public IncomeController(APIConfig ac, RestTemplate rt) {
+    public IncomeController(APIConfig ac, RestTemplate rt, Session s) {
         this.ac = ac;
         this.rt = rt;
+        this.s = s;
     }
 
     /* Income Logs */
@@ -35,11 +38,15 @@ public class IncomeController {
     public String showIncomeLogs(HttpSession session, Model model) {
         
         // check if user has a session --> redirect to login if not
-        User user = checkSession(session);
-        if (user == null) { return redirectAuthLogin(); }
+        // User user = checkSession(session);
+        // if (user == null) { return redirectAuthLogin(); }
+        Long userId = s.checkSessionGetUserId(session);
+        if (userId == null) { return s.redirectAuthLogin(); }
+
 
         // get income logs
-        String url = ac.getIncomeLogsUrl(user.getId());        
+        // String url = ac.getIncomeLogsUrl(user.getId());        
+        String url = ac.getIncomeLogsUrl(userId);
         ResponseEntity<IncomeLog[]> response = rt.getForEntity(url, IncomeLog[].class);
         List<IncomeLog> logs = response.getBody() != null ? Arrays.asList(response.getBody()) : List.of();
 
@@ -51,9 +58,12 @@ public class IncomeController {
     // create income log form submission
     @PostMapping("/create")
     public String createIncomeLog(@ModelAttribute IncomeLog log, HttpSession session) {
-        User user = checkSession(session);
-        if (user == null) { return redirectAuthLogin(); }
-        
+        // User user = checkSession(session);
+        // if (user == null) { return redirectAuthLogin(); }
+        User user = s.checkSessionGetUser(session);
+        if (user == null) { return s.redirectAuthLogin(); }
+
+
         log.setUser(user);
         HttpEntity<IncomeLog> request = new HttpEntity<>(log);
         rt.postForObject(ac.createIncomeLogUrl(), request, IncomeLog.class);
@@ -63,8 +73,9 @@ public class IncomeController {
     // delete income log
     @PostMapping("/delete/{id}")
     public String deleteIncomeLog(@PathVariable Long id, HttpSession session) {
-        User user = checkSession(session);
-        if (user == null) { return redirectAuthLogin(); }
+        // User user = checkSession(session);
+        // if (user == null) { return redirectAuthLogin(); }
+        if (s.checkSession()) { return redirectAuthLogin(); }
 
         rt.exchange(ac.deleteIncomeLogUrl(id), HttpMethod.DELETE, null, Void.class);
         return "redirect:/income";
@@ -77,8 +88,9 @@ public class IncomeController {
     // show income log details
     @GetMapping("/{id}")
     public String showIncomeLogDetails(@PathVariable Long id, HttpSession session, Model model) {
-        User user = checkSession(session);
-        if (user == null) { return redirectAuthLogin(); }
+        // User user = checkSession(session);
+        // if (user == null) { return redirectAuthLogin(); }
+        if (s.checkSession()) { return redirectAuthLogin(); }
 
         try {
             String url = ac.getIncomeLogDetails(id);
@@ -103,13 +115,13 @@ public class IncomeController {
     /* Helpers */
     //##################################################################
     // session attribute check
-    private User checkSession(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        return user != null ? user : null;
-    }
+    // private User checkSession(HttpSession session) {
+    //     User user = (User) session.getAttribute("user");
+    //     return user != null ? user : null;
+    // }
 
-    private String redirectAuthLogin() {
-        return "redirect:/auth/login";
-    }
+    // private String redirectAuthLogin() {
+    //     return "redirect:/auth/login";
+    // }
     //##################################################################
 }

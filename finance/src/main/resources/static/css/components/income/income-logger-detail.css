@@ -1,0 +1,40 @@
+.income-logger-detail-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+    background-color: lightgrey;
+    overflow: hidden;
+}
+
+.income-logger-detail-header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100;
+    padding: 5px 0;
+}
+
+.income-logger-detail-content-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+.income-logger-detail-row {
+    overflow-y: auto;
+    border-radius: 5px;
+}
+
+.income-logger-detail-row:hover {
+    background-color: aliceblue;
+}
+

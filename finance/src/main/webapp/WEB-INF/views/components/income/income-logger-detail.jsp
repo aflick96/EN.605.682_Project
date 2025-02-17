@@ -6,29 +6,31 @@
 </head>
 
 <h2>Income Log Details</h2>
-<table border="1">
-    <tr>
-        <th>Pay Date</th>
-        <th>Gross Income</th>
-        <th>Additional Income</th>
-        <th>Pre-Tax Deductions</th>
-        <th>Taxable Income</th>
-        <th>Federal Tax</th>
-        <th>State Tax</th>
-        <th>Post-Tax Deductions</th>
-        <th>Net Income</th>
-    </tr>
-    <c:forEach var="detail" items="${incomeLogDetails}">
-        <tr>
-            <td>${detail.payDate}</td>
-            <td>$${detail.grossIncome}</td>
-            <td>$${detail.additionalIncome}</td>
-            <td>$${detail.pretaxDeductions}</td>
-            <td>$${detail.taxableIncome}</td>
-            <td>$${detail.federalTax}</td>
-            <td>$${detail.stateTax}</td>
-            <td>$${detail.posttaxDeductions}</td>
-            <td>$${detail.netIncome}</td>
-        </tr>
-    </c:forEach>
-</table>
+<div class="income-logger-detail-container">
+    <div id="income-logger-detail-header-container">
+        <span>Pay Date</span>
+        <span>Gross Income</span>
+        <span>Additional Income</span>
+        <span>Pre-Tax Deductions</span>
+        <span>Taxable Income</span>
+        <span>Federal Tax</span>
+        <span>State Tax</span>
+        <span>Post-Tax Deductions</span>
+        <span>Net Income</span>
+    </div>
+    <div class="income-logger-detail-content-container">
+        <c:forEach var="detail" items="${incomeLogDetails}">
+            <div class="income-logger-detail-row">
+                <span>${detail.payDate}</span>
+                <span>$${detail.grossIncome}</span>
+                <span>$${detail.additionalIncome}</span>
+                <span>$${detail.pretaxDeductions}</span>
+                <span>$${detail.taxableIncome}</span>
+                <span>$${detail.federalTax}</span>
+                <span>$${detail.stateTax}</span>
+                <span>$${detail.posttaxDeductions}</span>
+                <span>$${detail.netIncome}</span>
+            </div>
+        </c:forEach>    
+    </div>
+</div>

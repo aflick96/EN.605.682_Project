@@ -1,7 +1,7 @@
 package edu.fin.controllers;
 
 import edu.fin.models.user.User;
-import edu.fin.controllers.repositories.user.UserRepository;
+import edu.fin.repositories.user.UserRepository;
 import edu.fin.controllers.utils.UserControllerUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,7 +1,7 @@
 package edu.fin.controllers;
 
 import edu.fin.models.investment.*;
-import edu.fin.controllers.repositories.investment.*;
+import edu.fin.repositories.investment.*;
 import edu.fin.controllers.dtos.investment.InvestmentSummary;
 import edu.fin.services.InvestmentService;
 import org.springframework.http.ResponseEntity;

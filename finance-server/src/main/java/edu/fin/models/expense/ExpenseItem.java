@@ -1,6 +1,6 @@
 package edu.fin.models.expense;
 
-import edu.fin.models.expense.enums.ExpenseCategory;
+import edu.fin.models.expense.enums.*;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
@@ -19,6 +19,10 @@ public class ExpenseItem {
 	@Column(nullable=false)
 	private ExpenseCategory category;
 	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable=false)
+	private ExpenseFrequency frequency;
+
 	@Column(nullable=false)
 	private Double amount;
 	
@@ -40,6 +44,9 @@ public class ExpenseItem {
 
 	public ExpenseCategory getCategory() { return category; }
 	public void setCategory(ExpenseCategory category) { this.category = category; }
+
+	public ExpenseFrequency getFrequency() { return frequency; }
+	public void setFrequency(ExpenseFrequency frequency) { this.frequency = frequency; }
 
 	public Double getAmount() { return amount; }
 	public void setAmount(Double amount) { this.amount = amount; }

@@ -1,4 +1,4 @@
-package edu.fin.controllers.repositories.investment;
+package edu.fin.repositories.investment;
 
 import edu.fin.models.investment.InvestmentLog;
 import org.springframework.data.jpa.repository.JpaRepository;

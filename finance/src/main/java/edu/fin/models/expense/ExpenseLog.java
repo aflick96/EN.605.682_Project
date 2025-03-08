@@ -17,4 +17,13 @@ public class ExpenseLog {
 
 	public List<ExpenseItem> getItems() { return items; }
 	public void setItems(List<ExpenseItem> items) { this.items = items; }
+
+	@Override
+	public String toString() {
+		return "ExpenseLog{" +
+				"id=" + id +
+				", user=" + user +
+				", items=" + items +
+				'}';
+	}
 }

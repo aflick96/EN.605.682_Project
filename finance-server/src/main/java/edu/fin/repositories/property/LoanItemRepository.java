@@ -1,4 +1,4 @@
-package edu.fin.controllers.repositories.property;
+package edu.fin.repositories.property;
 
 import edu.fin.models.property.LoanItem;
 import org.springframework.data.jpa.repository.JpaRepository;

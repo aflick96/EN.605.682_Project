@@ -24,10 +24,10 @@ public class HomeController {
 	// 	return "income";
 	// }
 
-	@GetMapping("/expenses")
-	public String expenses() {
-		return "expenses";
-	}
+	// @GetMapping("/expenses")
+	// public String expenses() {
+	// 	return "expenses";
+	// }
 
 	@GetMapping("/assets-liabilities")
 	public String assetsLiabilities() {

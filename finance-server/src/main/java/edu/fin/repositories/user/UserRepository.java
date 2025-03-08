@@ -1,4 +1,4 @@
-package edu.fin.controllers.repositories.user;
+package edu.fin.repositories.user;
 
 import edu.fin.models.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;

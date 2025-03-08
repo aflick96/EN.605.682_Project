@@ -1,4 +1,4 @@
-package edu.fin.controllers.repositories.income;
+package edu.fin.repositories.income;
 
 import edu.fin.models.income.AdditionalIncome;
 import org.springframework.data.jpa.repository.JpaRepository;

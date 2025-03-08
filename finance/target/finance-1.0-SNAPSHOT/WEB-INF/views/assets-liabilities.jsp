@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/page.css">
 </head>
 <body class="page-container">
-	<jsp:include page="components/main-navigation-bar.jsp" />
+	<jsp:include page="components/base/main-navigation-bar.jsp" />
     <h2>Assets &amp; Liabilities Section</h2>
     <p>Manage your income logs here.</p>
     <a href="${pageContext.request.contextPath}/dashboard">Back to Dashboard</a>

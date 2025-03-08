@@ -3,12 +3,9 @@ package edu.fin.controllers;
 import edu.fin.models.income.IncomeLog;
 import edu.fin.models.income.AdditionalIncome;
 import edu.fin.models.income.PretaxDeduction;
+import edu.fin.repositories.income.*;
 import edu.fin.models.income.PosttaxDeduction;
-import edu.fin.controllers.repositories.income.IncomeLogRepository;
 import edu.fin.controllers.dtos.income.IncomeByPayFrequencyDetail;
-import edu.fin.controllers.repositories.income.AdditionalIncomeRepository;
-import edu.fin.controllers.repositories.income.PosttaxDeductionRepository;
-import edu.fin.controllers.repositories.income.PretaxDeductionRepository;
 import edu.fin.services.IncomeByPayFrequencyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,10 +49,7 @@ public class IncomeLogController {
 	//POST income log for user
 	@PostMapping
 	public ResponseEntity<IncomeLog> createIncomeLog(@RequestBody IncomeLog log) {
-		System.out.println(log);
-		if (log.getAmount() == null || log.getAmount() < 0) {
-			return ResponseEntity.badRequest().body(null);
-		}
+		if (log.getAmount() == null || log.getAmount() < 0) return ResponseEntity.badRequest().body(null);
 		IncomeLog log_ = inc_repo.save(log);
 		return ResponseEntity.ok(log_);
 	}
@@ -63,9 +57,8 @@ public class IncomeLogController {
 	//DELETE income log for user
 	@DeleteMapping("/{incomeLogId}")
 	public ResponseEntity<String> deleteIncomeLog(@PathVariable Long incomeLogId) {
-		if (!inc_repo.existsById(incomeLogId)) {
-			return ResponseEntity.badRequest().body("Income log not found");
-		}
+		if (!inc_repo.existsById(incomeLogId)) return ResponseEntity.badRequest().body("Income log not found");
+		
 		add_repo.deleteByIncomeLogId(incomeLogId);
 		pre_repo.deleteByIncomeLogId(incomeLogId);
 		post_repo.deleteByIncomeLogId(incomeLogId);

@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const modal = document.querySelector(`.modal[data-modal-id="${modalId}"]`);
         if (!modal) return;
         
+        const modalContent = modal.querySelector(".modal-content");
+        const modalSize = event.currentTarget.getAttribute("data-modal-size") || "medium";
+        modalContent.className = `modal-content ${modalSize}`;
+
         const fetchUrl = event.currentTarget.getAttribute("data-fetch-url");
         if (fetchUrl) {
             const modalContent = modal.querySelector(".modal-content-body");
@@ -28,9 +32,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (modal) {
             modal.style.display = 'none';
 
-            const modalContent = modal.querySelector(".modal-content-body");
-            if (modalContent) {
-                modalContent.innerHTML = "";
+            const modalContent = modal.querySelector(".modal-content");
+            const modalContentBody = modal.querySelector(".modal-content-body");
+            modalContent.className = "modal-content";
+
+            if (modalContentBody) {
+                modalContentBody.innerHTML = "";
             }
         }
     }
@@ -43,14 +50,18 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', hideModal);
     });
 
-    window.addEventListener("click", function(event) {
-        const modal = this.document.querySelector(".modal[data-modal-id]");
-        if (modal && event.target === modal) {
-            modal.style.display = 'none';
-            const modalContent = modal.querySelector(".modal-content-body");
-            if (modalContent) {
-                modalContent.innerHTML = "";
+    window.addEventListener("click", function (event) {
+        document.querySelectorAll(".modal[data-modal-id]").forEach(modal => {
+            if (event.target === modal) {
+                modal.style.display = "none";
+                const modalContent = modal.querySelector(".modal-content");
+                modalContent.className = "modal-content";
+
+                const modalBody = modal.querySelector(".modal-content-body");
+                if (modalBody) {
+                    modalBody.innerHTML = "";
+                }
             }
-        }
+        });
     });
 });

@@ -1,6 +1,7 @@
 package edu.fin.utils.auth;
 
 import edu.fin.models.user.User;
+import jakarta.servlet.http.HttpSession;
 
 public class Session {
     
@@ -20,7 +21,7 @@ public class Session {
 
     public static boolean checkSession(HttpSession session) {
         User user = (User) session.getAttribute("user");
-        return isUserNull();
+        return isUserNull(user);
     }
     
     public static String redirectAuthLogin() {
@@ -28,7 +29,7 @@ public class Session {
     }
 
     //Check if there is a user in the session
-    private boolean isUserNull(User user) {
+    private static boolean isUserNull(User user) {
         return user == null;
     }
 }

@@ -1,7 +1,7 @@
 package edu.fin.controllers;
 
 import edu.fin.models.property.*;
-import edu.fin.controllers.repositories.property.*;
+import edu.fin.repositories.property.*;
 import edu.fin.services.LoanService;
 import edu.fin.controllers.dtos.property.LoanSummary;
 import org.springframework.http.ResponseEntity;

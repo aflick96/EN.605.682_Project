@@ -16,7 +16,7 @@ public class APIConfig {
 		return new RestTemplate();
 	}
 
-	// User urls
+	/* User */ 
 	// ###################################################
 	public String userRegisterUrl() {
 		return base + "/users/register";
@@ -27,7 +27,7 @@ public class APIConfig {
 	}
 	// ###################################################
 
-	// Income logs urls
+	/* Income logs */
 	// ###################################################
 	public String getIncomeLogsUrl(Long userId) {
 		return base + "/income-logs/user/" + userId;
@@ -45,4 +45,18 @@ public class APIConfig {
 		return base + "/income-logs/" + incomeLogId + "/details";
 	}
 	// ###################################################
+
+	/* Expense logs */
+	// ###################################################
+	public String getExpenseLogsUrl(Long userId) {
+		return base + "/expenses/user/" + userId;
+	}
+
+	public String createExpenseLogItemUrl(Long userId) {
+		return base + "/expenses/user/" + userId + "/items";
+	}
+
+	public String deleteExpenseLogItemUrl(Long expenseItemId) {
+		return base + "/expenses/items/" + expenseItemId;
+	}
 }

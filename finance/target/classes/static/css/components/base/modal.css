@@ -15,9 +15,30 @@
     background-color: white;
     padding: 20px;
     border-radius: 8px;
+    max-width: 90%;
+    max-height: 85%;
+    text-align: center;
+    overflow-y: auto;
+}
+
+.modal-content.small {
     width: 50%;
     height: 50%;
-    text-align: center;
+}
+
+.modal-content.medium {
+    width: 75%;
+    height: 75%;
+}
+
+.modal-content.large {
+    width: 90%;
+    height: 85%;
+}
+
+.modal-content-body {
+    height: 100%;
+    width: 100%;
 }
 
 .modal-close {

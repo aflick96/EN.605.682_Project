@@ -23,31 +23,23 @@ public class IncomeController {
     
     private APIConfig ac;
     private RestTemplate rt;
-    private Session s;
 
-    public IncomeController(APIConfig ac, RestTemplate rt, Session s) {
+    public IncomeController(APIConfig ac, RestTemplate rt) {
         this.ac = ac;
         this.rt = rt;
-        this.s = s;
     }
 
     /* Income Logs */
     //##################################################################
     // show income logs
     @GetMapping
-    public String showIncomeLogs(HttpSession session, Model model) {
-        
+    public String showIncomeLogs(HttpSession session, Model model) {        
         // check if user has a session --> redirect to login if not
-        // User user = checkSession(session);
-        // if (user == null) { return redirectAuthLogin(); }
-        Long userId = s.checkSessionGetUserId(session);
-        if (userId == null) { return s.redirectAuthLogin(); }
+        Long userId = Session.checkSessionGetUserId(session);
+        if (userId == null) return Session.redirectAuthLogin();
 
-
-        // get income logs
-        // String url = ac.getIncomeLogsUrl(user.getId());        
-        String url = ac.getIncomeLogsUrl(userId);
-        ResponseEntity<IncomeLog[]> response = rt.getForEntity(url, IncomeLog[].class);
+        // get income logs      
+        ResponseEntity<IncomeLog[]> response = rt.getForEntity(ac.getIncomeLogsUrl(userId), IncomeLog[].class);
         List<IncomeLog> logs = response.getBody() != null ? Arrays.asList(response.getBody()) : List.of();
 
         model.addAttribute("incomeLogs", logs);
@@ -58,11 +50,8 @@ public class IncomeController {
     // create income log form submission
     @PostMapping("/create")
     public String createIncomeLog(@ModelAttribute IncomeLog log, HttpSession session) {
-        // User user = checkSession(session);
-        // if (user == null) { return redirectAuthLogin(); }
-        User user = s.checkSessionGetUser(session);
-        if (user == null) { return s.redirectAuthLogin(); }
-
+        User user = Session.checkSessionGetUser(session);
+        if (user == null) return Session.redirectAuthLogin();
 
         log.setUser(user);
         HttpEntity<IncomeLog> request = new HttpEntity<>(log);
@@ -73,9 +62,7 @@ public class IncomeController {
     // delete income log
     @PostMapping("/delete/{id}")
     public String deleteIncomeLog(@PathVariable Long id, HttpSession session) {
-        // User user = checkSession(session);
-        // if (user == null) { return redirectAuthLogin(); }
-        if (s.checkSession()) { return redirectAuthLogin(); }
+        if (Session.checkSession(session)) return Session.redirectAuthLogin(); 
 
         rt.exchange(ac.deleteIncomeLogUrl(id), HttpMethod.DELETE, null, Void.class);
         return "redirect:/income";
@@ -88,21 +75,14 @@ public class IncomeController {
     // show income log details
     @GetMapping("/{id}")
     public String showIncomeLogDetails(@PathVariable Long id, HttpSession session, Model model) {
-        // User user = checkSession(session);
-        // if (user == null) { return redirectAuthLogin(); }
-        if (s.checkSession()) { return redirectAuthLogin(); }
+        if (Session.checkSession(session)) return Session.redirectAuthLogin();
 
         try {
-            String url = ac.getIncomeLogDetails(id);
-            ResponseEntity<List<IncomeByPayFrequencyDetail>> response = rt.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<IncomeByPayFrequencyDetail>>() {});
-            
+            ResponseEntity<List<IncomeByPayFrequencyDetail>> response = rt.exchange(ac.getIncomeLogDetails(id), HttpMethod.GET, null, new ParameterizedTypeReference<List<IncomeByPayFrequencyDetail>>() {});
             List<IncomeByPayFrequencyDetail> detail = response.getBody();
-            if (detail == null) {
-                detail = List.of();
-            }
-        
+            if (detail == null) detail = List.of();
+    
             model.addAttribute("incomeLogDetails", detail);
-
             return "components/income/income-logger-detail";
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,18 +90,5 @@ public class IncomeController {
             return "error";
         }
     }
-    //##################################################################
-
-    /* Helpers */
-    //##################################################################
-    // session attribute check
-    // private User checkSession(HttpSession session) {
-    //     User user = (User) session.getAttribute("user");
-    //     return user != null ? user : null;
-    // }
-
-    // private String redirectAuthLogin() {
-    //     return "redirect:/auth/login";
-    // }
     //##################################################################
 }

@@ -6,7 +6,12 @@
 </head>
 
 <div id="incomeButtonContainer">
-    <button data-modal-target="incomeLogModal">Add New Income Log</button>
+    <button 
+        data-modal-target="incomeLogModal"
+        data-modal-size="small"
+    >
+        Add New Income Log
+    </button>
 </div>
 
 <div id="incomeLogsContainer">
@@ -35,6 +40,7 @@
                     <button
                         class="view-details-button"
                         data-modal-target="incomeLogDetailModal"
+                        data-modal-size="large"
                         data-fetch-url="${pageContext.request.contextPath}/income/${log.incomeLogId}"
                     >
                         Details
@@ -51,8 +57,6 @@
 <div id="incomeLogDetailModal" class="modal" data-modal-id="incomeLogDetailModal">
     <div class="modal-content">
         <span class="modal-close">&times;</span>
-        <div class="modal-content-body">
-            <!-- Income log details will be dynamically loaded here -->
-        </div>
+        <div class="modal-content-body"></div>
     </div>
 </div>

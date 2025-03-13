@@ -25,6 +25,7 @@ C:\Users\aflic\Desktop\JHU\project\finance-server\src\main\java\edu\fin\services
 C:\Users\aflic\Desktop\JHU\project\finance-server\src\main\java\edu\fin\models\expense\enums\ExpenseFrequency.java
 C:\Users\aflic\Desktop\JHU\project\finance-server\src\main\java\edu\fin\models\investment\InvestmentLog.java
 C:\Users\aflic\Desktop\JHU\project\finance-server\src\main\java\edu\fin\models\property\LoanItem.java
+C:\Users\aflic\Desktop\JHU\project\finance-server\src\main\java\edu\fin\config\SwaggerConfig.java
 C:\Users\aflic\Desktop\JHU\project\finance-server\src\main\java\edu\fin\repositories\expense\ExpenseLogRepository.java
 C:\Users\aflic\Desktop\JHU\project\finance-server\src\main\java\edu\fin\controllers\InvestmentController.java
 C:\Users\aflic\Desktop\JHU\project\finance-server\src\main\java\edu\fin\models\user\User.java

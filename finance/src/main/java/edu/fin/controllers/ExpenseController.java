@@ -33,14 +33,12 @@ public class ExpenseController {
         Long userId = Session.checkSessionGetUserId(session);
         if (userId == null) return Session.redirectAuthLogin();
 
-        // Get expense logs
-        ResponseEntity<String> response = rt.getForEntity(ac.getExpenseLogsUrl(userId), String.class);
-        System.out.println("Response: " + response.getBody());
-        // ExpenseLog log = response.getBody();
-        
+        // Get expense log
+        ResponseEntity<ExpenseLog> response = rt.getForEntity(ac.getExpenseLogsUrl(userId), ExpenseLog.class);
+        ExpenseLog log = response.getBody();
 
-
-        // model.addAttribute("expenseLog", log);
+        // Add attributes to model
+        model.addAttribute("expenseLog", log);
         return "expenses";
     }
 

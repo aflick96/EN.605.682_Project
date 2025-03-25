@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 public class ExpenseItem {
     private ExpenseLog expenseLog;
+	private Long expenseItemId;
     private String name;
     private ExpenseCategory category;
 	private ExpenseFrequency frequency;
@@ -14,6 +15,9 @@ public class ExpenseItem {
 
 	public ExpenseLog getExpenseLog() { return expenseLog; }
 	public void setExpenseLog(ExpenseLog expenseLog) { this.expenseLog = expenseLog; }
+
+	public Long getExpenseItemId() { return expenseItemId; }
+	public void setExpenseItemId(Long expenseItemId) { this.expenseItemId = expenseItemId; }
 
 	public String getName() { return name; }
 	public void setName(String name) { this.name = name; }
@@ -37,6 +41,7 @@ public class ExpenseItem {
 	public String toString() {
 		return "ExpenseItem{" +
 				"expenseLog=" + expenseLog +
+				", expenseItemId=" + expenseItemId +
 				", name='" + name + '\'' +
 				", category=" + category +
 				", frequency=" + frequency +

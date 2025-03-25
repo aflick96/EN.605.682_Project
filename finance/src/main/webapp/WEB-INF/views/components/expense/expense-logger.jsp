@@ -35,7 +35,7 @@
                     <span>${item.endDate}</span>
                     <span>$${item.amount}</span>
                     <span>
-                        <form action="${pageContext.request.contextPath}/expense/delete-item/${item.expenseItemId}" method="post">
+                        <form action="${pageContext.request.contextPath}/expenses/delete-item/${item.expenseItemId}" method="post">
                             <button type="submit">Delete</button>
                         </form>
                     </span>

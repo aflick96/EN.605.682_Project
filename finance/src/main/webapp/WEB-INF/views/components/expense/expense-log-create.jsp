@@ -5,7 +5,7 @@
 </head>
 
 <h2 class="modal-form-header">Create Expense Log</h2>
-<form id="expenseLogItemCreateForm" action="${pageContext.request.contextPath}/expense/add-item" method="post">
+<form id="expenseLogItemCreateForm" action="${pageContext.request.contextPath}/expenses/add-item" method="post">
     <label for="name">Expense Name</label>
     <input type="text" id="name" name="name" required />
     <label for="category">Category</label>

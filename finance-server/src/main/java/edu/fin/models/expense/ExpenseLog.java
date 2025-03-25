@@ -4,6 +4,8 @@ import edu.fin.models.user.User;
 import jakarta.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="expense_logs")
 public class ExpenseLog {
@@ -18,6 +20,7 @@ public class ExpenseLog {
 	private User user;
 	
 	@OneToMany(mappedBy="expenseLog", cascade=CascadeType.ALL, orphanRemoval=true)
+	@JsonManagedReference
 	private List<ExpenseItem> items;
 
 	// getters and setters
@@ -29,4 +32,9 @@ public class ExpenseLog {
 
 	public List<ExpenseItem> getItems() { return items; }
 	public void setItems(List<ExpenseItem> items) { this.items = items; }
+
+	@Override
+	public String toString() {
+		return "ExpenseLog [id=" + id + ", items=" + items + ", user=" + user + "]";
+	}
 }

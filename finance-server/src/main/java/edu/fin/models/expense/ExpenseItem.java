@@ -4,6 +4,8 @@ import edu.fin.models.expense.enums.*;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="expense_items")
 public class ExpenseItem {
@@ -34,6 +36,7 @@ public class ExpenseItem {
 	
 	@ManyToOne
 	@JoinColumn(name="expense_log_id", nullable=false)
+	@JsonBackReference
 	private ExpenseLog expenseLog;
 
 	public Long getExpenseItemId() { return expenseItemId; }
@@ -59,4 +62,10 @@ public class ExpenseItem {
 
 	public ExpenseLog getExpenseLog() {	return expenseLog; }
 	public void setExpenseLog(ExpenseLog expenseLog) { this.expenseLog = expenseLog; }
+
+	@Override
+	public String toString() {
+		return "ExpenseItem [expenseItemId=" + expenseItemId + ", name=" + name + ", category=" + category
+				+ ", frequency=" + frequency + ", amount=" + amount + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+	}
 }

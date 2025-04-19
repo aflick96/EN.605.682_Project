@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface LoanPaymentRepository extends JpaRepository<LoanPayment, Long> {
 	List<LoanPayment> findByLoanItemId(Long loanItemId);
+	List<LoanPayment> findByLoanItemIdOrderByPaymentDateAsc(Long loanItemId);
 }

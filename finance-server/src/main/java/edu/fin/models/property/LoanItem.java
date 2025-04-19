@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="loan_items")
 public class LoanItem {
@@ -25,77 +27,46 @@ public class LoanItem {
 	private Integer loanTermMonths;
 	
 	@OneToMany(mappedBy="loanItem", cascade=CascadeType.ALL)
+	@JsonManagedReference
 	private List<LoanPayment> loanPayments;
 
-	public Long getLoanItemId() {
-		return id;
-	}
+	public Long getId() { return id; }
+	public void setId(Long id) { this.id = id; }
 
-	public void setLoanItemId(Long loanItemId) {
-		this.id = loanItemId;
-	}
+	public User getUser() { return user; }
+	public void setUser(User user) { this.user = user; }
 
-	public User getUser() {
-		return user;
-	}
+	public String getName() { return name; }
+	public void setName(String name) { this.name = name; }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+	public Double getItemValue() { return itemValue;}
+	public void setItemValue(Double itemValue) { this.itemValue = itemValue; }
 
-	public String getName() {
-		return name;
-	}
+	public Double getLoanAmount() { return loanAmount; }
+	public void setLoadAmount(Double loadAmount) { this.loanAmount = loadAmount;}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	public Double getInterestRate() { return interestRate; }
+	public void setInterestRate(Double interestRate) { this.interestRate = interestRate; }
 
-	public Double getItemValue() {
-		return itemValue;
-	}
+	public LocalDate getStartDate() { return startDate; }
+	public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
 
-	public void setItemValue(Double itemValue) {
-		this.itemValue = itemValue;
-	}
+	public Integer getLoanTermMonths() { return loanTermMonths; }
+	public void setLoanTermMonths(Integer loanTermMonths) { this.loanTermMonths = loanTermMonths;}
 
-	public Double getLoanAmount() {
-		return loanAmount;
-	}
+	public List<LoanPayment> getLoanPayments() { return loanPayments;}
+	public void setLoanPayments(List<LoanPayment> loanPayments) { this.loanPayments = loanPayments; }
 
-	public void setLoadAmount(Double loadAmount) {
-		this.loanAmount = loadAmount;
-	}
-
-	public Double getInterestRate() {
-		return interestRate;
-	}
-
-	public void setInterestRate(Double interestRate) {
-		this.interestRate = interestRate;
-	}
-
-	public LocalDate getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
-	}
-
-	public Integer getLoanTermMonths() {
-		return loanTermMonths;
-	}
-
-	public void setLoanTermMonths(Integer loanTermMonths) {
-		this.loanTermMonths = loanTermMonths;
-	}
-
-	public List<LoanPayment> getLoanPayments() {
-		return loanPayments;
-	}
-
-	public void setLoanPayments(List<LoanPayment> loanPayments) {
-		this.loanPayments = loanPayments;
+	@Override
+	public String toString() {
+		return "LoanItem{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", itemValue=" + itemValue +
+				", loanAmount=" + loanAmount +
+				", interestRate=" + interestRate +
+				", startDate=" + startDate +
+				", loanTermMonths=" + loanTermMonths +
+				'}';
 	}
 }

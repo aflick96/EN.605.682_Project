@@ -4,13 +4,28 @@
 <html>
 <head>
 <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>Investments</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/page.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/modal.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/model-form.css">
+    <script src="${pageContext.request.contextPath}/js/components/modal.js"></script>
 </head>
 <body class="page-container">
 	<jsp:include page="components/base/main-navigation-bar.jsp" />
-    <h2>Investment Section</h2>
-    <p>Manage your investment logs here.</p>
-    <a href="${pageContext.request.contextPath}/dashboard">Back to Dashboard</a>
+    
+    <div class="page-content">
+        <h2>Investment Logs</h2>
+        <jsp:include page="components/investment/investment-logger.jsp" />
+    </div>
+
+    <div data-modal-id="investmentModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-content-body">
+
+            </div>
+        </div>
+    </div>
+    
 </body>
 </html>

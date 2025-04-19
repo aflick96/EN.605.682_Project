@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="investment_logs")
 public class InvestmentLog {
@@ -23,61 +25,38 @@ public class InvestmentLog {
 	private Double expectedAnnualReturn;
 	
 	@OneToMany(mappedBy="investmentLog", cascade=CascadeType.ALL)
+	@JsonManagedReference
 	private List<InvestmentContribution> contributions;
 
-	public Long getInvestmentLogId() {
-		return id;
-	}
+	public Long getId() { return id; }
+	public void setId(Long id) { this.id = id; }
 
-	public void setInvestmentLogId(Long investmentLogId) {
-		this.id = investmentLogId;
-	}
+	public User getUser() { return user; }
+	public void setUser(User user) { this.user = user; }
 
-	public User getUser() {
-		return user;
-	}
+	public String getName() { return name; }
+	public void setName(String name) { this.name = name; }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+	public LocalDate getStartDate() { return startDate; }
+	public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
 
-	public String getName() {
-		return name;
-	}
+	public LocalDate getEndDate() { return endDate; }
+	public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	public Double getExpectedAnnualReturn() { return expectedAnnualReturn; }
+	public void setExpectedAnnualReturn(Double expectedAnnualReturn) { this.expectedAnnualReturn = expectedAnnualReturn; }
 
-	public LocalDate getStartDate() {
-		return startDate;
-	}
+	public List<InvestmentContribution> getContributions() { return contributions; }
+	public void setContributions(List<InvestmentContribution> contributions) { this.contributions = contributions; }
 
-	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
-	}
-
-	public LocalDate getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(LocalDate endDate) {
-		this.endDate = endDate;
-	}
-
-	public Double getExpectedAnnualReturn() {
-		return expectedAnnualReturn;
-	}
-
-	public void setExpectedAnnualReturn(Double expectedAnnualReturn) {
-		this.expectedAnnualReturn = expectedAnnualReturn;
-	}
-
-	public List<InvestmentContribution> getContributions() {
-		return contributions;
-	}
-
-	public void setContributions(List<InvestmentContribution> contributions) {
-		this.contributions = contributions;
+	@Override
+	public String toString() {
+		return "InvestmentLog{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", startDate=" + startDate +
+				", endDate=" + endDate +
+				", expectedAnnualReturn=" + expectedAnnualReturn +
+				'}';
 	}
 }

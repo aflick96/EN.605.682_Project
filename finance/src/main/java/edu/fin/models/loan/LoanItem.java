@@ -1,5 +1,7 @@
 package edu.fin.models.loan;
 
+import java.time.LocalDate;
+
 public class LoanItem {
 
     private Long id;
@@ -7,7 +9,7 @@ public class LoanItem {
     private Double itemValue;
     private Double loanAmount;
     private Double interestRate;
-    private String startDate;
+    private LocalDate startDate;
     private Integer loanTermMonths;
 
     // Getters and setters
@@ -26,8 +28,8 @@ public class LoanItem {
     public Double getInterestRate() {return interestRate;}
     public void setInterestRate(Double interestRate) {this.interestRate = interestRate;}
 
-    public String getStartDate() {return startDate;}
-    public void setStartDate(String startDate) {this.startDate = startDate;}
+    public LocalDate getStartDate() {return startDate;}
+    public void setStartDate(LocalDate startDate) {this.startDate = startDate;}
 
     public Integer getLoanTermMonths() {return loanTermMonths;}
     public void setLoanTermMonths(Integer loanTermMonths) {this.loanTermMonths = loanTermMonths;}

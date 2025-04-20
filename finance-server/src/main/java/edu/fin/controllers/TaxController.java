@@ -1,11 +1,11 @@
 package edu.fin.controllers;
 
-import edu.fin.models.tax.StateTax;
-import edu.fin.models.tax.FederalTax;
 import edu.fin.services.StateTaxService;
 import edu.fin.services.FederalTaxService;
-import edu.fin.controllers.utils.TaxControllerUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import edu.fin.utils.tax.TaxUtil;
+import edu.fin.entities.tax.FederalTax;
+import edu.fin.entities.tax.StateTax;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,15 +18,14 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/taxes")
 public class TaxController {
-	@Autowired
 	private StateTaxService stateTaxService;
 	private FederalTaxService federalTaxService;
-	private TaxControllerUtil util;
+	private TaxUtil util;
 	
 	TaxController() {
 		this.stateTaxService = new StateTaxService();
 		this.federalTaxService = new FederalTaxService();
-		this.util = new TaxControllerUtil();
+		this.util = new TaxUtil();
 	}
 	
 	@GetMapping("/all_state_taxes")

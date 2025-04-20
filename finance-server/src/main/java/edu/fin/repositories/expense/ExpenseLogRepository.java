@@ -1,7 +1,9 @@
 package edu.fin.repositories.expense;
 
-import edu.fin.models.expense.ExpenseLog;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import edu.fin.entities.expense.ExpenseLog;
+
 import java.util.Optional;
 
 public interface ExpenseLogRepository extends JpaRepository<ExpenseLog, Long> {

@@ -1,11 +1,11 @@
 package edu.fin.controllers;
 
-import edu.fin.models.income.IncomeLog;
-import edu.fin.models.income.AdditionalIncome;
-import edu.fin.models.income.PretaxDeduction;
 import edu.fin.repositories.income.*;
-import edu.fin.models.income.PosttaxDeduction;
-import edu.fin.controllers.dtos.income.IncomeByPayFrequencyDetail;
+import edu.fin.dtos.income.IncomeByPayFrequencyDetail;
+import edu.fin.entities.income.AdditionalIncome;
+import edu.fin.entities.income.IncomeLog;
+import edu.fin.entities.income.PosttaxDeduction;
+import edu.fin.entities.income.PretaxDeduction;
 import edu.fin.services.IncomeByPayFrequencyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

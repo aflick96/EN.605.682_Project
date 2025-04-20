@@ -1,12 +1,11 @@
 package edu.fin.controllers;
 
 import edu.fin.config.APIConfig;
-import edu.fin.utils.auth.Session;
 import edu.fin.models.investment.*;
+import edu.fin.services.InvestmentService;
 import jakarta.servlet.http.HttpSession;
-
 import java.util.Arrays;
-
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -21,24 +20,23 @@ import org.springframework.web.client.RestTemplate;
 
 @Controller
 @RequestMapping("/investment")
-public class InvestmentController {
+public class InvestmentController extends AuthenticatedController {
     @Autowired
     private APIConfig ac;
 
     @Autowired
     private RestTemplate rt;
 
-    public InvestmentController(APIConfig ac, RestTemplate rt) {
-        this.ac = ac;
-        this.rt = rt;
-    }
+    @Autowired
+    private InvestmentService investmentService;
+
+    public InvestmentController() {}
 
     // Called when the Investments page on the main navigation bar is clicked
     // This retrieves any investment logs associated with the user and displays them
     @GetMapping
     public String showInvestments(Model model, HttpSession session) {
-        Long userId = Session.checkSessionGetUserId(session);
-        if (userId == null) return Session.redirectAuthLogin();
+        Long userId = requireUserId(session);
 
         String url = ac.getBaseUrl() + "/investments/user/" + userId;
         InvestmentLog[] investmentLogs = rt.getForObject(url, InvestmentLog[].class);
@@ -53,8 +51,7 @@ public class InvestmentController {
     // This creates a new investment log item and displays the form to fill out
     @GetMapping("/add-investment-log")
     public String showInvestmentCreateForm(Model model, HttpSession session) {
-        Long userId = Session.checkSessionGetUserId(session);
-        if (userId == null) return Session.redirectAuthLogin();
+        require(session);
 
         InvestmentLog investmentLog = new InvestmentLog();
         model.addAttribute("investmentLog", investmentLog);
@@ -65,8 +62,7 @@ public class InvestmentController {
     // This sends the investment log to the API and redirects to the investments page
     @PostMapping("/add-investment-log")
     public String addInvestment(@ModelAttribute("investmentLog") InvestmentLog investmentLog, HttpSession session) {
-        Long userId = Session.checkSessionGetUserId(session);
-        if (userId == null) return Session.redirectAuthLogin();
+        Long userId = requireUserId(session);
 
         String url = ac.getBaseUrl() + "/investments/user/" + userId;
         HttpEntity<InvestmentLog> request = new HttpEntity<>(investmentLog);
@@ -85,8 +81,7 @@ public class InvestmentController {
     // This creates a new investment contribution item and displays the form to fill out
     @GetMapping("/add-investment-contribution")
     public String showInvestmentContributionCreateForm(@RequestParam(value="investmentLogId", required=false) Long investmentLogId, Model model, HttpSession session) {
-        Long userId = Session.checkSessionGetUserId(session);
-        if (userId == null) return Session.redirectAuthLogin();
+        require(session);
 
         // Create a new investment contribution object and add the investment log id of the one triggered
         InvestmentContribution investmentContribution = new InvestmentContribution();
@@ -99,16 +94,32 @@ public class InvestmentController {
     // This sends the investment contribution to the API and redirects to the investments page
     @PostMapping("/add-investment-contribution")
     public String addInvestmentContribution(@ModelAttribute InvestmentContribution investmentContribution, HttpSession session) {
-        Long userId = Session.checkSessionGetUserId(session);
-        if (userId == null) return Session.redirectAuthLogin();
+        Long userId = requireUserId(session);
 
-        System.out.println("Investment Contribution: " + investmentContribution);
-
-        // String url = ac.getBaseUrl() + "/investments/contributions";
-        // HttpEntity<InvestmentContribution> request = new HttpEntity<>(investmentContribution);
-        // rt.postForObject(url, request, String.class);
+        String url = ac.getBaseUrl() + "/investments/user/" + userId + "/contribution";
+        HttpEntity<InvestmentContribution> request = new HttpEntity<>(investmentContribution);
+        rt.postForObject(url, request, String.class);
         return "redirect:/investment";
     }
     // ##################################################################################
 
+    @GetMapping("/what-if-investment-table")
+    public String showWhatIfInvestmentTable(@RequestParam(value="investmentLogId", required=false) Long investmentLogId, @RequestParam(required=false, defaultValue="0") double weeklyContribution, Model model, HttpSession session) {
+        Long userId = requireUserId(session);
+
+        String investmentUrl = ac.getBaseUrl() + "/investments/user/" + userId + "/log/" + investmentLogId;
+        String contributionUrl = ac.getBaseUrl() + "/investments/user/" + userId + "/log/" + investmentLogId + "/contribution";
+
+        InvestmentLog investmentLog = rt.getForObject(investmentUrl, InvestmentLog.class);
+        InvestmentContribution[] investmentContributions = rt.getForObject(contributionUrl, InvestmentContribution[].class);
+
+        if (investmentLog != null) {
+            List<WhatIfScenarioRow> tableRows = investmentService.computeScenarioTable(investmentLog, investmentContributions, weeklyContribution);    
+            model.addAttribute("investment", investmentLog);
+            model.addAttribute("weeklyContribution", weeklyContribution);
+            model.addAttribute("tableRows", tableRows);
+        }
+
+        return "components/investment/what-if-investment-table";
+    }
 }

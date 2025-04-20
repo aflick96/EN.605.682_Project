@@ -37,7 +37,7 @@
                         <td>${investment.name}</td>
                         <td>${investment.startDate}</td>
                         <td>${investment.endDate}</td>
-                        <td>${investment.expectedAnnualReturn}</td>
+                        <td>${investment.expectedAnnualReturn}%</td>
                         <td>
                             <button
                                 class="add-contribution-button"
@@ -47,6 +47,13 @@
                             >
                                 Add Contribution
                             </button>
+                            <button 
+                                data-modal-target="investmentModal"
+                                data-modal-size="large"
+                                data-fetch-url="${pageContext.request.contextPath}/investment/what-if-investment-table?investmentLogId=${investment.id}"
+                            >
+                                What If Investment Table
+                            </button>        
                         </td>
                     </tr>
                 </c:forEach>

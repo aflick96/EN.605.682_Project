@@ -9,6 +9,7 @@
     <button 
         data-modal-target="expenseLogModal"
         data-modal-size="small"
+        data-fetch-url="${pageContext.request.contextPath}/expenses/add-item?expenseLogId=${expenseLog.id}"
     >
         Add New Expense Item
     </button>
@@ -35,9 +36,29 @@
                     <span>${item.endDate}</span>
                     <span>$${item.amount}</span>
                     <span>
-                        <form action="${pageContext.request.contextPath}/expenses/delete-item/${item.expenseItemId}" method="post">
+                        <form action="${pageContext.request.contextPath}/expenses/delete-item?itemId=${item.id}" method="post">
                             <button type="submit">Delete</button>
                         </form>
+                    </span>
+                    <span>
+                        <c:url var="editUrl" value="/expenses/update-item">
+                            <c:param name="id" value="${item.id}" />
+                            <c:param name="expenseLogId" value="${expenseLog.id}" />
+                            <c:param name="name" value="${item.name}" />
+                            <c:param name="category" value="${item.category}" />
+                            <c:param name="frequency" value="${item.frequency}" />
+                            <c:param name="startDate" value="${item.startDate}" />
+                            <c:param name="endDate" value="${item.endDate}" />
+                            <c:param name="amount" value="${item.amount}" />
+                        </c:url>
+                        
+                        <form class="edit-expense-button"
+                              data-modal-target="expenseLogDetailModal"
+                              data-modal-size="small"
+                              data-fetch-url="${editUrl}">
+                            <button type="button">Edit</button>
+                        </form>
+                        
                     </span>
                 </div>
             </c:forEach>

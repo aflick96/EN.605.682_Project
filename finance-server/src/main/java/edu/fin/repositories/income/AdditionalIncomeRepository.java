@@ -1,8 +1,10 @@
 package edu.fin.repositories.income;
 
-import edu.fin.models.income.AdditionalIncome;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
+
+import edu.fin.entities.income.AdditionalIncome;
+
 import java.util.List;
 
 public interface AdditionalIncomeRepository extends JpaRepository<AdditionalIncome, Long> {

@@ -20,8 +20,11 @@
     <div data-modal-id="expenseLogModal" class="modal">
         <div class="modal-content">
             <span class="modal-close">&times;</span>
-            <jsp:include page="components/expense/expense-log-create.jsp" />
+            <div class="modal-content-body">
+
+            </div>
         </div>
     </div>
+    
 </body>
 </html>

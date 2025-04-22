@@ -25,8 +25,33 @@ public class LoanController {
 		service.createLoanItem(userId, item);
 	}
 	
-	@PostMapping("/user/{userId}/payment")
-	public void addNewPayment(@PathVariable Long userId, @RequestBody LoanPaymentRequest payment) {
-		service.addPaymentToLoanItem(userId, payment);
+	//retrieve a specific loan item by ID
+	@GetMapping("/user/{userId}/item/{itemId}")
+	public ResponseEntity<LoanItemRequest> getLoanItemById(@PathVariable Long userId, @PathVariable Long itemId) {
+		return ResponseEntity.ok(service.getLoanItemById(userId, itemId));
+	}
+
+	//delete a specific loan item by ID
+	@DeleteMapping("/user/{userId}/item/{itemId}")
+	public void deleteLoanItemById(@PathVariable Long userId, @PathVariable Long itemId) {
+		service.deleteLoanItemById(userId, itemId);
+	}
+
+	//retrieve all payments for a specific loan item
+	@GetMapping("/user/{userId}/item/{itemId}/payment")
+	public ResponseEntity<List<LoanPaymentRequest>> getPaymentsByItemId(@PathVariable Long userId, @PathVariable Long itemId) {
+		return ResponseEntity.ok(service.getLoanPaymentsByItemId(userId, itemId));
+	}
+
+	// Add a new payment to a loan item
+	@PostMapping("/user/{userId}/item/{itemId}/payment")
+	public void addNewPayment(@PathVariable Long userId, @PathVariable Long itemId, @RequestBody LoanPaymentRequest payment) {
+		service.addPaymentToLoanItem(userId, itemId, payment);
+	}
+
+	//update payments for a specific loan item
+	@PutMapping("/user/{userId}/item/{itemId}/payment")
+	public void updatePayments(@PathVariable Long userId, @PathVariable Long itemId, @RequestBody List<LoanPaymentRequest> payments) {
+		service.updateLoanPayments(userId, itemId, payments);
 	}
 }

@@ -62,11 +62,11 @@ public class InvestmentService {
 	}
 
 	// Create a new investment contribution for an investment log
-	public void addContributionToInvestmentLog(Long userId, InvestmentContributionRequest req_contr) {
+	public void addContributionToInvestmentLog(Long userId, Long logId, InvestmentContributionRequest req_contr) {
 		User user = userRepository.findById(userId).orElse(null);
 		if (user == null) return;
 
-		InvestmentLog log = investmentLogRepository.findById(req_contr.getInvestmentLogId()).orElse(null);
+		InvestmentLog log = investmentLogRepository.findById(logId).orElse(null);
 		if (log == null) return;
 
 		InvestmentContribution contribution = new InvestmentContribution();

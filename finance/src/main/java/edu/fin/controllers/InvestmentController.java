@@ -4,7 +4,6 @@ import edu.fin.config.APIConfig;
 import edu.fin.models.investment.*;
 import edu.fin.services.InvestmentService;
 import jakarta.servlet.http.HttpSession;
-import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -41,8 +40,6 @@ public class InvestmentController extends AuthenticatedController {
         String url = ac.getBaseUrl() + "/investments/user/" + userId;
         InvestmentLog[] investmentLogs = rt.getForObject(url, InvestmentLog[].class);
         model.addAttribute("investmentLogs", investmentLogs);
-
-        System.out.println("Investment Logs: " + Arrays.asList(investmentLogs));
         return "investments";
     }
 
@@ -93,10 +90,10 @@ public class InvestmentController extends AuthenticatedController {
     // Called when the form to add a new investment contribution is submitted
     // This sends the investment contribution to the API and redirects to the investments page
     @PostMapping("/add-investment-contribution")
-    public String addInvestmentContribution(@ModelAttribute InvestmentContribution investmentContribution, HttpSession session) {
+    public String addInvestmentContribution(@RequestParam(value="investmentLogId", required=false) Long investmentLogId, @ModelAttribute InvestmentContribution investmentContribution, HttpSession session) {
         Long userId = requireUserId(session);
 
-        String url = ac.getBaseUrl() + "/investments/user/" + userId + "/contribution";
+        String url = ac.getBaseUrl() + "/investments/user/" + userId + "/log/" + investmentLogId + "/contribution";
         HttpEntity<InvestmentContribution> request = new HttpEntity<>(investmentContribution);
         rt.postForObject(url, request, String.class);
         return "redirect:/investment";
@@ -133,7 +130,6 @@ public class InvestmentController extends AuthenticatedController {
         return "redirect:/investment";
     }
 
-    // Called when the delete button on an investment contribution is clicked
     @GetMapping("/what-if-investment-table")
     public String showWhatIfInvestmentTable(
         @RequestParam(value="investmentLogId", required=false) Long investmentLogId, 

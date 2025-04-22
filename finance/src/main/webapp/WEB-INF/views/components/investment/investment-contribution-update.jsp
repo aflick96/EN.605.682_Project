@@ -18,6 +18,7 @@
         <tbody>
             <c:forEach var="contribution" items="${investmentContributions}" varStatus="status">
                 <tr>
+                    <input type="hidden" name="investmentContributions[${status.index}].id" value="${contribution.id}" />
                     <td>${status.index + 1}</td>
 
                     <td>

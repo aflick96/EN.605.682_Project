@@ -3,9 +3,13 @@ package edu.fin.models.loan;
 import java.time.LocalDate;
 
 public class LoanPayment {
+    private Long id;
     private Long loanItemId;
     private LocalDate paymentDate;
     private double paymentAmount;
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public Long getLoanItemId() { return loanItemId; }
     public void setLoanItemId(Long loanItemId) { this.loanItemId = loanItemId; }
@@ -19,6 +23,7 @@ public class LoanPayment {
     @Override
     public String toString() {
         return "LoanPayment{" +
+                "id=" + id +
                 "loanItemId=" + loanItemId +
                 ", paymentDate=" + paymentDate +
                 ", paymentAmount=" + paymentAmount +

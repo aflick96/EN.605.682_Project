@@ -1,4 +1,4 @@
-function attachWhatIfScenario(container) {
+function attachWhatIfInvestment(container) {
   const weeklyInput = container.querySelector("#weeklyContributionInput");
   const annualReturnInput = container.querySelector("#annualReturnInput");
   const scenarioTableContainer = container.querySelector(

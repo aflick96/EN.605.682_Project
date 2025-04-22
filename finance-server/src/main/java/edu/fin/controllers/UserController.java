@@ -6,7 +6,6 @@ import edu.fin.entities.user.User;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -21,6 +20,12 @@ public class UserController {
 		this.util = util;
 	}
 	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getUserById(@PathVariable Long id) {
+		Optional<User> user = repo.findById(id);
+		return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+	}
+
 	@PostMapping("/register")
 	public ResponseEntity<String> registerUser(@RequestBody User user) {
 		if (!util.isValidState(user.getState())) {
@@ -44,16 +49,5 @@ public class UserController {
 		} else {
 			return ResponseEntity.status(401).body("Invalid email and password combination");
 		}
-	}
-	
-	@GetMapping
-	public ResponseEntity<List<User>> getAllUsers() {
-		return ResponseEntity.ok(repo.findAll());
-	}
-	
-	@GetMapping("/{id}")
-	public ResponseEntity<?> getUserById(@PathVariable Long id) {
-		Optional<User> user = repo.findById(id);
-		return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	}
 }

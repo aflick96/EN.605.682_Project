@@ -18,9 +18,4 @@ public class HomeController {
 	public String dashboard() {
 		return "dashboard";
 	}
-	
-	@GetMapping("/profile")
-	public String profile() {
-		return "profile";
-	}	
 }

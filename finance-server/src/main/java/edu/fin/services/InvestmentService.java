@@ -112,6 +112,16 @@ public class InvestmentService {
 		}).toList();
 	}
 
+	public void deleteInvestmentLogById(Long userId, Long investmentLogId) {
+		User user = userRepository.findById(userId).orElse(null);
+		if (user == null) return;
+
+		InvestmentLog log = investmentLogRepository.findById(investmentLogId).orElse(null);
+		if (log == null) return;
+
+		investmentLogRepository.delete(log);
+	}
+
 	public double calculateInvestmentValue(InvestmentLog log, List<InvestmentContribution> contributions) {
 		double totalValue = 0.0;
 		double annualRate = log.getExpectedAnnualReturn() / 100;

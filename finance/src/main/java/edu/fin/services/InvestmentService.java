@@ -12,66 +12,59 @@ import edu.fin.models.investment.WhatIfScenarioRow;
 
 @Service
 public class InvestmentService {
-    public List<WhatIfScenarioRow> computeScenarioTable(InvestmentLog investment, InvestmentContribution[] realContributions, double userWeeklyContribution) {
+    public List<WhatIfScenarioRow> computeInvestmentScenarioTable(InvestmentLog investment, InvestmentContribution[] contributions, double scenarioContributions, double expectedReturn) {
+        // Base fields
         LocalDate start = investment.getStartDate();
         LocalDate end = investment.getEndDate() != null ? investment.getEndDate() : start.plusYears(1);
-        double annualReturn = (investment.getExpectedAnnualReturn() != null)
-                            ? investment.getExpectedAnnualReturn() / 100.0
-                            : 0.0;
+        LocalDate current = start;
+        double annualReturnRate = (expectedReturn > 0.0) ? expectedReturn / 100.0 : (investment.getExpectedAnnualReturn() != null) ? investment.getExpectedAnnualReturn() / 100.0 : 0.0;
+        double weeklyReturnRate = annualReturnRate / 52.0;
+        double runningBalance = 0.0;
+        double runningGrowth = 0.0;
+        List<WhatIfScenarioRow> rows = new ArrayList<>();
 
-        // Convert annual return to a weekly return (approx).
-        // e.g. 10% annual => ~0.1/52 => 0.00192
-        double weeklyReturnRate = annualReturn / 52.0;
-
-        // Turn realContributions into a map of date -> sum of contributions that day
-        Map<LocalDate, Double> realMap = new HashMap<>();
-        for (InvestmentContribution c : realContributions) {
-            // Only count if c.getContributionDate() is within [start, end].
-            LocalDate cd = c.getContributionDate();
-            if (!cd.isBefore(start) && !cd.isAfter(end)) {
-                realMap.merge(cd, c.getContributionAmount(), Double::sum);
+        // Create map of date -> sum of contributions that day
+        Map<LocalDate, Double> contributionMap = new HashMap<>();
+        for (InvestmentContribution c : contributions) {
+            LocalDate contributionDate = c.getContributionDate();
+            if (!contributionDate.isBefore(start) && !contributionDate.isAfter(end)) {
+                contributionMap.merge(contributionDate, c.getContributionAmount(), Double::sum);
             }
         }
 
-        List<WhatIfScenarioRow> rows = new ArrayList<>();
-        double runningBalance = 0.0;
-        double runningGrowth = 0.0;
-
-        // Iterate weekly from start to end
-        LocalDate current = start;
-        while (!current.isAfter(end)) {
+        while(!current.isAfter(end)) {
             WhatIfScenarioRow row = new WhatIfScenarioRow();
-            row.setWeekStart(current);
 
-            // Real contributions on this date
-            double realContribThisWeek = realMap.getOrDefault(current, 0.0);
-            // Scenario contribution
-            //   - If you only want to apply userWeeklyContribution for future weeks,
-            //     check if current date >= LocalDate.now()
-            double scenarioContribThisWeek = userWeeklyContribution;
+            // Get contributions for each week            
+            double contributionThisWeek = 0.0;
+            for (Map.Entry<LocalDate, Double> e: contributionMap.entrySet()) {
+                LocalDate date = e.getKey();
+                if (!date.isBefore(current) && date.isBefore(current.plusWeeks(1))) {
+                    contributionThisWeek += e.getValue();
+                }
+            }
 
-            double totalContribThisWeek = realContribThisWeek + scenarioContribThisWeek;
-            // Increase running balance by this week's contributions
-            runningBalance += totalContribThisWeek;
-
-            // Earn weekly growth on the new balance
-            // a very rough approach:
-            double growthThisWeek = runningBalance * weeklyReturnRate;
+            // roughly calculate weekly row values
+            double growthThisWeek = 0.0;
+            double totalContributionThisWeek = contributionThisWeek + scenarioContributions;
+            runningBalance += totalContributionThisWeek;
+            growthThisWeek = runningBalance * weeklyReturnRate;
             runningGrowth += growthThisWeek;
-            runningBalance += growthThisWeek; // add growth to the balance
+            runningBalance += growthThisWeek;
 
             // Fill row
-            row.setRealContribution(realContribThisWeek);
-            row.setScenarioContribution(scenarioContribThisWeek);
-            row.setTotalContributions(runningBalance - runningGrowth); // the portion that's from contributions
+            row.setWeekStart(current);
+            row.setRealContribution(contributionThisWeek);
+            row.setScenarioContribution(scenarioContributions);
+            row.setTotalContributions(runningBalance - runningGrowth);
             row.setGrowthThisWeek(growthThisWeek);
             row.setTotalGrowth(runningGrowth);
             row.setEndBalance(runningBalance);
-
             rows.add(row);
+
             current = current.plusWeeks(1);
         }
+        
         return rows;
-    }
-    
+    }    
 }

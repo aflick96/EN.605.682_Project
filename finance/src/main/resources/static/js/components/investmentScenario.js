@@ -4,12 +4,17 @@
 function attachWhatIfScenario(container) {
   // Look for your input, table container, etc., inside 'container'
   const weeklyInput = container.querySelector("#weeklyContributionInput");
+  const annualReturnInput = container.querySelector("#annualReturnInput");
+
   if (!weeklyInput) {
     // This snippet might not be the what-if scenario form at all
     return;
   }
 
-  console.log("attachWhatIfScenario called");
+  if (!annualReturnInput) {
+    // This snippet might not be the what-if scenario form at all
+    return;
+  }
 
   const scenarioTableContainer = container.querySelector(
     "#scenarioTableContainer"
@@ -20,11 +25,12 @@ function attachWhatIfScenario(container) {
   const investmentLogId = investmentLogIdField.value;
 
   weeklyInput.addEventListener("input", function () {
-    const value = weeklyInput.value || 0;
+    const weeklyContributionValue = weeklyInput.value || 0;
+    const annualReturnValue = annualReturnInput.value || 0;
     const baseContextPath = container.getAttribute("data-context") || "";
 
     // Build the fetch URL:
-    const fetchUrl = `${baseContextPath}/investment/what-if-investment-table?investmentLogId=${investmentLogId}&weeklyContribution=${value}`;
+    const fetchUrl = `${baseContextPath}/investment/what-if-investment-table?investmentLogId=${investmentLogId}&weeklyContribution=${weeklyContributionValue}&annualReturn=${annualReturnValue}`;
 
     fetch(fetchUrl)
       .then((response) => response.text())

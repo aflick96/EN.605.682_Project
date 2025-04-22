@@ -13,6 +13,10 @@
 <input type="number" step="0.01" id="weeklyContributionInput"
        value="${weeklyContribution}" style="width: 100px;" />
 
+<label>Annual Expected Return Change</label>
+<input type="number" step="0.01" id="annualReturnInput"
+       value="${annualReturn}" style="width: 100px;" />
+
 <!-- The scenario table container -->
 <div id="scenarioTableContainer">
     <table border="1" style="margin-top: 1rem;">

@@ -103,10 +103,25 @@ public class InvestmentController extends AuthenticatedController {
     }
     // ##################################################################################
 
-    @GetMapping("/what-if-investment-table")
-    public String showWhatIfInvestmentTable(@RequestParam(value="investmentLogId", required=false) Long investmentLogId, @RequestParam(required=false, defaultValue="0") double weeklyContribution, Model model, HttpSession session) {
+    // Called when the delete button on an investment log is clicked
+    @PostMapping("/delete-investment-log")
+    public String deleteInvestmentLog(@RequestParam(value="investmentLogId") Long investmentLogId, HttpSession session) {
         Long userId = requireUserId(session);
 
+        String url = ac.getBaseUrl() + "/investments/user/" + userId + "/log/" + investmentLogId;
+        rt.delete(url);
+        return "redirect:/investment";
+    }
+
+    // Called when the delete button on an investment contribution is clicked
+    @GetMapping("/what-if-investment-table")
+    public String showWhatIfInvestmentTable(
+        @RequestParam(value="investmentLogId", required=false) Long investmentLogId, 
+        @RequestParam(required=false, defaultValue="0") double weeklyContribution, 
+        @RequestParam(required=false, defaultValue="0") double annualReturn,
+        Model model, HttpSession session) {
+
+        Long userId = requireUserId(session);
         String investmentUrl = ac.getBaseUrl() + "/investments/user/" + userId + "/log/" + investmentLogId;
         String contributionUrl = ac.getBaseUrl() + "/investments/user/" + userId + "/log/" + investmentLogId + "/contribution";
 
@@ -114,7 +129,7 @@ public class InvestmentController extends AuthenticatedController {
         InvestmentContribution[] investmentContributions = rt.getForObject(contributionUrl, InvestmentContribution[].class);
 
         if (investmentLog != null) {
-            List<WhatIfScenarioRow> tableRows = investmentService.computeScenarioTable(investmentLog, investmentContributions, weeklyContribution);    
+            List<WhatIfScenarioRow> tableRows = investmentService.computeInvestmentScenarioTable(investmentLog, investmentContributions, weeklyContribution, annualReturn);    
             model.addAttribute("investment", investmentLog);
             model.addAttribute("weeklyContribution", weeklyContribution);
             model.addAttribute("tableRows", tableRows);

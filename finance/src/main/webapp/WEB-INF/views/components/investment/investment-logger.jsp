@@ -53,7 +53,11 @@
                                 data-fetch-url="${pageContext.request.contextPath}/investment/what-if-investment-table?investmentLogId=${investment.id}"
                             >
                                 What If Investment Table
-                            </button>        
+                            </button>
+                            <form action="${pageContext.request.contextPath}/investment/delete-investment-log" method="post">
+                                <input type="hidden" name="investmentLogId" value="${investment.id}" />
+                                <button type="submit">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 </c:forEach>

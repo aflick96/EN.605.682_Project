@@ -47,4 +47,10 @@ public class InvestmentController {
 	public ResponseEntity<List<InvestmentContributionRequest>> getContributionsByLogId(@PathVariable Long userId, @PathVariable Long logId) {
 		return ResponseEntity.ok(service.getInvestmentContributionsByLogId(userId, logId));
 	}
+
+	// delete a specific investment log by ID
+	@DeleteMapping("/user/{userId}/log/{logId}")
+	public void deleteInvestmentLogById(@PathVariable Long userId, @PathVariable Long logId) {
+		service.deleteInvestmentLogById(userId, logId);
+	}
 }

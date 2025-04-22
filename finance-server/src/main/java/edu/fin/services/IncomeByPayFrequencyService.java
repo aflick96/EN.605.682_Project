@@ -1,9 +1,10 @@
 package edu.fin.services;
 
-import edu.fin.controllers.dtos.income.IncomeByPayFrequencyDetail;
-import edu.fin.models.income.IncomeLog;
-import edu.fin.models.income.enums.PayFrequency;
-import edu.fin.models.user.User;
+import edu.fin.dtos.income.IncomeByPayFrequencyDetail;
+import edu.fin.entities.income.IncomeLog;
+import edu.fin.entities.income.enums.PayFrequency;
+import edu.fin.entities.user.User;
+
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -19,26 +19,6 @@ public class HomeController {
 		return "dashboard";
 	}
 	
-	// @GetMapping("/income")
-	// public String income() {
-	// 	return "income";
-	// }
-
-	// @GetMapping("/expenses")
-	// public String expenses() {
-	// 	return "expenses";
-	// }
-
-	@GetMapping("/assets-liabilities")
-	public String assetsLiabilities() {
-		return "assets-liabilities";
-	}
-
-	@GetMapping("/investments")
-	public String investments() {
-		return "investments";
-	}
-
 	@GetMapping("/profile")
 	public String profile() {
 		return "profile";

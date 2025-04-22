@@ -1,61 +1,50 @@
 package edu.fin.controllers;
 
-import edu.fin.models.investment.*;
-import edu.fin.repositories.investment.*;
-import edu.fin.controllers.dtos.investment.InvestmentSummary;
+import edu.fin.dtos.investment.InvestmentContributionRequest;
+import edu.fin.dtos.investment.InvestmentLogRequest;
 import edu.fin.services.InvestmentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/investments")
 public class InvestmentController {
 	
-	private final InvestmentLogRepository log_repo;
-	private final InvestmentContributionRepository cont_repo;
-	private final InvestmentService service;
+	@Autowired
+	private InvestmentService service;
 	
 	//Constructor
-	public InvestmentController(
-			InvestmentLogRepository log_repo, 
-			InvestmentContributionRepository cont_repo,
-			InvestmentService service
-			) {
-		this.log_repo = log_repo;
-		this.cont_repo = cont_repo;
-		this.service = service;
-	}
+	public InvestmentController() {}
 	
-	@PostMapping
-	public ResponseEntity<InvestmentLog> createInvestmentLog(@RequestBody InvestmentLog log) {
-		InvestmentLog log_ = log_repo.save(log);
-		return ResponseEntity.ok(log_);
+	// retrieve all investment logs for a user
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<List<InvestmentLogRequest>> getInvestmentLogsByUser(@PathVariable Long userId) {
+		return ResponseEntity.ok(service.getInvestmentLogs(userId));		
 	}
-	
-	@PostMapping("/{investmentId}/contributions")
-	public ResponseEntity<?> addContribution(@PathVariable Long investmentLogId, @RequestBody InvestmentContribution contribution) {
-		Optional<InvestmentLog> log_ = log_repo.findById(investmentLogId);
-		if (log_.isEmpty()) {
-			return ResponseEntity.badRequest().body("Investment log not found");
-		}
-		contribution.setInvestmentLog(log_.get());
-		InvestmentContribution contribution_ = cont_repo.save(contribution);
-		return ResponseEntity.ok(contribution_);
+
+	// add a new investment log for a user
+	@PostMapping("/user/{userId}")
+	public void createInvestmentLog(@PathVariable Long userId, @RequestBody InvestmentLogRequest req_log) {
+		service.createInvestmentLog(userId, req_log);
 	}
-	
-	@GetMapping("/{investmentId}/summary")
-	public ResponseEntity<?> getInvestmentSummary(@PathVariable Long investmentLogId) {
-		Optional<InvestmentLog> log_ = log_repo.findById(investmentLogId);
-		if (log_.isEmpty()) {
-			return ResponseEntity.badRequest().body("Investment log not found");
-		}
-		
-		InvestmentLog log = log_.get();
-		List<InvestmentContribution> contributions = cont_repo.findByInvestmentLogId(investmentLogId);
-		double currentValue = service.calculateInvestmentValue(log, contributions);
-		double totalContributions = service.calculateTotalContributions(contributions);
-		return ResponseEntity.ok(new InvestmentSummary(currentValue, totalContributions));
+
+	// add a contribution to an investment log
+	@PostMapping("/user/{userId}/contribution")
+	public void addNewContribution(@PathVariable Long userId, @RequestBody InvestmentContributionRequest contribution) {
+		service.addContributionToInvestmentLog(userId, contribution);
+	}
+
+	// retrieve a specific investment log by ID
+	@GetMapping("/user/{userId}/log/{logId}")
+	public ResponseEntity<InvestmentLogRequest> getInvestmentLogById(@PathVariable Long userId, @PathVariable Long logId) {
+		return ResponseEntity.ok(service.getInvestmentLogById(userId, logId));
+	}
+
+	// retrieve all contributions for a specific investment log
+	@GetMapping("/user/{userId}/log/{logId}/contribution")
+	public ResponseEntity<List<InvestmentContributionRequest>> getContributionsByLogId(@PathVariable Long userId, @PathVariable Long logId) {
+		return ResponseEntity.ok(service.getInvestmentContributionsByLogId(userId, logId));
 	}
 }

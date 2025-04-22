@@ -1,11 +1,13 @@
 package edu.fin.services;
 
-import edu.fin.models.tax.StateTax;
-import edu.fin.models.tax.StateTax.State;
-import edu.fin.models.tax.FilingStatus;
-import edu.fin.models.tax.IncomeTaxBracket;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+
+import edu.fin.entities.tax.FilingStatus;
+import edu.fin.entities.tax.IncomeTaxBracket;
+import edu.fin.entities.tax.StateTax;
+import edu.fin.entities.tax.StateTax.State;
+
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import java.io.IOException;

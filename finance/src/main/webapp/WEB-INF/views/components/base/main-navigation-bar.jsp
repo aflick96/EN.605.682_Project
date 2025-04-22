@@ -4,8 +4,8 @@
 	<a href="${pageContext.request.contextPath}/dashboard">Overview</a>
 	<a href="${pageContext.request.contextPath}/income">Income</a>
 	<a href="${pageContext.request.contextPath}/expenses">Expenses</a>
-	<a href="${pageContext.request.contextPath}/assets-liabilities">Assets &amp; Liabilities</a>
-	<a href="${pageContext.request.contextPath}/investments">Investments</a>
+	<a href="${pageContext.request.contextPath}/loans">Loans</a>
+	<a href="${pageContext.request.contextPath}/investment">Investments</a>
 	<a href="${pageContext.request.contextPath}/profile">Profile</a>
 	<a href="${pageContext.request.contextPath}/auth/logout">Logout</a>
 </div>

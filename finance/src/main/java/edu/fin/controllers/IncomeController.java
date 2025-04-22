@@ -4,7 +4,6 @@ import edu.fin.config.APIConfig;
 import edu.fin.models.user.User;
 import edu.fin.models.income.IncomeLog;
 import edu.fin.models.income.IncomeByPayFrequencyDetail;
-import edu.fin.utils.auth.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.ui.Model;
@@ -19,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/income")
-public class IncomeController {
+public class IncomeController extends AuthenticatedController {
     
     private APIConfig ac;
     private RestTemplate rt;
@@ -34,9 +33,7 @@ public class IncomeController {
     // show income logs
     @GetMapping
     public String showIncomeLogs(HttpSession session, Model model) {        
-        // check if user has a session --> redirect to login if not
-        Long userId = Session.checkSessionGetUserId(session);
-        if (userId == null) return Session.redirectAuthLogin();
+        Long userId = requireUserId(session);
 
         // get income logs      
         ResponseEntity<IncomeLog[]> response = rt.getForEntity(ac.getIncomeLogsUrl(userId), IncomeLog[].class);
@@ -50,8 +47,7 @@ public class IncomeController {
     // create income log form submission
     @PostMapping("/create")
     public String createIncomeLog(@ModelAttribute IncomeLog log, HttpSession session) {
-        User user = Session.checkSessionGetUser(session);
-        if (user == null) return Session.redirectAuthLogin();
+        User user = requireUser(session);
 
         log.setUser(user);
         HttpEntity<IncomeLog> request = new HttpEntity<>(log);
@@ -62,7 +58,7 @@ public class IncomeController {
     // delete income log
     @PostMapping("/delete/{id}")
     public String deleteIncomeLog(@PathVariable Long id, HttpSession session) {
-        if (Session.checkSession(session)) return Session.redirectAuthLogin(); 
+        require(session);
 
         rt.exchange(ac.deleteIncomeLogUrl(id), HttpMethod.DELETE, null, Void.class);
         return "redirect:/income";
@@ -75,7 +71,7 @@ public class IncomeController {
     // show income log details
     @GetMapping("/{id}")
     public String showIncomeLogDetails(@PathVariable Long id, HttpSession session, Model model) {
-        if (Session.checkSession(session)) return Session.redirectAuthLogin();
+        require(session);
 
         try {
             ResponseEntity<List<IncomeByPayFrequencyDetail>> response = rt.exchange(ac.getIncomeLogDetails(id), HttpMethod.GET, null, new ParameterizedTypeReference<List<IncomeByPayFrequencyDetail>>() {});

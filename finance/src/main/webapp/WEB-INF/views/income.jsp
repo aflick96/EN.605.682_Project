@@ -20,7 +20,9 @@
     <div data-modal-id="incomeLogModal" class="modal">
         <div class="modal-content">
             <span class="modal-close">&times;</span>
-            <jsp:include page="components/income/income-log-create.jsp" />
+            <div class="modal-content-body">
+                <jsp:include page="components/income/income-log-create.jsp" />
+            </div>
         </div>
     </div>
 </body>

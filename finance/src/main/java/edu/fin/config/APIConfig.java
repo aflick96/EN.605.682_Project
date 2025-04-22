@@ -16,6 +16,10 @@ public class APIConfig {
 		return new RestTemplate();
 	}
 
+	public String getBaseUrl() {
+		return base;
+	}
+
 	/* User */ 
 	// ###################################################
 	public String userRegisterUrl() {

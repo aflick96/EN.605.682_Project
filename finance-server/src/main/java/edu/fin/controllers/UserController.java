@@ -1,8 +1,9 @@
 package edu.fin.controllers;
 
-import edu.fin.models.user.User;
 import edu.fin.repositories.user.UserRepository;
-import edu.fin.controllers.utils.UserControllerUtil;
+import edu.fin.utils.user.UserUtil;
+import edu.fin.entities.user.User;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -13,9 +14,9 @@ import java.util.Optional;
 public class UserController {
 	
 	private final UserRepository repo;
-	private final UserControllerUtil util;
+	private final UserUtil util;
 	
-	public UserController(UserRepository repo, UserControllerUtil util) {
+	public UserController(UserRepository repo, UserUtil util) {
 		this.repo = repo;
 		this.util = util;
 	}

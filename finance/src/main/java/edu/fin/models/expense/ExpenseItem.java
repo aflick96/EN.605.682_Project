@@ -1,32 +1,31 @@
 package edu.fin.models.expense;
 
-import edu.fin.models.expense.enums.*;
 import java.time.LocalDate;
 
 public class ExpenseItem {
-    private ExpenseLog expenseLog;
-	private Long expenseItemId;
+    private Long expenseLogId;
+	private Long id;
     private String name;
-    private ExpenseCategory category;
-	private ExpenseFrequency frequency;
+    private String category;
+	private String frequency;
     private double amount;
     private LocalDate startDate;
     private LocalDate endDate;
 
-	public ExpenseLog getExpenseLog() { return expenseLog; }
-	public void setExpenseLog(ExpenseLog expenseLog) { this.expenseLog = expenseLog; }
+	public Long getExpenseLogId() { return expenseLogId; }
+	public void setExpenseLogId(Long expenseLogId) { this.expenseLogId = expenseLogId; }
 
-	public Long getExpenseItemId() { return expenseItemId; }
-	public void setExpenseItemId(Long expenseItemId) { this.expenseItemId = expenseItemId; }
+	public Long getId() { return id; }
+	public void setId(Long id) { this.id = id; }
 
 	public String getName() { return name; }
 	public void setName(String name) { this.name = name; }
 
-	public ExpenseCategory getCategory() { return category; }
-	public void setCategory(ExpenseCategory category) { this.category = category; }
+	public String getCategory() { return category; }
+	public void setCategory(String category) { this.category = category; }
 
-	public ExpenseFrequency getFrequency() { return frequency; }
-	public void setFrequency(ExpenseFrequency frequency) { this.frequency = frequency; }
+	public String getFrequency() { return frequency; }
+	public void setFrequency(String frequency) { this.frequency = frequency; }
 
 	public Double getAmount() { return amount; }
 	public void setAmount(Double amount) { this.amount = amount; }
@@ -40,8 +39,8 @@ public class ExpenseItem {
 	@Override
 	public String toString() {
 		return "ExpenseItem{" +
-				"expenseLog=" + expenseLog +
-				", expenseItemId=" + expenseItemId +
+				"expenseLogId=" + expenseLogId +
+				", expenseItemId=" + id +
 				", name='" + name + '\'' +
 				", category=" + category +
 				", frequency=" + frequency +

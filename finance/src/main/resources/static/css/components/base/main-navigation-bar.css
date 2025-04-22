@@ -1,5 +1,5 @@
 @charset "UTF-8";
-
+/*
 .main-navigation-bar {
     background-color: #333;
     overflow: hidden;
@@ -23,4 +23,37 @@
 
 .main-navigation-bar a.active {
     background-color: #4CAF50;
+}
+
+*/
+/* Main Navigation Bar */
+.main-navigation-bar {
+    background: linear-gradient(to right, #3498db, #8e44ad); /* Purple to blue gradient */
+    overflow: hidden;
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for modern feel */
+    border-radius: 8px; /* Rounded corners for a sleek design */
+}
+
+.main-navigation-bar a {
+    color: white;
+    text-decoration: none;
+    padding: 14px 20px;
+    display: block;
+    font-weight: 600;
+    font-size: 1rem; /* Slightly larger font size for readability */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth hover effects */
+    border-radius: 5px; /* Rounded corners for links */
+}
+
+.main-navigation-bar a:hover {
+    background-color: #9b59b6; /* Brighter purple on hover */
+    transform: scale(1.05); /* Slight scaling effect for interactivity */
+}
+
+.main-navigation-bar a.active {
+    background-color: #8e44ad; /* Deep purple active state */
+    font-weight: 700; /* Bold for active state */
 }

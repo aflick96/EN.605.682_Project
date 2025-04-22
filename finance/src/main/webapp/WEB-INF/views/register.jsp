@@ -4,12 +4,12 @@
 <head>
 <meta charset="UTF-8">
 	<title>Register</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/page.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/login.css">
 </head>
 <body class="page-container">
-    <h2>Register</h2>
 
     <form action="${pageContext.request.contextPath}/auth/register" method="post">
+        <h2>Register</h2>
         <label>First Name:</label><br>
         <input type="text" name="firstName" required><br><br>
 
@@ -36,9 +36,11 @@
         
         <br><br>
         <button type="submit">Register</button>
+
+        
+    <p>Already have an account? <a href="${pageContext.request.contextPath}/auth/login">Login</a></p>
     </form>
 
-    <p>Already have an account? <a href="${pageContext.request.contextPath}/auth/login">Login</a></p>
 
     <c:if test="${not empty error}">
         <p style="color: red;">${error}</p>

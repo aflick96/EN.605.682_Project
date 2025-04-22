@@ -3,6 +3,7 @@ package edu.fin.services;
 import edu.fin.models.loan.LoanItem;
 import edu.fin.models.loan.LoanPayment;
 import edu.fin.models.loan.WhatIfScenarioRow;
+import edu.fin.models.loan.LoanScenarioResult;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,9 +13,19 @@ import java.util.Map;
 
 @Service
 public class LoanService {
-    public List<WhatIfScenarioRow> computeLoanScenarioTable(LoanItem loanItem, LoanPayment[] payments, Double monthlyPayemnt, Double interestRate, Integer loanTerm) {        
-        double monthlyInterestRate = (interestRate > 0.0) ? interestRate / 100.0 / 12.0 : (loanItem.getInterestRate() != null) ? loanItem.getInterestRate() / 100.0 / 12.0 : 0.0;
+    public LoanScenarioResult computeLoanScenarioTable(LoanItem loanItem, LoanPayment[] payments, Double monthlyPayment, Double interestRate, Integer loanTerm) {        
+        double monthlyInterestRate = (interestRate > 0.0) ? interestRate / 100.0 / 12.0 : (loanItem.getInterestRate() != null) ? loanItem.getInterestRate() / 100.0 / 12.0 : 0.0;    
         loanTerm = (loanTerm == 0) ? loanItem.getLoanTermMonths() : loanTerm;
+
+        double scenarioPayment = monthlyPayment;
+        if (scenarioPayment <= 0) {
+            if (monthlyInterestRate > 0.0) {
+                scenarioPayment = (loanItem.getLoanAmount() * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -loanTerm));
+            } else {
+                scenarioPayment = loanItem.getLoanAmount() / loanTerm;
+            }
+        }
+        
         LocalDate start = loanItem.getStartDate();
         LocalDate end = start.plusMonths(loanTerm);
         LocalDate current = start;
@@ -44,9 +55,13 @@ public class LoanService {
                 }
             }
 
-            // roughly calculate monthly row values
+            double totalPaymentThisMonth = paymentThisMonth + scenarioPayment;
             double interestThisMonth = runningBalance * monthlyInterestRate;
-            double principalThisMonth = monthlyPayemnt - interestThisMonth;
+            double principalThisMonth = totalPaymentThisMonth - interestThisMonth;
+            if (principalThisMonth > runningBalance) {
+                principalThisMonth = runningBalance;
+            }
+
             runningBalance -= principalThisMonth;
             runningInterest += interestThisMonth;
             runningPrincipal += principalThisMonth;
@@ -54,7 +69,7 @@ public class LoanService {
             // Fill row
             row.setMonthStartDate(current);
             row.setRealPayment(paymentThisMonth);
-            row.setScenarioPayment(monthlyPayemnt);
+            row.setScenarioPayment(scenarioPayment);
             row.setPrincipalThisMonth(principalThisMonth);
             row.setInterestThisMonth(interestThisMonth);
             row.setTotalPrincipal(runningPrincipal);
@@ -65,7 +80,11 @@ public class LoanService {
 
             rows.add(row);
             current = current.plusMonths(1);
+
+            if (runningBalance <= 0.0) {
+                break;
+            }
         }
-        return rows;
+        return new LoanScenarioResult(scenarioPayment, rows);
     }
 }

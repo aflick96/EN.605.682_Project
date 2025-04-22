@@ -3,7 +3,7 @@ package edu.fin.controllers;
 import edu.fin.config.APIConfig;
 import edu.fin.models.loan.LoanItem;
 import edu.fin.models.loan.LoanPayment;
-import edu.fin.models.loan.WhatIfScenarioRow;
+import edu.fin.models.loan.LoanScenarioResult;
 import edu.fin.services.LoanService;
 
 import org.springframework.stereotype.Controller;
@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
 import jakarta.servlet.http.HttpSession;
-import java.util.Arrays;
-import java.util.List;
 
 @Controller
 @RequestMapping("/loans")
@@ -125,12 +122,12 @@ public class LoanController extends AuthenticatedController {
         LoanPayment[] loanPayments = rt.getForObject(loanPaymentUrl, LoanPayment[].class);
 
         if (loanItem != null) {
-            List<WhatIfScenarioRow> tableRows = loanService.computeLoanScenarioTable(loanItem, loanPayments, monthlyPayment, interestRate, loanTerm);    
+            LoanScenarioResult result = loanService.computeLoanScenarioTable(loanItem, loanPayments, monthlyPayment, interestRate, loanTerm);    
             model.addAttribute("loan", loanItem);
-            model.addAttribute("monthlyPayment", monthlyPayment);
+            model.addAttribute("monthlyPayment", result.getScenarioPayment());
             model.addAttribute("interestRate", interestRate);
             model.addAttribute("loanTerm", loanTerm);
-            model.addAttribute("tableRows", tableRows);
+            model.addAttribute("tableRows", result.getTableRows());
         }
 
         return "components/loan/what-if-loan-table";

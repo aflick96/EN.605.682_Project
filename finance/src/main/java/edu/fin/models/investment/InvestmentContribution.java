@@ -3,9 +3,13 @@ package edu.fin.models.investment;
 import java.time.LocalDate;
 
 public class InvestmentContribution {
+    private Long id;
     private Long investmentLogId;
     private LocalDate contributionDate;
     private double contributionAmount;
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public Long getInvestmentLogId() { return investmentLogId; }
     public void setInvestmentLogId(Long investmentLogId) { this.investmentLogId = investmentLogId; }
@@ -19,6 +23,7 @@ public class InvestmentContribution {
     @Override
     public String toString() {
         return "InvestmentContribution{" +
+                "id=" + id +
                 "investmentLogId=" + investmentLogId +
                 ", contributionDate=" + contributionDate +
                 ", contributionAmount=" + contributionAmount +

@@ -48,6 +48,12 @@ public class InvestmentController {
 		return ResponseEntity.ok(service.getInvestmentContributionsByLogId(userId, logId));
 	}
 
+	// update contributions for a specific investment log
+	@PutMapping("/user/{userId}/log/{logId}/contribution")
+	public void updateContributions(@PathVariable Long userId, @PathVariable Long logId, @RequestBody List<InvestmentContributionRequest> contributions) {
+		service.updateInvestmentContributions(userId, logId, contributions);
+	}
+
 	// delete a specific investment log by ID
 	@DeleteMapping("/user/{userId}/log/{logId}")
 	public void deleteInvestmentLogById(@PathVariable Long userId, @PathVariable Long logId) {

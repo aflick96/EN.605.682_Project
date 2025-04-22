@@ -77,6 +77,26 @@ public class InvestmentService {
 		investmentContributionRepository.save(contribution);
 	}
 
+	// Update a list of investment contributions for an investment log
+	public void updateInvestmentContributions(Long userId, Long investmentLogId, List<InvestmentContributionRequest> contributions) {
+		User user = userRepository.findById(userId).orElse(null);
+		if (user == null) return;
+
+		InvestmentLog log = investmentLogRepository.findById(investmentLogId).orElse(null);
+		if (log == null) return;
+
+		List<InvestmentContribution> existingContributions = investmentContributionRepository.findByInvestmentLogId(investmentLogId);
+		for (InvestmentContribution existingContribution : existingContributions) {
+			for (InvestmentContributionRequest contribution : contributions) {
+				if (existingContribution.getId().equals(contribution.getId())) {
+					existingContribution.setContributionDate(contribution.getContributionDate());
+					existingContribution.setContributionAmount(contribution.getContributionAmount());
+					investmentContributionRepository.save(existingContribution);
+				}
+			}
+		}
+	}
+
 	// Get an investment log by ID for a user
 	public InvestmentLogRequest getInvestmentLogById(Long userId, Long investmentLogId) {
 		User user = userRepository.findById(userId).orElse(null);
@@ -105,6 +125,7 @@ public class InvestmentService {
 		List<InvestmentContribution> contributions = investmentContributionRepository.findByInvestmentLogId(investmentLogId);
 		return contributions.stream().map(contribution -> {
 			return new InvestmentContributionRequest(
+				contribution.getId(),
 				investmentLogId,
 				contribution.getContributionDate(),
 				contribution.getContributionAmount()

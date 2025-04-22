@@ -47,6 +47,14 @@
                             >
                                 Add Contribution
                             </button>
+                            <button
+                                class="view-details-button"
+                                data-modal-target="investmentModal"
+                                data-modal-size="large"
+                                data-fetch-url="${pageContext.request.contextPath}/investment/edit-investment-contributions?investmentLogId=${investment.id}"
+                            >
+                                View Contributions
+                            </button>
                             <button 
                                 data-modal-target="investmentModal"
                                 data-modal-size="large"

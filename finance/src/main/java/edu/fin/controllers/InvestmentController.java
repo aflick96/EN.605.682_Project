@@ -103,6 +103,26 @@ public class InvestmentController extends AuthenticatedController {
     }
     // ##################################################################################
 
+    @GetMapping("/edit-investment-contributions")
+    public String showInvestmentContributionUpdateForm(@RequestParam(value="investmentLogId", required=false) Long investmentLogId, Model model, HttpSession session) {
+        Long userId = requireUserId(session);
+
+        String url = ac.getBaseUrl() + "/investments/user/" + userId + "/log/" + investmentLogId + "/contribution";
+        InvestmentContribution[] investmentContributions = rt.getForObject(url, InvestmentContribution[].class);
+        model.addAttribute("investmentContributions", investmentContributions);
+        return "components/investment/investment-contribution-update";
+    }
+
+    @PostMapping("/edit-investment-contributions")
+    public String updateInvestmentContributions(@RequestParam(value="investmentLogId", required=false) Long investmentLogId, @ModelAttribute InvestmentContribution[] investmentContributions, HttpSession session) {
+        Long userId = requireUserId(session);
+
+        String url = ac.getBaseUrl() + "/investments/user/" + userId + "/log/" + investmentLogId + "/contribution";
+        HttpEntity<InvestmentContribution[]> request = new HttpEntity<>(investmentContributions);
+        rt.put(url, request, InvestmentContribution[].class);
+        return "redirect:/investment";
+    }
+
     // Called when the delete button on an investment log is clicked
     @PostMapping("/delete-investment-log")
     public String deleteInvestmentLog(@RequestParam(value="investmentLogId") Long investmentLogId, HttpSession session) {

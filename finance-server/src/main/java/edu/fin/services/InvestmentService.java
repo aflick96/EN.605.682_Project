@@ -62,11 +62,11 @@ public class InvestmentService {
 	}
 
 	// Create a new investment contribution for an investment log
-	public void addContributionToInvestmentLog(Long userId, InvestmentContributionRequest req_contr) {
+	public void addContributionToInvestmentLog(Long userId, Long logId, InvestmentContributionRequest req_contr) {
 		User user = userRepository.findById(userId).orElse(null);
 		if (user == null) return;
 
-		InvestmentLog log = investmentLogRepository.findById(req_contr.getInvestmentLogId()).orElse(null);
+		InvestmentLog log = investmentLogRepository.findById(logId).orElse(null);
 		if (log == null) return;
 
 		InvestmentContribution contribution = new InvestmentContribution();
@@ -75,6 +75,26 @@ public class InvestmentService {
 		contribution.setContributionAmount(req_contr.getContributionAmount());
 
 		investmentContributionRepository.save(contribution);
+	}
+
+	// Update a list of investment contributions for an investment log
+	public void updateInvestmentContributions(Long userId, Long investmentLogId, List<InvestmentContributionRequest> contributions) {
+		User user = userRepository.findById(userId).orElse(null);
+		if (user == null) return;
+
+		InvestmentLog log = investmentLogRepository.findById(investmentLogId).orElse(null);
+		if (log == null) return;
+
+		List<InvestmentContribution> existingContributions = investmentContributionRepository.findByInvestmentLogId(investmentLogId);
+		for (InvestmentContribution existingContribution : existingContributions) {
+			for (InvestmentContributionRequest contribution : contributions) {
+				if (existingContribution.getId().equals(contribution.getId())) {
+					existingContribution.setContributionDate(contribution.getContributionDate());
+					existingContribution.setContributionAmount(contribution.getContributionAmount());
+					investmentContributionRepository.save(existingContribution);
+				}
+			}
+		}
 	}
 
 	// Get an investment log by ID for a user
@@ -105,6 +125,7 @@ public class InvestmentService {
 		List<InvestmentContribution> contributions = investmentContributionRepository.findByInvestmentLogId(investmentLogId);
 		return contributions.stream().map(contribution -> {
 			return new InvestmentContributionRequest(
+				contribution.getId(),
 				investmentLogId,
 				contribution.getContributionDate(),
 				contribution.getContributionAmount()

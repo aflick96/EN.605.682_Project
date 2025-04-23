@@ -1,14 +1,15 @@
 package edu.fin.services;
 
+import edu.fin.models.investment.InvestmentLog;
+import edu.fin.models.investment.InvestmentContribution;
+import edu.fin.models.investment.WhatIfScenarioRow;
+import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.stereotype.Service;
-import edu.fin.models.investment.InvestmentContribution;
-import edu.fin.models.investment.InvestmentLog;
-import edu.fin.models.investment.WhatIfScenarioRow;
+
 
 @Service
 public class InvestmentService {

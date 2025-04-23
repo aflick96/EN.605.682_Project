@@ -30,16 +30,16 @@ public class InvestmentController {
 		service.createInvestmentLog(userId, req_log);
 	}
 
-	// add a contribution to an investment log
-	@PostMapping("/user/{userId}/contribution")
-	public void addNewContribution(@PathVariable Long userId, @RequestBody InvestmentContributionRequest contribution) {
-		service.addContributionToInvestmentLog(userId, contribution);
-	}
-
 	// retrieve a specific investment log by ID
 	@GetMapping("/user/{userId}/log/{logId}")
 	public ResponseEntity<InvestmentLogRequest> getInvestmentLogById(@PathVariable Long userId, @PathVariable Long logId) {
 		return ResponseEntity.ok(service.getInvestmentLogById(userId, logId));
+	}
+
+	// delete a specific investment log by ID
+	@DeleteMapping("/user/{userId}/log/{logId}")
+	public void deleteInvestmentLogById(@PathVariable Long userId, @PathVariable Long logId) {
+		service.deleteInvestmentLogById(userId, logId);
 	}
 
 	// retrieve all contributions for a specific investment log
@@ -48,9 +48,15 @@ public class InvestmentController {
 		return ResponseEntity.ok(service.getInvestmentContributionsByLogId(userId, logId));
 	}
 
-	// delete a specific investment log by ID
-	@DeleteMapping("/user/{userId}/log/{logId}")
-	public void deleteInvestmentLogById(@PathVariable Long userId, @PathVariable Long logId) {
-		service.deleteInvestmentLogById(userId, logId);
+	// add a contribution to an investment log
+	@PostMapping("/user/{userId}/log/{logId}/contribution")
+	public void addNewContribution(@PathVariable Long userId, @PathVariable Long logId, @RequestBody InvestmentContributionRequest contribution) {
+		service.addContributionToInvestmentLog(userId, logId, contribution);
+	}
+
+	// update contributions for a specific investment log
+	@PutMapping("/user/{userId}/log/{logId}/contribution")
+	public void updateContributions(@PathVariable Long userId, @PathVariable Long logId, @RequestBody List<InvestmentContributionRequest> contributions) {
+		service.updateInvestmentContributions(userId, logId, contributions);
 	}
 }

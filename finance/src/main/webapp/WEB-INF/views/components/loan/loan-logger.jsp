@@ -9,17 +9,18 @@
     <button 
         data-modal-target="loanModal"
         data-modal-size="small"
+        data-fetch-url="${pageContext.request.contextPath}/loans/add-item"
     >
         Add New Loan Item
     </button>
 </div>
 
 <div id="loanItemsContainer">
-    <c:if test="${empty userLoans}">
+    <c:if test="${empty loanItems}">
         <p>No loan items found.</p>
     </c:if>
 
-    <c:if test="${not empty userLoans}">
+    <c:if test="${not empty loanItems}">
         <table border="1">
             <thead>
                 <tr>
@@ -32,7 +33,7 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="loan" items="${userLoans}">
+                <c:forEach var="loan" items="${loanItems}">
                     <tr>
                         <td>${loan.name}</td>
                         <td>$${loan.itemValue}</td>
@@ -43,13 +44,30 @@
                         <td>
                             <button
                                 class="add-payment-button"
-                                data-modal-target="loanPaymentModal"
+                                data-modal-target="loanModal"
                                 data-modal-size="small"
-                                data-fetch-url="${pageContext.request.contextPath}/loans/create-payment?loanItemId=${loan.id}"
+                                data-fetch-url="${pageContext.request.contextPath}/loans/add-payment?loanItemId=${loan.id}"
                             >
                                 Add Payment
                             </button>
-
+                            <button
+                                class="view-payments-button"
+                                data-modal-target="loanModal"
+                                data-modal-size="large"
+                                data-fetch-url="${pageContext.request.contextPath}/loans/edit-loan-payments?loanItemId=${loan.id}"
+                            >
+                                View Payments
+                            </button>
+                            <button
+                                data-modal-target="loanModal"
+                                data-modal-size="large"
+                                data-fetch-url="${pageContext.request.contextPath}/loans/what-if-loan-table?loanItemId=${loan.id}&interestRate=${loan.interestRate}&loanTerm=${loan.loanTermMonths}"
+                            >
+                                What-If Scenario
+                            </button>
+                            <form action="${pageContext.request.contextPath}/loans/delete-loan-item?loanItemId=${loan.id}" method="post">
+                                <button type="submit">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 </c:forEach>

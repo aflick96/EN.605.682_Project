@@ -20,9 +20,15 @@ document.addEventListener("DOMContentLoaded", function () {
           const modalContentBody = modal.querySelector(".modal-content-body");
           modalContent.innerHTML = html;
 
-          if (typeof attachWhatIfScenario === "function") {
-            attachWhatIfScenario(modalContentBody);
+          if (modalContentBody.querySelector("#investmentLogId")) {
+            attachWhatIfInvestment(modalContentBody);
+          } else if (modalContentBody.querySelector("#loanItemId")) {
+            attachWhatIfLoan(modalContentBody);
           }
+
+          // if (typeof attachWhatIfScenario === "function") {
+          //   attachWhatIfScenario(modalContentBody);
+          // }
         })
         .catch((error) => {
           console.error("Error loading modal content: ", error);

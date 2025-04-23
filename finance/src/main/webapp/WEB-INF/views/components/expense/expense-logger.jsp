@@ -16,31 +16,32 @@
 </div>
 
 <c:if test="${not empty expenseLog.items}">
-    <div id="expenseLogContainer">
-        <div id="expenseLogHeaderContainer">
-            <span>Expense Name</span>
-            <span>Category</span>
-            <span>Frequency</span>
-            <span>Start Date</span>
-            <span>End Date</span>
-            <span>Amount</span>
-            <span>Actions</span>
-        </div>
-        <div id="expenseLogContentContainer">
+    <div id="expenseLogsContainer">
+        <table border="1">
+        <tr>
+            <th>Expense Name</th>
+            <th>Category</th>
+            <th>Frequency</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Amount</th>
+            <th colspan="2">Actions</th>
+        </tr>
+
              <c:forEach var="item" items="${expenseLog.items}">
-                 <div class="expense-log-row">
-                    <span>${item.name}</span>
-                    <span>${item.category}</span>
-                    <span>${item.frequency}</span>
-                    <span>${item.startDate}</span>
-                    <span>${item.endDate}</span>
-                    <span>$${item.amount}</span>
-                    <span>
+                 <tr>
+                    <td>${item.name}</td>
+                    <td>${item.category}</td>
+                    <td>${item.frequency}</td>
+                    <td>${item.startDate}</td>
+                    <td>${item.endDate}</td>
+                    <td>$${item.amount}</td>
+                    <td>
                         <form action="${pageContext.request.contextPath}/expenses/delete-item?itemId=${item.id}" method="post">
                             <button type="submit">Delete</button>
                         </form>
-                    </span>
-                    <span>
+                    </td>
+                    <td>
                         <c:url var="editUrl" value="/expenses/update-item">
                             <c:param name="id" value="${item.id}" />
                             <c:param name="expenseLogId" value="${expenseLog.id}" />
@@ -59,10 +60,11 @@
                             <button type="button">Edit</button>
                         </form>
                         
-                    </span>
-                </div>
+                    </td>
+                </tr>
             </c:forEach>
-        </div>
+
+        </table>
     </div>
 </c:if>
 

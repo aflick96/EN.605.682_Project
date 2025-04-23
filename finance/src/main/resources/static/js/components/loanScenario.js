@@ -35,10 +35,62 @@ function attachWhatIfLoan(container) {
         const newTableContainer = doc.querySelector("#scenarioTableContainer");
         if (newTableContainer) {
           scenarioTableContainer.innerHTML = newTableContainer.innerHTML;
+
+          const totalPrincipal = parseFloat(
+            newTableContainer
+              .querySelector("tbody tr:last-child td:nth-child(6)")
+              ?.textContent.replace(/[^0-9.]/g, "") || "0"
+          );
+          const totalInterest = parseFloat(
+            newTableContainer
+              .querySelector("tbody tr:last-child td:nth-child(7)")
+              ?.textContent.replace(/[^0-9.]/g, "") || "0"
+          );
+
+          window.loanBreakdown = {
+            totalPrincipal,
+            totalInterest,
+          };
+
+          renderPieChart();
         }
       })
       .catch((err) => console.error("Failed to update scenario table:", err));
   }
+
+  function renderPieChart() {
+    const ctx = document.getElementById("loanBreakdownPie").getContext("2d");
+    const data = window.loanBreakdown;
+    if (!ctx || !data || !data.totalPrincipal || !data.totalInterest) return;
+
+    if (window.loanPieChart) {
+      window.loanPieChart.destroy();
+    }
+
+    window.loanPieChart = new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: ["Total Principal", "Total Interest"],
+        datasets: [
+          {
+            data: [data.totalPrincipal, data.totalInterest],
+            backgroundColor: ["#4CAF50", "#FF6384"],
+            hoverOffset: 6,
+          },
+        ],
+      },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: "Loan Payment Breakdown",
+          },
+        },
+      },
+    });
+  }
+
+  updateScenarioTable();
 
   monthlyPaymentInput.addEventListener("input", updateScenarioTable);
   interestRateInput.addEventListener("input", updateScenarioTable);

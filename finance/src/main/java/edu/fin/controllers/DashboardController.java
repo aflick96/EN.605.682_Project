@@ -2,9 +2,7 @@ package edu.fin.controllers;
 
 import edu.fin.models.user.User;
 import edu.fin.config.APIConfig;
-import edu.fin.models.dashboard.NetWorth;
 import edu.fin.models.dashboard.NetWorthBreakdown;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +35,6 @@ public class DashboardController extends AuthenticatedController {
         model.addAttribute("user", user);
         model.addAttribute("breakdown", netWorthBreakdown);
         // model.addAttribute("netWorthList", netWorthList);
-
         return "dashboard";
     }
 }

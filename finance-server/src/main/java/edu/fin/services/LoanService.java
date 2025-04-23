@@ -13,6 +13,8 @@ import edu.fin.repositories.user.UserRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Service
 public class LoanService {
@@ -158,6 +160,57 @@ public class LoanService {
 
 		loanItemRepository.delete(loanItem);
 	}
+
+	public Map<LocalDate, Double> getLoanItemValueByDate(Long userId) {
+		User user = userRepository.findById(userId).orElse(null);
+		if (user == null) return null;
+	
+		List<LoanItem> loanItems = loanItemRepository.findByUserId(userId);
+		Map<LocalDate, Double> loanItemValueMap = new TreeMap<>();
+	
+		for (LoanItem loanItem : loanItems) {
+			List<LoanPayment> payments = loanPaymentRepository.findByLoanItemIdOrderByPaymentDateAsc(loanItem.getId());
+			if (payments == null) continue;
+	
+			// Initialize variables
+			double loanBalance = loanItem.getLoanAmount();
+			double monthlyRate = (loanItem.getInterestRate() != null ? loanItem.getInterestRate() : 0.0) / 100.0 / 12.0;
+			double itemValue = loanItem.getItemValue(); // Asset value (e.g., car, house)
+			LocalDate initialMonth = loanItem.getStartDate().withDayOfMonth(1);
+			int loanTermMonths = loanItem.getLoanTermMonths();
+
+			for (int i = 0; i < loanTermMonths && loanBalance > 0; i++) {
+				LocalDate currentMonth = initialMonth.plusMonths(i);
+
+				// 1. Apply interest to balance
+				double interestThisMonth = loanBalance * monthlyRate;
+				loanBalance += interestThisMonth;
+
+				// 2. Sum payments for this month
+				double paymentsThisMonth = payments.stream()
+						.filter(p -> {
+							LocalDate date = p.getPaymentDate();
+							return !date.isBefore(currentMonth) && date.isBefore(currentMonth.plusMonths(1));
+						})
+						.mapToDouble(LoanPayment::getPaymentAmount)
+						.sum();
+
+				// 3. Deduct payments
+				loanBalance -= paymentsThisMonth;
+				loanBalance = Math.max(loanBalance, 0.0); // Prevent negative balance
+
+				// 4. Calculate net worth impact (asset - liability)
+				double netWorthImpact = itemValue - loanBalance;
+
+				// 5. Store in map
+				loanItemValueMap.put(currentMonth, netWorthImpact);
+			}
+		}
+	
+		return loanItemValueMap;
+	}
+	
+	
 
 	public void populatePaymentBreakdown(LoanItem loanItem, List<LoanPayment> previousPayments, LoanPayment newPayment) {
 		double remainingBalance = calculateRemainingBalance(loanItem, previousPayments);

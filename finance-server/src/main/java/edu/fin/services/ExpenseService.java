@@ -1,6 +1,9 @@
 package edu.fin.services;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -127,5 +130,56 @@ public class ExpenseService {
 
         // Delete the expense item
         expenseItemRepository.delete(expenseItem);
+    }
+
+    // Get the total expenses for a user by first 
+    public Map<LocalDate, Double> getExpensesByDate(Long userId) {
+        // Check if the user exists
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) return null;
+
+        // Get the expense log for the user
+        ExpenseLog expenseLog = expenseLogRepository.findByUserId(user.getId()).orElse(null);
+        if (expenseLog == null) return null;
+
+        // Get the monthly expenses for the user
+        List<ExpenseItem> expenseItems = expenseItemRepository.findByExpenseLogId(expenseLog.getId());
+        Map<LocalDate, Double> monthlyExpenses = new HashMap<>();
+        for (ExpenseItem item : expenseItems) {
+            LocalDate startDate = item.getStartDate();
+            LocalDate endDate = item.getEndDate();
+            double amount = item.getAmount();
+
+            // Calculate the monthly expenses based on the frequency
+            if (item.getFrequency() == ExpenseFrequency.MONTHLY) {
+                for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusMonths(1)) {
+                    LocalDate firstOfMonth = LocalDate.of(date.getYear(), date.getMonth(), 1);
+                    monthlyExpenses.put(firstOfMonth, monthlyExpenses.getOrDefault(firstOfMonth, 0.0) + amount);
+                }
+            } else if (item.getFrequency() == ExpenseFrequency.YEARLY) {
+                for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusYears(1)) {
+                    LocalDate firstOfMonth = LocalDate.of(date.getYear(), date.getMonth(), 1);
+                    // add the full amount to the first month of the year
+                    monthlyExpenses.put(firstOfMonth, monthlyExpenses.getOrDefault(firstOfMonth, 0.0) + amount);                    
+                }
+            } else if (item.getFrequency() == ExpenseFrequency.WEEKLY) {
+                for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusWeeks(1)) {
+                    LocalDate firstOfMonth = LocalDate.of(date.getYear(), date.getMonth(), 1);
+                    // add the full amount for the 4 weeks to the first month of the year
+                    monthlyExpenses.put(firstOfMonth, monthlyExpenses.getOrDefault(firstOfMonth, 0.0) + (amount * 4));
+                }
+            } else if (item.getFrequency() == ExpenseFrequency.BIWEEKLY) {
+                for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+                    LocalDate firstOfMonth = LocalDate.of(date.getYear(), date.getMonth(), 1);
+                    // add the full amount for the 2 weeks to the first month of the year
+                    monthlyExpenses.put(firstOfMonth, monthlyExpenses.getOrDefault(firstOfMonth, 0.0) + (amount * 2));
+                }
+            } else if (item.getFrequency() == ExpenseFrequency.ONE_TIME) {
+                monthlyExpenses.put(startDate, monthlyExpenses.getOrDefault(startDate, 0.0) + amount);
+            }
+        }
+
+        // Return the monthly expenses for the user
+        return monthlyExpenses;
     }
 }

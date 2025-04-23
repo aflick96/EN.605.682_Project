@@ -1,8 +1,5 @@
 package edu.fin.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import edu.fin.dtos.investment.InvestmentContributionRequest;
 import edu.fin.dtos.investment.InvestmentLogRequest;
 import edu.fin.entities.investment.*;
@@ -11,9 +8,14 @@ import edu.fin.repositories.investment.InvestmentContributionRepository;
 import edu.fin.repositories.investment.InvestmentLogRepository;
 import edu.fin.repositories.user.UserRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Service
 public class InvestmentService {
@@ -141,6 +143,56 @@ public class InvestmentService {
 		if (log == null) return;
 
 		investmentLogRepository.delete(log);
+	}
+
+	// Get the investment value by date for a user
+	public Map<LocalDate, Double> getInvestmentValueByDate(Long userId) {
+		User user = userRepository.findById(userId).orElse(null);
+		if (user == null) return null;
+
+		List<InvestmentLog> logs = investmentLogRepository.findByUserId(userId);
+		Map<LocalDate, Double> investmentValueMap = new TreeMap<>();
+
+		for (InvestmentLog log : logs) {
+			List<InvestmentContribution> contributions = investmentContributionRepository.findByInvestmentLogId(log.getId());
+			
+			// skip if there are no contributions
+			if (contributions == null || contributions.isEmpty()) continue;
+			
+			// sort contributions by date
+			contributions.sort(Comparator.comparing(InvestmentContribution::getContributionDate));
+			
+			LocalDate currentMonth = log.getStartDate().withDayOfMonth(1);
+			LocalDate endMonth = log.getEndDate().withDayOfMonth(1);
+			double totalValue = 0.0;
+			double monthlyRate = log.getExpectedAnnualReturn() / 100.0 / 12.0;
+
+			while (!currentMonth.isAfter(endMonth)) {
+				LocalDate filterMonth = currentMonth;
+				double contributionsThisMonth = contributions.stream()
+					.filter(c -> {
+						LocalDate contribDate = c.getContributionDate();
+						return !contribDate.isBefore(filterMonth) &&
+							   contribDate.isBefore(filterMonth.plusMonths(1));
+					})
+					.mapToDouble(InvestmentContribution::getContributionAmount)
+					.sum();
+	
+				if (totalValue > 0) {
+					totalValue = totalValue + (totalValue * monthlyRate);
+				}
+	
+				totalValue += contributionsThisMonth;
+	
+				if (totalValue > 0) {
+					investmentValueMap.put(currentMonth, totalValue);
+				}
+
+				currentMonth = currentMonth.plusMonths(1);
+			}
+		}
+
+		return investmentValueMap;
 	}
 
 	public double calculateInvestmentValue(InvestmentLog log, List<InvestmentContribution> contributions) {

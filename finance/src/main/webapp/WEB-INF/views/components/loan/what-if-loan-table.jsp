@@ -8,31 +8,54 @@
 </head>
 
 <h2>What-If Loan Scenario</h2>
-<p>Loan: ${loan.name}</p>
-<p>Loan Amount: ${loan.loanAmount}</p>
-<p>Interest Rate: ${loan.interestRate}</p>
-<p>Loan Start Date: ${loan.startDate}</p>
-<p>Loan Month Terms: ${loan.loanTermMonths}</p>
 
-<input type="hidden" id="loanItemId" value="${loan.id}" />
+<div id="headerContainer">
+    <div id="loanItemDetailsContainer">
+        <span>Loan: ${loan.name}</span>
+        <span>Loan Amount: ${loan.loanAmount}</span>
+        <span>Interest Rate: ${loan.interestRate}</span>
+        <span>Loan Start Date: ${loan.startDate}</span>
+        <span>Loan Month Terms: ${loan.loanTermMonths}</span>
+    </div>
 
-<label>Monthly Payment ($)</label>
-<input type="number" step="0.01" id="monthlyPaymentInput" value="${monthlyPayment}" style="width: 100px;" />
+    <div id="loanItemInputsContainer">
+        <input type="hidden" id="loanItemId" value="${loan.id}" />
+        
+        <div class="input-group">            
+            <label>Additional Monthly Payment ($)</label>
+            <input type="number" step="0.01" min="0" id="monthlyPaymentInput" value="<fmt:formatNumber value='${monthlyPayment}' type='number' minFractionDigits='2' maxFractionDigits='2' groupingUsed="false"/>" />
+        </div>
 
-<label>Interest Rate (%)</label>
-<input type="number" step="0.01" id="interestRateInput" value="${interestRate}" style="width: 100px;" />
+        <div class="input-group">                        
+            <label>Interest Rate (%)</label>
+            <input type="number" step="0.01" min="0" id="interestRateInput" value="${interestRate}" />
+        </div>
 
-<label>Terms (months)</label>
-<input type="number" id="loanTermInput" value="${loanTerm}" style="width: 100px;" />
+        <div class="input-group">                        
+            <label>Terms (months)</label>
+            <input type="number" disabled="true" min="0" max="${loan.loanTermMonths}" id="loanTermInput" value="${loanTerm}" />
+        </div>
+    </div>
+</div>
+
+<div id="graphicsContainer">
+    <div id="loanBreakdownPieContainer" style="width: 200px; height: 200px; margin-top: 1rem;">
+        <canvas id="loanBreakdownPie" width="200" height="200"></canvas>
+    </div>
+    <div id="loanBreakdownProgressChartContainer" style="width: 400px; height: 200px; margin-top: 1rem;">
+        <canvas id="loanProgressChart" width="400" height="200"></canvas>
+    </div>
+</div>
 
 <div id="scenarioContentContainer">
-    <div id="scenarioTableContainer">
+    <div id="scenarioTableContainer" data-loan-term="${loanTerm}">
         <table border="1" style="margin-top: 1rem;">
             <thead>
                 <tr>
                     <th>Payment Date</th>
                     <th>Payment</th>
-                    <th>Scenario Payment</th>
+                    <th>Additional Payment</th>
+                    <th>Total Payment</th>
                     <th>Principal</th>
                     <th>Interest</th>
                     <th>Total Principal</th>
@@ -48,6 +71,7 @@
                         <td>${row.monthStartDate}</td>
                         <td>$<fmt:formatNumber value="${row.realPayment}" type="number" minFractionDigits="2" maxFractionDigits="2"/></td>
                         <td>$<fmt:formatNumber value="${row.scenarioPayment}" type="number" minFractionDigits="2" maxFractionDigits="2"/></td>
+                        <td>$<fmt:formatNumber value="${row.paymentThisMonth}" type="number" minFractionDigits="2" maxFractionDigits="2"/></td>
                         <td>$<fmt:formatNumber value="${row.principalThisMonth}" type="number" minFractionDigits="2" maxFractionDigits="2" /></td>
                         <td>$<fmt:formatNumber value="${row.interestThisMonth}" type="number" minFractionDigits="2" maxFractionDigits="2"/></td>
                         <td>$<fmt:formatNumber value="${row.totalPrincipal}" type="number" minFractionDigits="2" maxFractionDigits="2"/></td>
@@ -59,15 +83,6 @@
                 </c:forEach>
             </tbody>
         </table>
-    </div>
-
-    <div id="graphicsContainer">
-        <div id="loanBreakdownPieContainer" style="width: 200px; height: 200px; margin-top: 1rem;">
-            <canvas id="loanBreakdownPie" width="200" height="200"></canvas>
-        </div>
-        <div id="loanBreakdownProgressChartContainer" style="width: 400px; height: 200px; margin-top: 1rem;">
-            <canvas id="loanProgressChart" width="400" height="200"></canvas>
-        </div>
     </div>
 </div>
 

@@ -43,6 +43,8 @@ public class LoanService {
             }
         }
 
+        int monthsCount = 0;
+
         while(!current.isAfter(end)) {
             WhatIfScenarioRow row = new WhatIfScenarioRow();
 
@@ -70,6 +72,7 @@ public class LoanService {
             row.setMonthStartDate(current);
             row.setRealPayment(paymentThisMonth);
             row.setScenarioPayment(scenarioPayment);
+            row.setPaymentThisMonth(totalPaymentThisMonth);
             row.setPrincipalThisMonth(principalThisMonth);
             row.setInterestThisMonth(interestThisMonth);
             row.setTotalPrincipal(runningPrincipal);
@@ -84,7 +87,9 @@ public class LoanService {
             if (runningBalance <= 0.0) {
                 break;
             }
+
+            monthsCount++;
         }
-        return new LoanScenarioResult(scenarioPayment, rows);
+        return new LoanScenarioResult(scenarioPayment, monthsCount, rows);
     }
 }

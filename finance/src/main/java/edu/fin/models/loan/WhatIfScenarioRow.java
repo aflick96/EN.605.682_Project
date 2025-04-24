@@ -6,6 +6,7 @@ public class WhatIfScenarioRow {
     private LocalDate monthStartDate;
     // payments
     private double scenarioPayment;
+    private double paymentThisMonth;
     private double principalThisMonth;
     private double interestThisMonth;
     // totals
@@ -19,11 +20,12 @@ public class WhatIfScenarioRow {
     private double realPayment;
 
     public WhatIfScenarioRow() {}
-    public WhatIfScenarioRow(LocalDate monthStartDate, double scenarioPayment, double principalThisMonth, double interestThisMonth,
+    public WhatIfScenarioRow(LocalDate monthStartDate, double scenarioPayment, double paymentThisMonth, double principalThisMonth, double interestThisMonth,
                           double totalPrincipal, double totalInterest, double totalPaid, double principalRemaining,
                           double endBalance, double realPayment) {
         this.monthStartDate = monthStartDate;
         this.scenarioPayment = scenarioPayment;
+        this.paymentThisMonth = paymentThisMonth;
         this.principalThisMonth = principalThisMonth;
         this.interestThisMonth = interestThisMonth;
         this.totalPrincipal = totalPrincipal;
@@ -39,6 +41,9 @@ public class WhatIfScenarioRow {
 
     public double getScenarioPayment() { return scenarioPayment; }
     public void setScenarioPayment(double scenarioPayment) { this.scenarioPayment = scenarioPayment; }
+
+    public double getPaymentThisMonth() { return paymentThisMonth; }
+    public void setPaymentThisMonth(double paymentThisMonth) { this.paymentThisMonth = paymentThisMonth; }
 
     public double getPrincipalThisMonth() { return principalThisMonth; }
     public void setPrincipalThisMonth(double principalThisMonth) { this.principalThisMonth = principalThisMonth; }

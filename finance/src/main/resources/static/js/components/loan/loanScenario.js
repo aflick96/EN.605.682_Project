@@ -46,24 +46,24 @@ function attachWhatIfLoan(container) {
             const cells = row.querySelectorAll("td");
             labels.push(cells[0]?.textContent);
             totalPaid.push(
-              parseFloat(cells[7]?.textContent.replace(/[^0-9.]/g, "") || "0")
+              parseFloat(cells[8]?.textContent.replace(/[^0-9.]/g, "") || "0")
             );
             totalInterest.push(
-              parseFloat(cells[6]?.textContent.replace(/[^0-9.]/g, "") || "0")
+              parseFloat(cells[7]?.textContent.replace(/[^0-9.]/g, "") || "0")
             );
             endBalances.push(
-              parseFloat(cells[9]?.textContent.replace(/[^0-9.]/g, "") || "0")
+              parseFloat(cells[10]?.textContent.replace(/[^0-9.]/g, "") || "0")
             );
           });
 
           const totalPrincipal = parseFloat(
             newTableContainer
-              .querySelector("tbody tr:last-child td:nth-child(6)")
+              .querySelector("tbody tr:last-child td:nth-child(7)")
               ?.textContent.replace(/[^0-9.]/g, "") || "0"
           );
           const totalInterestValue = parseFloat(
             newTableContainer
-              .querySelector("tbody tr:last-child td:nth-child(7)")
+              .querySelector("tbody tr:last-child td:nth-child(8)")
               ?.textContent.replace(/[^0-9.]/g, "") || "0"
           );
 
@@ -71,6 +71,12 @@ function attachWhatIfLoan(container) {
             totalPrincipal,
             totalInterestValue,
           };
+
+          const updatedLoanTerm =
+            newTableContainer.getAttribute("data-loan-term");
+          if (updatedLoanTerm !== null) {
+            loanTermInput.value = updatedLoanTerm;
+          }
 
           renderPieChart();
           renderLoanLineChart(labels, endBalances, totalInterest, totalPaid);

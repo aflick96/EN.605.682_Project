@@ -147,7 +147,7 @@ public class LoanController extends AuthenticatedController {
             model.addAttribute("loan", loanItem);
             model.addAttribute("monthlyPayment", result.getScenarioPayment());
             model.addAttribute("interestRate", interestRate);
-            model.addAttribute("loanTerm", loanTerm);
+            model.addAttribute("loanTerm", result.getLoanTerms());
             model.addAttribute("tableRows", result.getTableRows());
         }
 

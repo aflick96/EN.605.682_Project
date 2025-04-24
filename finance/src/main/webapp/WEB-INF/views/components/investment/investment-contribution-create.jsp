@@ -7,15 +7,51 @@
 
 <div id="investmentContributionContainer">
     <h2>Investment Contribution</h2>
-    <form:form id="investmentContributionForm" modelAttribute="investmentContribution" method="post" action="${pageContext.request.contextPath}/investment/add-investment-contribution">
-        <label for="contribution-date">Contribution Date</label>
-        <form:input path="contributionDate" id="contribution-date" type="date" required="true"/><br/>
 
-        <label for="contribution-amount">Contribution Amount</label>
-        <form:input path="contributionAmount" id="contribution-amount" type="number" step="0.01" required="true"/><br/>
+    <div>
+        <button type="button" onclick="togglePaymentForm('single')">Single Payment</button>
+        <button type="button" onclick="togglePaymentForm('recurring')">Recurring Payment</button>
+    </div>
 
-        <form:hidden path="investmentLogId" />
-        <br/>
-        <button type="submit">Save</button>
-    </form:form>       
+    <div id="singlePaymentForm">
+        <form:form id="investmentContributionForm" modelAttribute="investmentContribution" method="post" action="${pageContext.request.contextPath}/investment/add-investment-contribution">
+            <label for="contribution-date">Contribution Date</label>
+            <form:input path="contributionDate" id="contribution-date" type="date" required="true"/><br/>
+
+            <label for="contribution-amount">Contribution Amount</label>
+            <form:input path="contributionAmount" id="contribution-amount" type="number" step="0.01" required="true"/><br/>
+
+            <form:hidden path="investmentLogId" />
+            <br/>
+            <button type="submit">Save</button>
+        </form:form>       
+    </div>
+    <div id="recurringPaymentForm" style="display:none;">
+        <form:form id="investmentRecurringContributionForm" modelAttribute="investmentContributions" method="post" action="${pageContext.request.contextPath}/investment/add-investment-contributions">
+            <label for="startDate">Start Date</label>
+            <form:input path="startDate" id="startDate" type="month" required="true"/><br/>
+
+            <label for="endDate">End Date</label>
+            <form:input path="endDate" id="endDate" type="month" required="true"/><br/>
+
+            <label for="contributionAmount">Contribution Amount</label>
+            <form:input path="contributionAmount" id="recurringContributonAmount" type="number" step="0.01" required="true"/><br/>
+
+            <label for="contributionDay">Contribution Day</label>
+            <form:select path="contributionDay" id="contributionDay" required="true" onchange="hideSpecificDay()">
+                <form:option value="FIRST">First of Month</form:option>
+                <form:option value="LAST">Last of Month</form:option>
+                <form:option value="SPECIFIC">Specific Day</form:option>
+            </form:select><br/>
+
+            <div id="specificDayContainer" style="display:none;">
+                <label for="specificDay">Specific Day of Month (1-28)</label>
+                <form:input path="specificDay" id="specificDay" type="number" min="1" max="28" /><br/>
+            </div>
+
+            <form:hidden path="investmentLogId"/>
+            <br/>
+            <button type="submit">Create Payments</button>
+        </form:form>
+    </div>
 </div>

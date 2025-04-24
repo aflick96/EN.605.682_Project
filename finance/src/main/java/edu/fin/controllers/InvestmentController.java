@@ -4,6 +4,8 @@ import edu.fin.config.APIConfig;
 import edu.fin.models.investment.*;
 import edu.fin.services.InvestmentService;
 import jakarta.servlet.http.HttpSession;
+
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -82,8 +84,10 @@ public class InvestmentController extends AuthenticatedController {
 
         // Create a new investment contribution object and add the investment log id of the one triggered
         InvestmentContribution investmentContribution = new InvestmentContribution();
+        InvestmentContributions investmentContributions = new InvestmentContributions();
         investmentContribution.setInvestmentLogId(investmentLogId);
         model.addAttribute("investmentContribution", investmentContribution);
+        model.addAttribute("investmentContributions", investmentContributions);
         return "components/investment/investment-contribution-create";
     }
 
@@ -100,23 +104,34 @@ public class InvestmentController extends AuthenticatedController {
     }
     // ##################################################################################
 
+    @PostMapping("/add-investment-contributions")
+    public String addInvestmentContributions(@RequestParam(value="investmentLogId", required=false) Long investmentLogId, @ModelAttribute InvestmentContributions investmentContributions, HttpSession session) {
+        Long userId = requireUserId(session);
+
+        String url = ac.getBaseUrl() + "/investments/user/" + userId + "/log/" + investmentLogId + "/contributions";
+        HttpEntity<InvestmentContributions> request = new HttpEntity<>(investmentContributions);
+        rt.postForObject(url, request, InvestmentContributions.class);
+        return "redirect:/investment";
+    }
+
     @GetMapping("/edit-investment-contributions")
     public String showInvestmentContributionUpdateForm(@RequestParam(value="investmentLogId", required=false) Long investmentLogId, Model model, HttpSession session) {
         Long userId = requireUserId(session);
 
         String url = ac.getBaseUrl() + "/investments/user/" + userId + "/log/" + investmentLogId + "/contribution";
         InvestmentContribution[] investmentContributions = rt.getForObject(url, InvestmentContribution[].class);
-        model.addAttribute("investmentContributions", investmentContributions);
+        InvestmentContributionsWrapper wrapper = new InvestmentContributionsWrapper();
+        wrapper.setInvestmentContributions(Arrays.asList(investmentContributions));
+        model.addAttribute("investmentContributionsWrapper", wrapper);
         return "components/investment/investment-contribution-update";
     }
 
     @PostMapping("/edit-investment-contributions")
-    public String updateInvestmentContributions(@RequestParam(value="investmentLogId", required=false) Long investmentLogId, @ModelAttribute InvestmentContribution[] investmentContributions, HttpSession session) {
+    public String updateInvestmentContributions(@RequestParam(value="investmentLogId", required=false) Long investmentLogId, @ModelAttribute("investmentContributionsWrapper") InvestmentContributionsWrapper wrapper, HttpSession session) {
         Long userId = requireUserId(session);
-
         String url = ac.getBaseUrl() + "/investments/user/" + userId + "/log/" + investmentLogId + "/contribution";
-        HttpEntity<InvestmentContribution[]> request = new HttpEntity<>(investmentContributions);
-        rt.put(url, request, InvestmentContribution[].class);
+        HttpEntity<List<InvestmentContribution>> request = new HttpEntity<>(wrapper.getInvestmentContributions());
+        rt.put(url, request, List.class);
         return "redirect:/investment";
     }
 

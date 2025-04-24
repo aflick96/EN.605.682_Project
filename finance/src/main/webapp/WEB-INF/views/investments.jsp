@@ -9,7 +9,8 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/modal.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/model-form.css">
     <script src="${pageContext.request.contextPath}/js/components/modal.js"></script>
-    <script src="${pageContext.request.contextPath}/js/components/investmentScenario.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/investment/investmentScenario.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/investment/investment.js"></script>
 </head>
 <body class="page-container">
 	<jsp:include page="components/base/main-navigation-bar.jsp" />

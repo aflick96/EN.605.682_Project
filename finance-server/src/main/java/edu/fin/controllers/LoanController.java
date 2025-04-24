@@ -49,6 +49,11 @@ public class LoanController {
 		service.addPaymentToLoanItem(userId, itemId, payment);
 	}
 
+	@PostMapping("user/{userId}/item/{itemId}/payments")
+	public void addPayments(@PathVariable Long userId, @PathVariable Long itemId, @RequestBody LoanPaymentsRequest payments) {
+		service.addPaymentsToLoanItem(userId, itemId, payments);
+	}
+
 	//update payments for a specific loan item
 	@PutMapping("/user/{userId}/item/{itemId}/payment")
 	public void updatePayments(@PathVariable Long userId, @PathVariable Long itemId, @RequestBody List<LoanPaymentRequest> payments) {

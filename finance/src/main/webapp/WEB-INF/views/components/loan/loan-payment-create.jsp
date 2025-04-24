@@ -7,16 +7,53 @@
 
 <div id="loanPaymentCreateContainer">
     <h2>Create Loan Payment</h2>
-    <form:form id="loanPaymentCreateForm" modelAttribute="loanPayment" method="post" action="${pageContext.request.contextPath}/loans/add-payment">
-        <label for="paymentDate">Payment Date</label>
-        <form:input path="paymentDate" id="paymentDate" type="date" required="true"/><br/>
+    
+    <div>
+        <button type="button" onclick="togglePaymentForm('single')">Single Payment</button>
+        <button type="button" onclick="togglePaymentForm('recurring')">Recurring Payment</button>
+    </div>
+    
+    <div id="singlePaymentForm">
+        <form:form id="loanPaymentCreateForm" modelAttribute="loanPayment" method="post" action="${pageContext.request.contextPath}/loans/add-payment">
+            <label for="paymentDate">Payment Date</label>
+            <form:input path="paymentDate" id="paymentDate" type="date" required="true"/><br/>
 
-        <label for="paymentAmount">Payment Amount</label>
-        <form:input path="paymentAmount" id="paymentAmount" type="number" step="0.01" required="true"/><br/>
+            <label for="paymentAmount">Payment Amount</label>
+            <form:input path="paymentAmount" id="paymentAmount" type="number" step="0.01" required="true"/><br/>
 
-        <form:hidden path="loanItemId" />
+            <form:hidden path="loanItemId" />
+            
+            <br/>
+            <button type="submit">Save</button> 
+        </form:form>
+    </div>
+    <div id="recurringPaymentForm" style="display:none;">
+        <form:form id="loanRecurringPaymentForm" modelAttribute="loanPayments" method="post" action="${pageContext.request.contextPath}/loans/add-payments">
+            <label for="startDate">Start Date</label>
+            <form:input path="startDate" id="startDate" type="month" required="true"/><br/>
         
-        <br/>
-        <button type="submit">Save</button> 
-    </form:form> 
+            <label for="endDate">End Date</label>
+            <form:input path="endDate" id="endDate" type="month" required="true"/><br/>
+        
+            <label for="paymentAmount">Payment Amount</label>
+            <form:input path="paymentAmount" id="recurringPaymentAmount" type="number" step="0.01" required="true"/><br/>
+        
+            <label for="paymentDay">Payment Day</label>
+            <form:select path="paymentDay" id="paymentDay" required="true" onchange="hideSpecificDay()">
+                <form:option value="FIRST">First of Month</form:option>
+                <form:option value="LAST">Last of Month</form:option>
+                <form:option value="SPECIFIC">Specific Day</form:option>
+            </form:select><br/>
+            
+            <div id="specificDayContainer" style="display:none;">
+                <label for="specificDay">Specific Day of Month (1-28)</label>
+                <form:input path="specificDay" id="specificDay" type="number" min="1" max="28" /><br/>
+            </div>
+            
+        
+            <form:hidden path="loanItemId" />
+            <br/>
+            <button type="submit">Create Payments</button>
+        </form:form>
+    </div>
 </div>

@@ -1,12 +1,16 @@
 package edu.fin.models.loan;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 public class LoanPayment {
     private Long id;
     private Long loanItemId;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate paymentDate;
     private double paymentAmount;
+
+    public LoanPayment() {}
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

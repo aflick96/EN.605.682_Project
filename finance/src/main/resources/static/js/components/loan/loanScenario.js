@@ -36,12 +36,32 @@ function attachWhatIfLoan(container) {
         if (newTableContainer) {
           scenarioTableContainer.innerHTML = newTableContainer.innerHTML;
 
+          const rows = newTableContainer.querySelectorAll("tbody tr");
+          const labels = [];
+          const endBalances = [];
+          const totalInterest = [];
+          const totalPaid = [];
+
+          rows.forEach((row) => {
+            const cells = row.querySelectorAll("td");
+            labels.push(cells[0]?.textContent);
+            totalPaid.push(
+              parseFloat(cells[7]?.textContent.replace(/[^0-9.]/g, "") || "0")
+            );
+            totalInterest.push(
+              parseFloat(cells[6]?.textContent.replace(/[^0-9.]/g, "") || "0")
+            );
+            endBalances.push(
+              parseFloat(cells[9]?.textContent.replace(/[^0-9.]/g, "") || "0")
+            );
+          });
+
           const totalPrincipal = parseFloat(
             newTableContainer
               .querySelector("tbody tr:last-child td:nth-child(6)")
               ?.textContent.replace(/[^0-9.]/g, "") || "0"
           );
-          const totalInterest = parseFloat(
+          const totalInterestValue = parseFloat(
             newTableContainer
               .querySelector("tbody tr:last-child td:nth-child(7)")
               ?.textContent.replace(/[^0-9.]/g, "") || "0"
@@ -49,10 +69,11 @@ function attachWhatIfLoan(container) {
 
           window.loanBreakdown = {
             totalPrincipal,
-            totalInterest,
+            totalInterestValue,
           };
 
           renderPieChart();
+          renderLoanLineChart(labels, endBalances, totalInterest, totalPaid);
         }
       })
       .catch((err) => console.error("Failed to update scenario table:", err));
@@ -61,7 +82,8 @@ function attachWhatIfLoan(container) {
   function renderPieChart() {
     const ctx = document.getElementById("loanBreakdownPie").getContext("2d");
     const data = window.loanBreakdown;
-    if (!ctx || !data || !data.totalPrincipal || !data.totalInterest) return;
+    if (!ctx || !data || !data.totalPrincipal || !data.totalInterestValue)
+      return;
 
     if (window.loanPieChart) {
       window.loanPieChart.destroy();
@@ -73,7 +95,7 @@ function attachWhatIfLoan(container) {
         labels: ["Total Principal", "Total Interest"],
         datasets: [
           {
-            data: [data.totalPrincipal, data.totalInterest],
+            data: [data.totalPrincipal, data.totalInterestValue],
             backgroundColor: ["#4CAF50", "#FF6384"],
             hoverOffset: 6,
           },
@@ -84,6 +106,67 @@ function attachWhatIfLoan(container) {
           title: {
             display: true,
             text: "Loan Payment Breakdown",
+          },
+        },
+      },
+    });
+  }
+
+  function renderLoanLineChart(labels, endBalances, totalInterest, totalPaid) {
+    const ctx = document.getElementById("loanProgressChart").getContext("2d");
+
+    if (window.loanLineChart) {
+      window.loanLineChart.destroy(); // avoid duplicate charts
+    }
+
+    window.loanLineChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: "End Balance",
+            data: endBalances,
+            borderColor: "green",
+            fill: false,
+            tension: 0.3,
+          },
+          {
+            label: "Total Interest",
+            data: totalInterest,
+            borderColor: "red",
+            fill: false,
+            tension: 0.3,
+          },
+          {
+            label: "Total Paid",
+            data: totalPaid,
+            borderColor: "blue",
+            fill: false,
+            tension: 0.3,
+          },
+        ],
+      },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: "Loan Progress Over Time",
+          },
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: "Month",
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: "Amount ($)",
+            },
+            beginAtZero: true,
           },
         },
       },

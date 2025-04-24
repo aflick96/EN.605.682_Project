@@ -3,6 +3,8 @@ package edu.fin.controllers;
 import edu.fin.config.APIConfig;
 import edu.fin.models.loan.LoanItem;
 import edu.fin.models.loan.LoanPayment;
+import edu.fin.models.loan.LoanPayments;
+import edu.fin.models.loan.LoanPaymentsWrapper;
 import edu.fin.models.loan.LoanScenarioResult;
 import edu.fin.services.LoanService;
 
@@ -10,6 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import jakarta.servlet.http.HttpSession;
@@ -62,11 +68,14 @@ public class LoanController extends AuthenticatedController {
         require(session);
 
         LoanPayment loanPayment = new LoanPayment();
+        LoanPayments loanPayments = new LoanPayments();
         loanPayment.setLoanItemId(loanItemId);
+        loanPayments.setLoanItemId(loanItemId);
         model.addAttribute("loanPayment", loanPayment);
+        model.addAttribute("loanPayments", loanPayments);
         return "components/loan/loan-payment-create";
     }
-    
+
     @PostMapping("/add-payment")
     public String addLoanPayment(@RequestParam(value="loanItemId", required=false) Long loanItemId, @ModelAttribute LoanPayment loanPayment, HttpSession session) {
         Long userId = requireUserId(session);
@@ -77,23 +86,35 @@ public class LoanController extends AuthenticatedController {
         return "redirect:/loans";
     }
 
+    @PostMapping("/add-payments")
+    public String addLoanPayments(@RequestParam(value="loanItemId", required=false) Long loanItemId, @ModelAttribute LoanPayments loanPayments, HttpSession session) {
+        Long userId = requireUserId(session);
+
+        String url = ac.getBaseUrl() + "/loans/user/" + userId + "/item/" + loanItemId + "/payments";
+        HttpEntity<LoanPayments> request = new HttpEntity<>(loanPayments);
+        rt.postForObject(url, request, LoanPayments.class);
+        return "redirect:/loans";
+    }
+
     // load the loan payment update form with the loan payment data
     @GetMapping("/edit-loan-payments")
     public String showLoanPaymentUpdateForm(@RequestParam(value="loanItemId", required=false) Long loanItemId, Model model, HttpSession session) {
         Long userId = requireUserId(session);
         String url = ac.getBaseUrl() + "/loans/user/" + userId + "/item/" + loanItemId + "/payment";
-        LoanPayment[] loanPayments = rt.getForObject(url, LoanPayment[].class);
-        model.addAttribute("loanPayments", loanPayments);
+        LoanPayment[] loanPayments = rt.getForObject(url, LoanPayment[].class);        
+        LoanPaymentsWrapper wrapper = new LoanPaymentsWrapper();
+        wrapper.setLoanPayments(Arrays.asList(loanPayments));
+        model.addAttribute("loanPaymentsWrapper", wrapper);
         return "components/loan/loan-payment-update";
     }
 
     // update the loan payment data in the database
-    @PostMapping("edit-loan-payments")
-    public String updateLoanPayments(@RequestParam(value="loanItemId", required=false) Long loanItemId, @ModelAttribute LoanPayment[] loanPayments, HttpSession session) {
+    @PostMapping("/edit-loan-payments")
+    public String updateLoanPayments(@RequestParam(value="loanItemId", required=false) Long loanItemId, @ModelAttribute("loanPaymentsWrapper") LoanPaymentsWrapper wrapper, HttpSession session) {
         Long userId = requireUserId(session);
         String url = ac.getBaseUrl() + "/loans/user/" + userId + "/item/" + loanItemId + "/payment";
-        HttpEntity<LoanPayment[]> request = new HttpEntity<>(loanPayments);
-        rt.put(url, request, LoanPayment[].class);
+        HttpEntity<List<LoanPayment>> request = new HttpEntity<>(wrapper.getLoanPayments());
+        rt.put(url, request, List.class);
         return "redirect:/loans";
     }
 

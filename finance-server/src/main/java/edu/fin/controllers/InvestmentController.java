@@ -1,6 +1,7 @@
 package edu.fin.controllers;
 
 import edu.fin.dtos.investment.InvestmentContributionRequest;
+import edu.fin.dtos.investment.InvestmentContributionsRequest;
 import edu.fin.dtos.investment.InvestmentLogRequest;
 import edu.fin.services.InvestmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,11 @@ public class InvestmentController {
 	@PostMapping("/user/{userId}/log/{logId}/contribution")
 	public void addNewContribution(@PathVariable Long userId, @PathVariable Long logId, @RequestBody InvestmentContributionRequest contribution) {
 		service.addContributionToInvestmentLog(userId, logId, contribution);
+	}
+
+	@PostMapping("/user/{userId}/log/{logId}/contributions")
+	public void addContributions(@PathVariable Long userId, @PathVariable Long logId, @RequestBody InvestmentContributionsRequest contributions) {
+		service.addContributionsToInvestmentLog(userId, logId, contributions);
 	}
 
 	// update contributions for a specific investment log

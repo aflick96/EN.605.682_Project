@@ -1,10 +1,12 @@
 package edu.fin.models.investment;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 public class InvestmentContribution {
     private Long id;
     private Long investmentLogId;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate contributionDate;
     private double contributionAmount;
 

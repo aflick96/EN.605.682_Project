@@ -8,7 +8,8 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/modal.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/model-form.css">
     <script src="${pageContext.request.contextPath}/js/components/modal.js"></script>
-    <script src="${pageContext.request.contextPath}/js/components/loanScenario.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/loan/loanScenario.js"></script>
+    <script src="${pageContext.request.contextPath}/js/components/loan/loan.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="page-container">

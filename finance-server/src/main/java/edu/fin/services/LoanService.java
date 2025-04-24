@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import edu.fin.dtos.loan.LoanItemRequest;
 import edu.fin.dtos.loan.LoanPaymentRequest;
+import edu.fin.dtos.loan.LoanPaymentsRequest;
 import edu.fin.entities.loan.*;
 import edu.fin.entities.user.User;
 import edu.fin.repositories.loan.LoanItemRepository;
@@ -108,6 +109,54 @@ public class LoanService {
 		loanItemRepository.save(loanItem);
 	}
 
+	public void addPaymentsToLoanItem(Long userId, Long itemId, LoanPaymentsRequest payment) {
+		User user = userRepository.findById(userId).orElse(null);
+		if (user == null) return;
+
+		// Get the loan item by id
+		LoanItem loanItem = loanItemRepository.findById(itemId).orElse(null);
+		if (loanItem == null) return;
+
+		// start and end date are string in yyyy-mm format
+		String startDate = payment.getStartDate();
+		String endDate = payment.getEndDate();
+		String paymentFrequency = payment.getPaymentDay();		
+		double paymentAmount = payment.getPaymentAmount();
+		Integer specificDay = payment.getSpecificDay();
+		LocalDate start = LocalDate.parse(startDate + "-01");
+		LocalDate end = LocalDate.parse(endDate + "-01");
+
+		if (paymentFrequency == "FIRST") {
+			start = start.withDayOfMonth(1);
+			end = end.withDayOfMonth(1);
+		} else if (paymentFrequency == "LAST") {
+			start = start.withDayOfMonth(start.lengthOfMonth());
+			end = end.withDayOfMonth(end.lengthOfMonth());
+		} else if (paymentFrequency == "SPECIFIC") {
+			if (specificDay != null) {
+				start = start.withDayOfMonth(specificDay);
+				end = end.withDayOfMonth(specificDay);
+			}
+		}
+
+		// Loop through the months between start and end date
+		LocalDate current = start;
+		while (current.isBefore(end) || current.isEqual(end)) {
+			LoanPayment loanPayment = new LoanPayment();
+			loanPayment.setLoanItem(loanItem);
+			loanPayment.setPaymentDate(current);
+			loanPayment.setPaymentAmount(paymentAmount);
+			
+			List<LoanPayment> previousPayments = loanPaymentRepository.findByLoanItemIdOrderByPaymentDateAsc(loanItem.getId());
+			populatePaymentBreakdown(loanItem, previousPayments, loanPayment);
+
+			// save the payment to the database
+			loanPaymentRepository.save(loanPayment);
+			loanItem.getLoanPayments().add(loanPayment);
+			current = current.plusMonths(1);
+		}
+	}
+
 	//Get all payments for a specific loan item
 	public List<LoanPaymentRequest> getLoanPaymentsByItemId(Long userId, Long loanItemId) {
 		User user = userRepository.findById(userId).orElse(null);
@@ -141,10 +190,15 @@ public class LoanService {
 		for (LoanPayment existingPayment : existingPayments) {
 			for (LoanPaymentRequest payment : payments) {
 				if (existingPayment.getId().equals(payment.getId())) {
-					existingPayment.setPaymentDate(payment.getPaymentDate());
-					existingPayment.setPaymentAmount(payment.getPaymentAmount());
-					populatePaymentBreakdown(loanItem, existingPayments, existingPayment);
-					loanPaymentRepository.save(existingPayment);
+					if (payment.getPaymentAmount() <= 0) {
+						loanPaymentRepository.delete(existingPayment);
+					} else {
+						existingPayment.setId(payment.getId());
+						existingPayment.setLoanItem(loanItem);
+						existingPayment.setPaymentDate(payment.getPaymentDate());
+						existingPayment.setPaymentAmount(payment.getPaymentAmount());
+						loanPaymentRepository.save(existingPayment);
+					}
 				}
 			}
 		}

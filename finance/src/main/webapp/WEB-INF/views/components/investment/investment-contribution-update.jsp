@@ -1,10 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <h2>Edit Investment Contributions</h2>
 
-<form action="${pageContext.request.contextPath}/investment/edit-investment-contributions" method="post">
+<form:form method="post" modelAttribute="investmentContributionsWrapper" action="${pageContext.request.contextPath}/investment/edit-investment-contributions">
     <input type="hidden" name="investmentLogId" value="${param.investmentLogId}" />
 
     <table>
@@ -16,21 +17,15 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach var="contribution" items="${investmentContributions}" varStatus="status">
+            <c:forEach var="contribution" items="${investmentContributionsWrapper.investmentContributions}" varStatus="status">
                 <tr>
-                    <input type="hidden" name="investmentContributions[${status.index}].id" value="${contribution.id}" />
+                    <form:input path="investmentContributions[${status.index}].id" type="hidden" />
                     <td>${status.index + 1}</td>
-
                     <td>
-                        <input type="date"
-                               name="investmentContributions[${status.index}].contributionDate"
-                               value="${contribution.contributionDate}" />
+                        <form:input path="investmentContributions[${status.index}].contributionDate" type="date"/>
                     </td>
-
                     <td>
-                        <input type="number" step="0.01"
-                               name="investmentContributions[${status.index}].contributionAmount"
-                               value="${contribution.contributionAmount}" />
+                        <form:input path="investmentContributions[${status.index}].contributionAmount" type="number" step="0.01"/>
                     </td>
                 </tr>
             </c:forEach>
@@ -38,4 +33,4 @@
     </table>
 
     <button type="submit">Update Contributions</button>
-</form>
+</form:form>

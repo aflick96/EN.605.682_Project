@@ -65,6 +65,9 @@
         <div id="loanBreakdownPieContainer" style="width: 200px; height: 200px; margin-top: 1rem;">
             <canvas id="loanBreakdownPie" width="200" height="200"></canvas>
         </div>
+        <div id="loanBreakdownProgressChartContainer" style="width: 400px; height: 200px; margin-top: 1rem;">
+            <canvas id="loanProgressChart" width="400" height="200"></canvas>
+        </div>
     </div>
 </div>
 

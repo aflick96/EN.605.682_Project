@@ -1,6 +1,7 @@
 package edu.fin.services;
 
 import edu.fin.dtos.investment.InvestmentContributionRequest;
+import edu.fin.dtos.investment.InvestmentContributionsRequest;
 import edu.fin.dtos.investment.InvestmentLogRequest;
 import edu.fin.entities.investment.*;
 import edu.fin.entities.user.User;
@@ -79,6 +80,44 @@ public class InvestmentService {
 		investmentContributionRepository.save(contribution);
 	}
 
+	public void addContributionsToInvestmentLog(Long userId, Long logId, InvestmentContributionsRequest contributions) {
+		User user = userRepository.findById(userId).orElse(null);
+		if (user == null) return;
+
+		InvestmentLog log = investmentLogRepository.findById(logId).orElse(null);
+		if (log == null) return;
+
+		String startDate = contributions.getStartDate();
+		String endDate = contributions.getEndDate();
+		String contributionFrequency = contributions.getContributionDay();
+		double contributionAmount = contributions.getContributionAmount();
+		Integer specificDay = contributions.getSpecificDay();
+		LocalDate start = LocalDate.parse(startDate);
+		LocalDate end = LocalDate.parse(endDate);
+
+		if (contributionFrequency == "FIRST") {
+			start = start.withDayOfMonth(1);
+			end = end.withDayOfMonth(1);
+		} else if (contributionFrequency == "LAST") {
+			start = start.withDayOfMonth(start.lengthOfMonth());
+			end = end.withDayOfMonth(end.lengthOfMonth());
+		} else if (contributionFrequency == "SPECIFIC") {
+			if (specificDay != null) {
+				start = start.withDayOfMonth(specificDay);
+				end = end.withDayOfMonth(specificDay);
+			}
+		}
+
+		LocalDate current = start;
+		while (!current.isBefore(end) || !current.isEqual(end)) {
+			InvestmentContribution contribution = new InvestmentContribution();
+			contribution.setInvestmentLog(log);
+			contribution.setContributionDate(current);
+			contribution.setContributionAmount(contributionAmount);
+			investmentContributionRepository.save(contribution);
+		}
+	}
+
 	// Update a list of investment contributions for an investment log
 	public void updateInvestmentContributions(Long userId, Long investmentLogId, List<InvestmentContributionRequest> contributions) {
 		User user = userRepository.findById(userId).orElse(null);
@@ -91,9 +130,13 @@ public class InvestmentService {
 		for (InvestmentContribution existingContribution : existingContributions) {
 			for (InvestmentContributionRequest contribution : contributions) {
 				if (existingContribution.getId().equals(contribution.getId())) {
-					existingContribution.setContributionDate(contribution.getContributionDate());
-					existingContribution.setContributionAmount(contribution.getContributionAmount());
-					investmentContributionRepository.save(existingContribution);
+					if (contribution.getContributionAmount() <= 0) {
+						investmentContributionRepository.delete(existingContribution);
+					} else {
+						existingContribution.setContributionDate(contribution.getContributionDate());
+						existingContribution.setContributionAmount(contribution.getContributionAmount());
+						investmentContributionRepository.save(existingContribution);
+					}
 				}
 			}
 		}

@@ -11,6 +11,7 @@
     <script src="${pageContext.request.contextPath}/js/components/modal.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/investment/investmentScenario.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/investment/investment.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="page-container">
 	<jsp:include page="components/base/main-navigation-bar.jsp" />

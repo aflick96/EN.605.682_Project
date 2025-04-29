@@ -2,17 +2,36 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+<head>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/investment/what-if-investment-table.css">
+</head>
+
 <h2>What-If Investment Scenario</h2>
-<p>Investment: ${investment.name}</p>
-<p>Annual Expected Return: ${investment.expectedAnnualReturn}%</p>
 
-<input type="hidden" id="investmentLogId" value="${investment.id}" />
+<div id="headerContainer">
+    <div id="investmentItemDetailsContainer">
+        <span>Investment: ${investment.name}</span>
+        <span>Annual Expected Return: ${investment.expectedAnnualReturn}%</span>
+    </div>
 
-<label>Additional Weekly Contribution ($):</label>
-<input type="number" step="0.01" min="0" id="weeklyContributionInput" value="${weeklyContribution}" style="width: 100px;" />
+    <div id="investmentInputsContainer">
+        <input type="hidden" id="investmentLogId" value="${investment.id}" />
+        <div class="input-group">
+            <label>Additional Weekly Contribution ($):</label>
+            <input type="number" step="0.01" min="0" id="weeklyContributionInput" value="${weeklyContribution}" />
+        </div>
+        <div class="input-group">
+            <label>Annual Expected Return Change</label>
+            <input type="number" step="0.01" min="0" id="annualReturnInput" value="${annualReturn}" />                    
+        </div>
+    </div>
+</div>
 
-<label>Annual Expected Return Change</label>
-<input type="number" step="0.01" min="0" id="annualReturnInput" value="${annualReturn}" style="width: 100px;" />
+<div id="graphicsContainer">
+    <div id="investmentProgressChartContainer" style="width: 400px; height: 200px; margin-top: 1rem;">
+        <canvas id="investmentProgressChart" width="400" height="200"></canvas>
+    </div>
+</div>
 
 <div id="scenarioTableContainer">
     <table border="1" style="margin-top: 1rem;">

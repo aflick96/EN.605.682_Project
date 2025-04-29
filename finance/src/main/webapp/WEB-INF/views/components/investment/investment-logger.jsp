@@ -20,6 +20,7 @@
     <c:if test="${empty investmentLogs}">
         <p>No investment logs found.</p>
     </c:if>
+
     <c:if test="${not empty investmentLogs}">
         <table border="1">
             <thead>
@@ -58,7 +59,7 @@
                             <button 
                                 data-modal-target="investmentModal"
                                 data-modal-size="large"
-                                data-fetch-url="${pageContext.request.contextPath}/investment/what-if-investment-table?investmentLogId=${investment.id}"
+                                data-fetch-url="${pageContext.request.contextPath}/investment/what-if-investment-table?investmentLogId=${investment.id}&annualReturn=${investment.expectedAnnualReturn}"
                             >
                                 What If Investment Table
                             </button>

@@ -1,3 +1,9 @@
+/*
+ * InvestmentScenarioResult.java
+ * 
+ * This class represents the result of an investment scenario calculation.
+ */
+
 package edu.fin.services;
 
 import edu.fin.models.loan.LoanItem;

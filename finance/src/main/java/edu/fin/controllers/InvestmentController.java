@@ -145,25 +145,28 @@ public class InvestmentController extends AuthenticatedController {
         return "redirect:/investment";
     }
 
+    // What if investment table endpoint
     @GetMapping("/what-if-investment-table")
     public String showWhatIfInvestmentTable(
         @RequestParam(value="investmentLogId", required=false) Long investmentLogId, 
         @RequestParam(required=false, defaultValue="0") double weeklyContribution, 
         @RequestParam(required=false, defaultValue="0") double annualReturn,
         Model model, HttpSession session) {
+        require(session);
 
+        // Get the investment log and contributions applied to it
         Long userId = requireUserId(session);
         String investmentUrl = ac.getBaseUrl() + "/investments/user/" + userId + "/log/" + investmentLogId;
         String contributionUrl = ac.getBaseUrl() + "/investments/user/" + userId + "/log/" + investmentLogId + "/contribution";
-
         InvestmentLog investmentLog = rt.getForObject(investmentUrl, InvestmentLog.class);
         InvestmentContribution[] investmentContributions = rt.getForObject(contributionUrl, InvestmentContribution[].class);
 
         if (investmentLog != null) {
-            List<WhatIfScenarioRow> tableRows = investmentService.computeInvestmentScenarioTable(investmentLog, investmentContributions, weeklyContribution, annualReturn);    
+            InvestmentScenarioResult result = investmentService.computeInvestmentScenarioTable(investmentLog, investmentContributions, weeklyContribution, annualReturn);
             model.addAttribute("investment", investmentLog);
             model.addAttribute("weeklyContribution", weeklyContribution);
-            model.addAttribute("tableRows", tableRows);
+            model.addAttribute("annualReturn", annualReturn);
+            model.addAttribute("tableRows", result.getTableRows());
         }
 
         return "components/investment/what-if-investment-table";

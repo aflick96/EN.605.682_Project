@@ -3,6 +3,7 @@ package edu.fin.services;
 import edu.fin.models.investment.InvestmentLog;
 import edu.fin.models.investment.InvestmentContribution;
 import edu.fin.models.investment.WhatIfScenarioRow;
+import edu.fin.models.investment.InvestmentScenarioResult;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.Map;
 
 @Service
 public class InvestmentService {
-    public List<WhatIfScenarioRow> computeInvestmentScenarioTable(InvestmentLog investment, InvestmentContribution[] contributions, double scenarioContributions, double expectedReturn) {
+    public InvestmentScenarioResult computeInvestmentScenarioTable(InvestmentLog investment, InvestmentContribution[] contributions, double scenarioContributions, double expectedReturn) {
         // Base fields
         LocalDate start = investment.getStartDate();
         LocalDate end = investment.getEndDate() != null ? investment.getEndDate() : start.plusYears(1);
@@ -66,6 +67,6 @@ public class InvestmentService {
             current = current.plusWeeks(1);
         }
         
-        return rows;
+        return new InvestmentScenarioResult(scenarioContributions, expectedReturn, rows);
     }    
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <head>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/expense/expense-logger.css">
@@ -35,7 +36,7 @@
                     <td>${item.frequency}</td>
                     <td>${item.startDate}</td>
                     <td>${item.endDate}</td>
-                    <td>$${item.amount}</td>
+                    <td>$<fmt:formatNumber value="${item.amount}" type="number" groupingUsed="true" minFractionDigits="2" maxFractionDigits="2" /></td>
                     <td>
                         <form action="${pageContext.request.contextPath}/expenses/delete-item?itemId=${item.id}" method="post">
                             <button type="submit">Delete</button>

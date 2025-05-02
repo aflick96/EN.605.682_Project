@@ -1,3 +1,9 @@
+/*
+ * NetWorth.java
+ * 
+ * This class represents the net worth of a user over time.
+ */
+
 package edu.fin.models.dashboard;
 
 import java.time.LocalDate;

@@ -33,5 +33,16 @@ public class NetWorthBreakdown {
     public void setInvestments(Map<LocalDate, Double> investments) { this.investments = investments; }
 
     public Map<LocalDate, Double> getLoans() { return loans; }
-    public void setLoans(Map<LocalDate, Double> loans) { this.loans = loans; }    
+    public void setLoans(Map<LocalDate, Double> loans) { this.loans = loans; }
+    
+    @Override
+    public String toString() {
+        return "NetWorthBreakdown{" +
+                "netWorth=" + netWorth +
+                ", income=" + income +
+                ", expenses=" + expenses +
+                ", investments=" + investments +
+                ", loans=" + loans +
+                '}';
+    }
 }

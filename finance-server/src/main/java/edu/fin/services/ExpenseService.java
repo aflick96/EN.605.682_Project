@@ -1,6 +1,7 @@
 package edu.fin.services;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.fin.dtos.dashboard.ExpenseByCategory;
 import edu.fin.dtos.expense.*;
 import edu.fin.entities.expense.*;
 import edu.fin.entities.expense.enums.ExpenseCategory;
@@ -181,5 +183,30 @@ public class ExpenseService {
 
         // Return the monthly expenses for the user
         return monthlyExpenses;
+    }
+
+    public ExpenseByCategory getExpenseCategoryTotals(Long userId) {
+        // Check if the user exists
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) return null;
+
+        // Get the expense log for the user
+        ExpenseLog expenseLog = expenseLogRepository.findByUserId(user.getId()).orElse(null);
+        if (expenseLog == null) return null;
+
+        // Get the monthly expenses for the user
+        List<ExpenseItem> expenseItems = expenseItemRepository.findByExpenseLogId(expenseLog.getId());
+        Map<String, Double> categoryTotals = new HashMap<>();
+        for (ExpenseItem item : expenseItems) {
+            String category = item.getCategory().toString();
+            double amount = item.getAmount();
+            categoryTotals.put(category, categoryTotals.getOrDefault(category, 0.0) + amount);
+        }
+
+        List<String> labels = new ArrayList<>(categoryTotals.keySet());
+        List<Double> values = labels.stream().map(categoryTotals::get).toList();
+
+        // Return the monthly expenses for the user
+        return new ExpenseByCategory(labels, values);
     }
 }

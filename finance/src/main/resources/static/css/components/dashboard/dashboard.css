@@ -1,0 +1,20 @@
+.dashboard-component-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.dashboard-graphic-component-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 45%;
+    max-width: 600px;
+    max-height: 300px;
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}

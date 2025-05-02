@@ -3,6 +3,7 @@ package edu.fin.controllers;
 import edu.fin.models.user.User;
 import edu.fin.config.APIConfig;
 import edu.fin.models.dashboard.NetWorthBreakdown;
+import edu.fin.models.dashboard.ExpenseByCategory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,15 +27,19 @@ public class DashboardController extends AuthenticatedController {
         Long userId = requireUserId(session);
 
         String userUrl = ac.getBaseUrl() + "/users/" + userId;
-        String dashboardUrl = ac.getBaseUrl() + "/dashboard/" + "/user/" + userId;
+        String dashboardUrl = ac.getBaseUrl() + "/dashboard/user/" + userId + "/net-worth";
+        String expenseByCategoryUrl = ac.getBaseUrl() + "/dashboard/user/" + userId + "/expense-by-category";
     
         User user = rt.getForObject(userUrl, User.class);
-        // NetWorth[] netWorthList = rt.getForObject(dashboardUrl, NetWorth[].class);
         NetWorthBreakdown netWorthBreakdown = rt.getForObject(dashboardUrl, NetWorthBreakdown.class); 
+        ExpenseByCategory expenseByCategory = rt.getForObject(expenseByCategoryUrl, ExpenseByCategory.class);
+
+        System.out.println("HERRRRRRRRRRRRRE");
+        System.out.println(expenseByCategory);
 
         model.addAttribute("user", user);
         model.addAttribute("breakdown", netWorthBreakdown);
-        // model.addAttribute("netWorthList", netWorthList);
+        model.addAttribute("expenseByCategory", expenseByCategory);
         return "dashboard";
     }
 }

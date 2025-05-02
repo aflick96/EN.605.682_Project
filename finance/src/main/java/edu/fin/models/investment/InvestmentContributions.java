@@ -1,3 +1,9 @@
+/*
+ * InvestmentContributions.java
+ * 
+ * This class represents a range of investment contributions.
+ */
+
 package edu.fin.models.investment;
 
 public class InvestmentContributions {

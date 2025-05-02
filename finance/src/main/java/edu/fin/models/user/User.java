@@ -13,6 +13,11 @@ public class User {
     
 	// Default Constructor
     public User() {}
+
+	public User(String email, String password) {
+		this.email = email;
+		this.password = password;
+	}
     
 	// Constructor
     public User(String firstName, String lastName, String email, String password, String state, String filingStatus, int dependents) {

@@ -28,36 +28,18 @@ public class AuthController {
 		return "register";
 	}
 	
-	@GetMapping("/dashboard")
-	public String showDashboardPage() {
-		return "dashboard";
-	}
-	
-	@GetMapping("/logout")
-	public String logout(HttpSession session) {
-		session.invalidate();
-		return "redirect:/auth/login";
-	}
-	
 	@PostMapping("/login")
-	public String login(
-			@RequestParam String email,
-			@RequestParam String password,
-			Model model,
-			HttpSession session
-			) {
-		RestTemplate rt = new RestTemplate();
-		try {
-			User user_ = new User();
-			user_.setEmail(email);
-			user_.setPassword(password);
-			User user = rt.postForObject(ac.userLoginUrl(), user_, User.class);
-			session.setAttribute("user", user);
-			return "redirect:/auth/dashboard";
-		} catch (Exception e) {
-			model.addAttribute("error", "Invalid credentials");
-			return "login";
-		}
+	public String login(@RequestParam String email, @RequestParam String password, Model model, HttpSession session) {
+        try {
+            var rt   = new RestTemplate();
+            var body = new User(email, password);
+            User user = rt.postForObject(ac.userLoginUrl(), body, User.class);
+            session.setAttribute("user", user);
+            return "redirect:/dashboard";        
+        } catch (Exception ex) {
+            model.addAttribute("error", "Invalid credentials");
+            return "login";
+        }
 	}
 	
 	@PostMapping("/register")
@@ -70,5 +52,11 @@ public class AuthController {
 			model.addAttribute("error", "Register failed, try again later.");
 			return "signup";
 		}
+	}
+
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/auth/login";
 	}
 }

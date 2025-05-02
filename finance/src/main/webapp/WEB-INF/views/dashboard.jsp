@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 	<title>Dashboard</title>
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/page.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/dashboard/dashboard.css">
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/luxon@3.4.0/build/global/luxon.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.1"></script>
@@ -15,10 +16,17 @@
 	<jsp:include page="components/base/main-navigation-bar.jsp" />
 	<h2>Welcome, ${user.firstName}!</h2>
 
-	<div class="page-component">
-		<jsp:include page="components/dashboard/net-worth.jsp" />
+	<div class="dashboard-component-container">
+		<div class="dashboard-graphic-component-container">
+			<jsp:include page="components/dashboard/net-worth.jsp" />
+		</div>
+	
+		<div class="dashboard-graphic-component-container">
+			<jsp:include page="components/dashboard/expense-by-category.jsp" />
+		</div>	
 	</div>
 
-	<script src="${pageContext.request.contextPath}/js/components/net-worth.js"></script>
+	<script src="${pageContext.request.contextPath}/js/components/dashboard/net-worth.js"></script>
+	<script src="${pageContext.request.contextPath}/js/components/dashboard/expense-by-category.js"></script>
 </body>
 </html>

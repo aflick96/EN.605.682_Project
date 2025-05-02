@@ -39,11 +39,35 @@
 </div>
 
 <div id="graphicsContainer">
-    <div id="loanBreakdownPieContainer" style="width: 200px; height: 200px; margin-top: 1rem;">
-        <canvas id="loanBreakdownPie" width="200" height="200"></canvas>
+    <div id="loanBreakdownProgressChartContainer">
+        <canvas id="loanProgressChart"></canvas>
     </div>
-    <div id="loanBreakdownProgressChartContainer" style="width: 400px; height: 200px; margin-top: 1rem;">
-        <canvas id="loanProgressChart" width="400" height="200"></canvas>
+    <div id="loanBreakdownPieContainer">
+        <canvas id="loanBreakdownPie"></canvas>
+    </div>
+    <div class="loan-summary" id="loanSummary">
+        <table>
+            <tr>
+                <th>Total Principal</th>
+                <td id="summaryTotalPrincipal">$0.00</td>
+            </tr>
+            <tr>
+                <th>Total Interest</th>
+                <td id="summaryTotalInterest">$0.00</td>
+            </tr>
+            <tr>
+                <th>Total Paid</th>
+                <td id="summaryTotalPaid">$0.00</td>
+            </tr>
+            <tr>
+                <th>Ending Balance</th>
+                <td id="summaryEndBalance">$0.00</td>
+            </tr>
+            <tr>
+                <th>Last Payment Date</th>
+                <td id="summaryLastPaymentDate"></td>
+            </tr>
+        </table>
     </div>
 </div>
 

@@ -34,6 +34,8 @@ public class InvestmentService {
             }
         }
 
+        LocalDate startOfCurrentMonth = LocalDate.now().withDayOfMonth(1);
+
         while(!current.isAfter(end)) {
             WhatIfScenarioRow row = new WhatIfScenarioRow();
 
@@ -46,18 +48,16 @@ public class InvestmentService {
                 }
             }
 
-            // roughly calculate weekly row values
-            double growthThisWeek = 0.0;
-            double totalContributionThisWeek = contributionThisWeek + scenarioContributions;
-            runningBalance += totalContributionThisWeek;
-            growthThisWeek = runningBalance * weeklyReturnRate;
+            double scenarioThisWeek = !current.isBefore(startOfCurrentMonth) ? scenarioContributions : 0.0;
+            double totalContributionThisWeek = contributionThisWeek + scenarioThisWeek;
+            double growthThisWeek = runningBalance * weeklyReturnRate;
+            runningBalance += totalContributionThisWeek + growthThisWeek;
             runningGrowth += growthThisWeek;
-            runningBalance += growthThisWeek;
 
             // Fill row
             row.setWeekStart(current);
             row.setRealContribution(contributionThisWeek);
-            row.setScenarioContribution(scenarioContributions);
+            row.setScenarioContribution(scenarioThisWeek);
             row.setTotalContributions(runningBalance - runningGrowth);
             row.setGrowthThisWeek(growthThisWeek);
             row.setTotalGrowth(runningGrowth);

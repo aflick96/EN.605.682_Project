@@ -21,7 +21,6 @@ function attachWhatIfInvestment(container) {
   function updateScenarioTable() {
     const weeklyContributionValue = weeklyInput.value || 0;
     const annualReturnValue = annualReturnInput.value || 0;
-
     const fetchUrl = `${baseContextPath}/investment/what-if-investment-table?investmentLogId=${investmentLogId}&weeklyContribution=${weeklyContributionValue}&annualReturn=${annualReturnValue}`;
 
     fetch(fetchUrl)
@@ -52,6 +51,20 @@ function attachWhatIfInvestment(container) {
               parseFloat(cells[6]?.textContent.replace(/[^0-9.]/g, "") || "0")
             );
           });
+
+          const formatter = new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          });
+
+          document.getElementById("summaryEndBalance").textContent =
+            formatter.format(endBalances.at(-1) || 0);
+          document.getElementById("summaryTotalContributions").textContent =
+            formatter.format(totalContributions.at(-1) || 0);
+          document.getElementById("summaryTotalGrowth").textContent =
+            formatter.format(totalGrowth.at(-1) || 0);
 
           renderInvestmentLineChart(
             labels,

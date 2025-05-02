@@ -36,7 +36,6 @@ public class AuthController {
         try {
             User user_ = new User(email, password);
 			String url = ac.getBaseUrl() + "/users/login";
-			System.out.println("URL: " + url);
             User user = rt.postForObject(url, user_, User.class);
             session.setAttribute("user", user);
             return "redirect:/dashboard";        

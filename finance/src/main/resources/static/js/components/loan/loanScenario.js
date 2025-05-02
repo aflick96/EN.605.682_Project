@@ -67,6 +67,59 @@ function attachWhatIfLoan(container) {
               ?.textContent.replace(/[^0-9.]/g, "") || "0"
           );
 
+          const formatter = new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          });
+
+          const dateFormatter = new Intl.DateTimeFormat("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            timeZone: "UTC",
+          });
+
+          const lastRow = rows[rows.length - 1];
+          const lastPrincipal = parseFloat(
+            lastRow
+              ?.querySelector("td:nth-child(7)")
+              ?.textContent.replace(/[^0-9.]/g, "") || "0"
+          );
+          const lastInterest = parseFloat(
+            lastRow
+              ?.querySelector("td:nth-child(8)")
+              ?.textContent.replace(/[^0-9.]/g, "") || "0"
+          );
+          const lastPaid = parseFloat(
+            lastRow
+              ?.querySelector("td:nth-child(9)")
+              ?.textContent.replace(/[^0-9.]/g, "") || "0"
+          );
+          const lastEndBalance = parseFloat(
+            lastRow
+              ?.querySelector("td:nth-child(11)")
+              ?.textContent.replace(/[^0-9.]/g, "") || "0"
+          );
+
+          const lastPaymentDate = lastRow
+            ?.querySelector("td:nth-child(1)")
+            ?.textContent.trim();
+
+          console.log(lastPaymentDate);
+
+          document.getElementById("summaryTotalPrincipal").textContent =
+            formatter.format(lastPrincipal);
+          document.getElementById("summaryTotalInterest").textContent =
+            formatter.format(lastInterest);
+          document.getElementById("summaryTotalPaid").textContent =
+            formatter.format(lastPaid);
+          document.getElementById("summaryEndBalance").textContent =
+            formatter.format(lastEndBalance);
+          document.getElementById("summaryLastPaymentDate").textContent =
+            dateFormatter.format(new Date(lastPaymentDate));
+
           window.loanBreakdown = {
             totalPrincipal,
             totalInterestValue,

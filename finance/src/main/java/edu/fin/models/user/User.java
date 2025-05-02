@@ -1,3 +1,9 @@
+/*
+ * User.java
+ * 
+ * This class represents a user in the system.
+ */
+
 package edu.fin.models.user;
 
 public class User {

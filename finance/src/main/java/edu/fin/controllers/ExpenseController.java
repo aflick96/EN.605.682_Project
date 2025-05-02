@@ -5,6 +5,7 @@ import edu.fin.models.user.User;
 import edu.fin.models.expense.ExpenseLog;
 import edu.fin.models.expense.ExpenseItem;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,14 +18,13 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/expenses")
 public class ExpenseController extends AuthenticatedController{
-    
+    @Autowired
     private APIConfig ac;
+    
+    @Autowired
     private RestTemplate rt;
 
-    public ExpenseController(APIConfig ac, RestTemplate rt) {
-        this.ac = ac;
-        this.rt = rt;
-    }
+    public ExpenseController() {}
 
     /* Expense Logs */
     //##################################################################

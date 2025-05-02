@@ -50,6 +50,7 @@ public class LoanService {
         }
 
         int monthsCount = 0;
+        LocalDate startOfCurrentMonth = LocalDate.now().withDayOfMonth(1);
 
         while(!current.isAfter(end)) {
             WhatIfScenarioRow row = new WhatIfScenarioRow();
@@ -63,10 +64,10 @@ public class LoanService {
                 }
             }
 
-            double totalPaymentThisMonth = paymentThisMonth + scenarioPayment;
+            double scenarioThisMonth = !current.isBefore(startOfCurrentMonth) ? scenarioPayment : 0.0;
+            double totalPaymentThisMonth = paymentThisMonth + scenarioThisMonth;
             double interestThisMonth = runningBalance * monthlyInterestRate;
-            double principalThisMonth = totalPaymentThisMonth - interestThisMonth;
-            if (principalThisMonth > runningBalance) {
+            double principalThisMonth = totalPaymentThisMonth - interestThisMonth;            if (principalThisMonth > runningBalance) {
                 principalThisMonth = runningBalance;
             }
 
@@ -77,7 +78,7 @@ public class LoanService {
             // Fill row
             row.setMonthStartDate(current);
             row.setRealPayment(paymentThisMonth);
-            row.setScenarioPayment(scenarioPayment);
+            row.setScenarioPayment(scenarioThisMonth);
             row.setPaymentThisMonth(totalPaymentThisMonth);
             row.setPrincipalThisMonth(principalThisMonth);
             row.setInterestThisMonth(interestThisMonth);

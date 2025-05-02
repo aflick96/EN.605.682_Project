@@ -5,6 +5,7 @@ import edu.fin.models.user.User;
 import edu.fin.models.income.IncomeLog;
 import edu.fin.models.income.IncomeByPayFrequencyDetail;
 import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +20,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/income")
 public class IncomeController extends AuthenticatedController {
-    
+    @Autowired
     private APIConfig ac;
+    
+    @Autowired
     private RestTemplate rt;
 
-    public IncomeController(APIConfig ac, RestTemplate rt) {
-        this.ac = ac;
-        this.rt = rt;
-    }
+    public IncomeController() {}
 
     /* Income Logs */
     //##################################################################
@@ -35,8 +35,9 @@ public class IncomeController extends AuthenticatedController {
     public String showIncomeLogs(HttpSession session, Model model) {        
         Long userId = requireUserId(session);
 
-        // get income logs      
-        ResponseEntity<IncomeLog[]> response = rt.getForEntity(ac.getIncomeLogsUrl(userId), IncomeLog[].class);
+        // get income logs
+        String url = ac.getBaseUrl() + "/income-logs/user/" + userId;
+        ResponseEntity<IncomeLog[]> response = rt.getForEntity(url, IncomeLog[].class);
         List<IncomeLog> logs = response.getBody() != null ? Arrays.asList(response.getBody()) : List.of();
 
         model.addAttribute("incomeLogs", logs);
@@ -49,9 +50,11 @@ public class IncomeController extends AuthenticatedController {
     public String createIncomeLog(@ModelAttribute IncomeLog log, HttpSession session) {
         User user = requireUser(session);
 
+        String url = ac.getBaseUrl() + "/income-logs";
+
         log.setUser(user);
         HttpEntity<IncomeLog> request = new HttpEntity<>(log);
-        rt.postForObject(ac.createIncomeLogUrl(), request, IncomeLog.class);
+        rt.postForObject(url, request, IncomeLog.class);
         return "redirect:/income";
     }
 
@@ -60,7 +63,8 @@ public class IncomeController extends AuthenticatedController {
     public String deleteIncomeLog(@PathVariable Long id, HttpSession session) {
         require(session);
 
-        rt.exchange(ac.deleteIncomeLogUrl(id), HttpMethod.DELETE, null, Void.class);
+        String url = ac.getBaseUrl() + "/income-logs/" + id;
+        rt.exchange(url, HttpMethod.DELETE, null, Void.class);
         return "redirect:/income";
     }
     //##################################################################
@@ -74,7 +78,8 @@ public class IncomeController extends AuthenticatedController {
         require(session);
 
         try {
-            ResponseEntity<List<IncomeByPayFrequencyDetail>> response = rt.exchange(ac.getIncomeLogDetails(id), HttpMethod.GET, null, new ParameterizedTypeReference<List<IncomeByPayFrequencyDetail>>() {});
+            String url = ac.getBaseUrl() + "/income-logs/" + id + "/details";
+            ResponseEntity<List<IncomeByPayFrequencyDetail>> response = rt.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<IncomeByPayFrequencyDetail>>() {});
             List<IncomeByPayFrequencyDetail> detail = response.getBody();
             if (detail == null) detail = List.of();
     

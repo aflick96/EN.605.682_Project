@@ -34,9 +34,6 @@ public class DashboardController extends AuthenticatedController {
         NetWorthBreakdown netWorthBreakdown = rt.getForObject(dashboardUrl, NetWorthBreakdown.class); 
         ExpenseByCategory expenseByCategory = rt.getForObject(expenseByCategoryUrl, ExpenseByCategory.class);
 
-        System.out.println("HERRRRRRRRRRRRRE");
-        System.out.println(expenseByCategory);
-
         model.addAttribute("user", user);
         model.addAttribute("breakdown", netWorthBreakdown);
         model.addAttribute("expenseByCategory", expenseByCategory);

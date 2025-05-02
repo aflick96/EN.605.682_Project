@@ -57,6 +57,7 @@
                                 View Contributions
                             </button>
                             <button 
+                                class="view-details-button"
                                 data-modal-target="investmentModal"
                                 data-modal-size="large"
                                 data-fetch-url="${pageContext.request.contextPath}/investment/what-if-investment-table?investmentLogId=${investment.id}&annualReturn=${investment.expectedAnnualReturn}"

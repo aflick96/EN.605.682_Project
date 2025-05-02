@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <head>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/income/income-logger.css">
@@ -35,7 +36,7 @@
                         <c:when test="${log.annualPayFrequency == 'MONTHLY'}">Monthly</c:when>
                     </c:choose>
                 </td>
-                <td>$${log.amount}</td>
+                <td>$<fmt:formatNumber value="${log.amount}" type="number" groupingUsed="true" minFractionDigits="2" maxFractionDigits="2" /></td>
                 <td>
                     <button
                         class="view-details-button"

@@ -14,6 +14,7 @@
 </head>
 <body class="page-container">
 	<jsp:include page="components/base/main-navigation-bar.jsp" />
+
 	<h2>Welcome, ${user.firstName}!</h2>
 
 	<div class="dashboard-component-container">

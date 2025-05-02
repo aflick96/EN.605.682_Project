@@ -15,28 +15,31 @@ document.addEventListener("DOMContentLoaded", function () {
       modalContent.innerHTML = "<p>Loading...</p>";
 
       fetch(fetchUrl)
-        .then((response) => response.text())
+        .then((response) => {
+          if (response.status === 204) {
+            const clientMessage = response.headers.get("X-Client-Message");
+            if (clientMessage) {
+              showClientMessageOverlay(clientMessage);
+            }
+            return Promise.reject();
+          }
+          return response.text();
+        })
         .then((html) => {
           const modalContentBody = modal.querySelector(".modal-content-body");
           modalContent.innerHTML = html;
+          modal.style.display = "flex";
 
           if (modalContentBody.querySelector("#investmentLogId")) {
             attachWhatIfInvestment(modalContentBody);
           } else if (modalContentBody.querySelector("#loanItemId")) {
             attachWhatIfLoan(modalContentBody);
           }
-
-          // if (typeof attachWhatIfScenario === "function") {
-          //   attachWhatIfScenario(modalContentBody);
-          // }
         })
         .catch((error) => {
           console.error("Error loading modal content: ", error);
-          modalContent.innerHTML = "<p>Failed to load content</p>";
         });
     }
-
-    modal.style.display = "flex";
   }
 
   function hideModal() {
@@ -52,6 +55,19 @@ document.addEventListener("DOMContentLoaded", function () {
         modalContentBody.innerHTML = "";
       }
     }
+  }
+
+  function showClientMessageOverlay(message) {
+    const existingOverlay = document.querySelector(".client-message-overlay");
+    if (existingOverlay) existingOverlay.remove();
+    const overlay = document.createElement("div");
+    overlay.className = "client-message-overlay";
+    overlay.innerHTML = `<div class="client-message">${message}</div>`;
+    document.body.appendChild(overlay);
+
+    setTimeout(() => {
+      overlay.remove();
+    }, 3000);
   }
 
   document.querySelectorAll("[data-modal-target]").forEach((button) => {

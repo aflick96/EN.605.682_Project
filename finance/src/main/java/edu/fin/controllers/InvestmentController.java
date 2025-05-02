@@ -3,8 +3,9 @@ package edu.fin.controllers;
 import edu.fin.config.APIConfig;
 import edu.fin.models.investment.*;
 import edu.fin.services.InvestmentService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,11 +116,19 @@ public class InvestmentController extends AuthenticatedController {
     }
 
     @GetMapping("/edit-investment-contributions")
-    public String showInvestmentContributionUpdateForm(@RequestParam(value="investmentLogId", required=false) Long investmentLogId, Model model, HttpSession session) {
+    public String showInvestmentContributionUpdateForm(@RequestParam(value="investmentLogId", required=false) Long investmentLogId, Model model, HttpSession session, HttpServletResponse response) throws IOException {
         Long userId = requireUserId(session);
 
         String url = ac.getBaseUrl() + "/investments/user/" + userId + "/log/" + investmentLogId + "/contribution";
         InvestmentContribution[] investmentContributions = rt.getForObject(url, InvestmentContribution[].class);
+
+        // Display a message if no investment contributions are found for this log
+        if (investmentContributions == null || investmentContributions.length == 0) {
+            response.setHeader("X-Client-Message", "No investment contributions found for this log.");
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            return null;
+        }
+
         InvestmentContributionsWrapper wrapper = new InvestmentContributionsWrapper();
         wrapper.setInvestmentContributions(Arrays.asList(investmentContributions));
         model.addAttribute("investmentContributionsWrapper", wrapper);

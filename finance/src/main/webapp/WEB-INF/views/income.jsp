@@ -11,7 +11,7 @@
 </head>
 <body class="page-container">
 	<jsp:include page="components/base/main-navigation-bar.jsp" />
-    
+
     <div class="page-content">
         <h2>Income Logs</h2>
         <jsp:include page="components/income/income-logger.jsp" />

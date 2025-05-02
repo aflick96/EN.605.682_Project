@@ -21,8 +21,6 @@
         <p>Don't have an account? <a href="${pageContext.request.contextPath}/auth/register">Register</a></p>
 	</form>
 	
-	
-
     <c:if test="${not empty error}">
         <p style="color: red;">${error}</p>
     </c:if>

@@ -45,6 +45,16 @@ public class IncomeController extends AuthenticatedController {
         return "income";
     }
 
+
+    @GetMapping("/create")
+    public String showIncomeLogCreateForm(Model model, HttpSession session) {
+        require(session);
+
+        IncomeLog incomeLog = new IncomeLog();
+        model.addAttribute("incomeLog", incomeLog);
+        return "components/income/income-log-create";
+    }
+
     // create income log form submission
     @PostMapping("/create")
     public String createIncomeLog(@ModelAttribute IncomeLog log, HttpSession session) {

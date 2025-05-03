@@ -10,6 +10,7 @@
     <button 
         data-modal-target="incomeLogModal"
         data-modal-size="small"
+        data-fetch-url="${pageContext.request.contextPath}/income/create"
     >
         Add New Income Log
     </button>

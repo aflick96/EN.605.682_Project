@@ -200,7 +200,31 @@ public class ExpenseService {
         for (ExpenseItem item : expenseItems) {
             String category = item.getCategory().toString();
             double amount = item.getAmount();
-            categoryTotals.put(category, categoryTotals.getOrDefault(category, 0.0) + amount);
+            String frequency = item.getFrequency().toString();
+            LocalDate startDate = item.getStartDate();
+            LocalDate endDate = item.getEndDate();
+
+            // Calculate the monthly expenses based on the frequency
+            if (frequency.equals(ExpenseFrequency.MONTHLY.toString())) {
+                for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusMonths(1)) {
+                    categoryTotals.put(category, categoryTotals.getOrDefault(category, 0.0) + amount);
+                }
+            } else if (frequency.equals(ExpenseFrequency.YEARLY.toString())) {
+                for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusYears(1)) {
+                    categoryTotals.put(category, categoryTotals.getOrDefault(category, 0.0) + amount);
+                }
+            } else if (frequency.equals(ExpenseFrequency.WEEKLY.toString())) {
+                for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusWeeks(1)) {
+                    categoryTotals.put(category, categoryTotals.getOrDefault(category, 0.0) + (amount * 4));
+                }
+            } else if (frequency.equals(ExpenseFrequency.BIWEEKLY.toString())) {
+                for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+                    categoryTotals.put(category, categoryTotals.getOrDefault(category, 0.0) + (amount * 2));
+                }
+            } else if (frequency.equals(ExpenseFrequency.ONE_TIME.toString())) {
+                // add the full amount to the first month of the year
+                categoryTotals.put(category, categoryTotals.getOrDefault(category, 0.0) + amount);
+            }
         }
 
         List<String> labels = new ArrayList<>(categoryTotals.keySet());

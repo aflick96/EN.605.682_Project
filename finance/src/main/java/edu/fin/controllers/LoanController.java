@@ -13,11 +13,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -98,10 +101,19 @@ public class LoanController extends AuthenticatedController {
 
     // load the loan payment update form with the loan payment data
     @GetMapping("/edit-loan-payments")
-    public String showLoanPaymentUpdateForm(@RequestParam(value="loanItemId", required=false) Long loanItemId, Model model, HttpSession session) {
+    public String showLoanPaymentUpdateForm(@RequestParam(value="loanItemId", required=false) Long loanItemId, Model model, HttpSession session, HttpServletResponse response) throws IOException {
         Long userId = requireUserId(session);
+
         String url = ac.getBaseUrl() + "/loans/user/" + userId + "/item/" + loanItemId + "/payment";
         LoanPayment[] loanPayments = rt.getForObject(url, LoanPayment[].class);        
+        
+        // Display a message if no loan payments are found
+        if (loanPayments == null || loanPayments.length == 0) {
+            response.setHeader("X-Client-Message", "No loan payments found for this loan item.");
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            return null;
+        }
+
         LoanPaymentsWrapper wrapper = new LoanPaymentsWrapper();
         wrapper.setLoanPayments(Arrays.asList(loanPayments));
         model.addAttribute("loanPaymentsWrapper", wrapper);

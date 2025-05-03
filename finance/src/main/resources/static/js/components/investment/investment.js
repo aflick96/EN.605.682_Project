@@ -5,11 +5,11 @@ function togglePaymentForm(type) {
   if (!single || !recurring) return;
 
   if (type === "single") {
-    single.style.display = "block";
+    single.style.display = "flex";
     recurring.style.display = "none";
   } else {
     single.style.display = "none";
-    recurring.style.display = "block";
+    recurring.style.display = "flex";
   }
 }
 
@@ -20,7 +20,7 @@ function hideSpecificDay() {
   if (!paymentDay || !specificDayContainer) return;
 
   if (paymentDay.value === "SPECIFIC") {
-    specificDayContainer.style.display = "block";
+    specificDayContainer.style.display = "flex";
   } else {
     specificDayContainer.style.display = "none";
     document.getElementById("specificDay").value = "";

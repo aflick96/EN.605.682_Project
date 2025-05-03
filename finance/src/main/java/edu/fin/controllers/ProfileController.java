@@ -23,7 +23,6 @@ public class ProfileController extends AuthenticatedController {
 
     @GetMapping
     public String showProfile(Model model, HttpSession session) {
-        require(session);
         Long userId = requireUserId(session);
 
         String url = ac.getBaseUrl() + "/users/" + userId;

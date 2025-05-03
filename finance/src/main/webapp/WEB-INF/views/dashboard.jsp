@@ -15,7 +15,7 @@
 <body class="page-container">
 	<jsp:include page="components/base/main-navigation-bar.jsp" />
 
-	<h2>Welcome, ${user.firstName}!</h2>
+	<h2 class="page-header-h2">Welcome, ${user.firstName}!</h2>
 
 	<div class="dashboard-component-container">
 		<div class="dashboard-graphic-component-container">
@@ -24,10 +24,19 @@
 	
 		<div class="dashboard-graphic-component-container">
 			<jsp:include page="components/dashboard/expense-by-category.jsp" />
-		</div>	
+		</div>
+
+		<div class="dashboard-graphic-component-container">
+			<jsp:include page="components/dashboard/monthly-cash-flow.jsp" />
+		</div>
+
+		<div class="dashboard-graphic-component-container">
+			<jsp:include page="components/dashboard/loan-completion.jsp" />
+		</div>
 	</div>
 
 	<script src="${pageContext.request.contextPath}/js/components/dashboard/net-worth.js"></script>
 	<script src="${pageContext.request.contextPath}/js/components/dashboard/expense-by-category.js"></script>
+	<script src="${pageContext.request.contextPath}/js/components/dashboard/monthly-cash-flow.js"></script>
 </body>
 </html>

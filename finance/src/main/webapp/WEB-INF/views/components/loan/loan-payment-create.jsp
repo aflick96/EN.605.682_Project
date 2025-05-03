@@ -5,16 +5,16 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/loan/loan-payment-create.css">
 </head>
 
-<div id="loanPaymentCreateContainer">
+<div class="modal-form-container">
     <h2>Create Loan Payment</h2>
     
     <div>
-        <button type="button" onclick="togglePaymentForm('single')">Single Payment</button>
-        <button type="button" onclick="togglePaymentForm('recurring')">Recurring Payment</button>
+        <button class="page-button" type="button" onclick="togglePaymentForm('single')">Single Payment</button>
+        <button class="page-button" type="button" onclick="togglePaymentForm('recurring')">Recurring Payment</button>
     </div>
     
-    <div id="singlePaymentForm">
-        <form:form id="loanPaymentCreateForm" modelAttribute="loanPayment" method="post" action="${pageContext.request.contextPath}/loans/add-payment">
+    <div class="modal-form-container" id="singlePaymentForm">
+        <form:form class="modal-form" id="loanPaymentCreateForm" modelAttribute="loanPayment" method="post" action="${pageContext.request.contextPath}/loans/add-payment">
             <label for="paymentDate">Payment Date</label>
             <form:input path="paymentDate" id="paymentDate" type="date" required="true"/><br/>
 
@@ -27,8 +27,8 @@
             <button type="submit">Save</button> 
         </form:form>
     </div>
-    <div id="recurringPaymentForm" style="display:none;">
-        <form:form id="loanRecurringPaymentForm" modelAttribute="loanPayments" method="post" action="${pageContext.request.contextPath}/loans/add-payments">
+    <div class="modal-form-container" id="recurringPaymentForm" style="display:none;">
+        <form:form class="modal-form" id="loanRecurringPaymentForm" modelAttribute="loanPayments" method="post" action="${pageContext.request.contextPath}/loans/add-payments">
             <label for="startDate">Start Date</label>
             <form:input path="startDate" id="startDate" type="month" required="true"/><br/>
         

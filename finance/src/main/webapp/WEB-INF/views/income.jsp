@@ -6,14 +6,14 @@
     <title>Income Logs</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/page.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/modal.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/model-form.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/modal-form.css">
     <script src="${pageContext.request.contextPath}/js/components/modal.js"></script>
 </head>
 <body class="page-container">
 	<jsp:include page="components/base/main-navigation-bar.jsp" />
 
     <div class="page-content">
-        <h2>Income Logs</h2>
+        <h2 class="page-header-h2">Income Logs</h2>
         <jsp:include page="components/income/income-logger.jsp" />
     </div>
 
@@ -21,7 +21,7 @@
         <div class="modal-content">
             <span class="modal-close">&times;</span>
             <div class="modal-content-body">
-                <jsp:include page="components/income/income-log-create.jsp" />
+
             </div>
         </div>
     </div>

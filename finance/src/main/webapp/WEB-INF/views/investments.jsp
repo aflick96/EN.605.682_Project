@@ -7,7 +7,7 @@
     <title>Investments</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/page.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/modal.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/model-form.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/modal-form.css">
     <script src="${pageContext.request.contextPath}/js/components/modal.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/investment/investmentScenario.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/investment/investment.js"></script>
@@ -17,7 +17,7 @@
 	<jsp:include page="components/base/main-navigation-bar.jsp" />
     
     <div class="page-content">
-        <h2>Investment Logs</h2>
+        <h2 class="page-header-h2">Investment Logs</h2>
         <jsp:include page="components/investment/investment-logger.jsp" />
     </div>
 

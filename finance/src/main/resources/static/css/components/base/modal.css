@@ -22,21 +22,26 @@
 }
 
 .modal-content.small {
+    display: flex;
     width: 50%;
     height: 50%;
 }
 
 .modal-content.medium {
+    display: flex;
     width: 75%;
     height: 75%;
 }
 
 .modal-content.large {
+    display: flex;
     width: 90%;
     height: 85%;
 }
 
 .modal-content-body {
+    display: inherit;
+    flex-direction: column;
     height: 100%;
     width: 100%;
 }

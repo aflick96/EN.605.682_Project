@@ -5,24 +5,20 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/investment/investment-logger.css">
 </head>
 
-<!-- add new investment button -->
-<div id="investmentButtonContainer">
-    <button 
+<div class="page-main-button-container">
+    <button
+        class="page-button page-button-big"
         data-modal-target="investmentModal"
-        data-modal-size="small"
+        data-modal-size="medium"
         data-fetch-url="${pageContext.request.contextPath}/investment/add-investment-log"
     >
         Add New Investment Item
     </button>
 </div>
 
-<div id="investmentLogContainer">
-    <c:if test="${empty investmentLogs}">
-        <p>No investment logs found.</p>
-    </c:if>
-
+<div class="page-table-container">
     <c:if test="${not empty investmentLogs}">
-        <table border="1">
+        <table class="page-table" border="1">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -41,15 +37,15 @@
                         <td>${investment.expectedAnnualReturn}%</td>
                         <td>
                             <button
-                                class="add-contribution-button"
+                                class="page-button"
                                 data-modal-target="investmentModal"
-                                data-modal-size="small"
+                                data-modal-size="medium"
                                 data-fetch-url="${pageContext.request.contextPath}/investment/add-investment-contribution?investmentLogId=${investment.id}"
                             >
                                 Add Contribution
                             </button>
                             <button
-                                class="view-details-button"
+                                class="page-button"
                                 data-modal-target="investmentModal"
                                 data-modal-size="large"
                                 data-fetch-url="${pageContext.request.contextPath}/investment/edit-investment-contributions?investmentLogId=${investment.id}"
@@ -57,7 +53,7 @@
                                 View Contributions
                             </button>
                             <button 
-                                class="view-details-button"
+                                class="page-button"
                                 data-modal-target="investmentModal"
                                 data-modal-size="large"
                                 data-fetch-url="${pageContext.request.contextPath}/investment/what-if-investment-table?investmentLogId=${investment.id}&annualReturn=${investment.expectedAnnualReturn}"
@@ -66,7 +62,12 @@
                             </button>
                             <form action="${pageContext.request.contextPath}/investment/delete-investment-log" method="post">
                                 <input type="hidden" name="investmentLogId" value="${investment.id}" />
-                                <button type="submit">Delete</button>
+                                <button
+                                    class="page-button" 
+                                    type="submit"
+                                >
+                                Delete
+                            </button>
                             </form>
                         </td>
                     </tr>

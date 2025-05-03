@@ -4,11 +4,17 @@ import edu.fin.dtos.income.IncomeByPayFrequencyDetail;
 import edu.fin.entities.income.IncomeLog;
 import edu.fin.entities.income.enums.PayFrequency;
 import edu.fin.entities.user.User;
+import edu.fin.repositories.income.IncomeLogRepository;
+import edu.fin.repositories.user.UserRepository;
+import edu.fin.utils.common.Util;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Service
 public class IncomeByPayFrequencyService {
@@ -16,6 +22,15 @@ public class IncomeByPayFrequencyService {
     private final FederalTaxService fed_tax_service;
     private final StateTaxService state_tax_service;
     private final UserService user_service;
+
+    @Autowired
+    private IncomeLogRepository incomeLogRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private Util util;
 
     public IncomeByPayFrequencyService(FederalTaxService fed_tax_service, StateTaxService state_tax_service, UserService user_service) {
         this.fed_tax_service = fed_tax_service;
@@ -58,6 +73,24 @@ public class IncomeByPayFrequencyService {
         }
 
         return payDetails;
+    }
+
+    public Map<LocalDate, Double> getIncomeByDate(Long uid) {
+        User user = userRepository.findById(uid).orElse(null);
+        if (user == null) return null;
+
+        Map<LocalDate, Double> incomeMap = new TreeMap<>();
+
+        List<IncomeLog> incomeLogs = incomeLogRepository.findByUserId(uid);
+        incomeLogs.forEach(log -> {
+            List<IncomeByPayFrequencyDetail> details = calculatePayDetail(log);
+            details.forEach(detail -> {
+                LocalDate date = util.getFirstOfMonth(detail.getPayDate());
+                incomeMap.put(date, incomeMap.getOrDefault(date, 0.0) + detail.getNetIncome());
+            });
+        });
+
+        return incomeMap;
     }
 
     //Generate pay dates based on pay frequency

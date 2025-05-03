@@ -8,7 +8,6 @@ import edu.fin.entities.user.User;
 import edu.fin.repositories.investment.InvestmentContributionRepository;
 import edu.fin.repositories.investment.InvestmentLogRepository;
 import edu.fin.repositories.user.UserRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;

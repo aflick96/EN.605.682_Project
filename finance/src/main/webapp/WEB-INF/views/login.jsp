@@ -7,19 +7,20 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/login.css">
 </head>
 <body class="page-container">
-		
-	<form action="${pageContext.request.contextPath}/auth/login" method="post">
-        <h2>Login</h2>
-        <label>Email:</label><br>
-        <input type="email" name="email" value="aflick96@gmail.com" required><br><br>
+	<div id="loginRegisterFormContainer">
+        <form action="${pageContext.request.contextPath}/auth/login" method="post">
+            <h2 class="page-header-h2">Login</h2>
+            <label>Email:</label><br>
+            <input type="email" name="email" value="aflick96@gmail.com" required><br>
+    
+            <label>Password:</label><br>
+            <input type="password" name="password" value="a" required>
 
-        <label>Password:</label><br>
-        <input type="password" name="password" value="a" required><br><br>
-
-        <button type="submit">Login</button>
-
-        <p>Don't have an account? <a href="${pageContext.request.contextPath}/auth/register">Register</a></p>
-	</form>
+            <br><br>
+            <button type="submit">Login</button>
+            <p>Don't have an account? <a href="${pageContext.request.contextPath}/auth/register">Register</a></p>
+        </form>    
+    </div>
 	
     <c:if test="${not empty error}">
         <p style="color: red;">${error}</p>

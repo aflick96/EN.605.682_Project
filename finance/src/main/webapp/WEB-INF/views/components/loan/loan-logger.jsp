@@ -6,23 +6,20 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/loan/loan-logger.css">
 </head>
 
-<div id="loanButtonContainer">
-    <button 
+<div class="page-main-button-container">
+    <button
+        class="page-button page-button-big"
         data-modal-target="loanModal"
-        data-modal-size="small"
+        data-modal-size="medium"
         data-fetch-url="${pageContext.request.contextPath}/loans/add-item"
     >
         Add New Loan Item
     </button>
 </div>
 
-<div id="loanItemsContainer">
-    <c:if test="${empty loanItems}">
-        <p>No loan items found.</p>
-    </c:if>
-
+<div class="page-table-container">
     <c:if test="${not empty loanItems}">
-        <table border="1">
+        <table class="page-table" border="1">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -45,15 +42,15 @@
                         <td>${loan.loanTermMonths}</td>
                         <td>
                             <button
-                                class="add-payment-button"
+                                class="page-button"
                                 data-modal-target="loanModal"
-                                data-modal-size="small"
+                                data-modal-size="medium"
                                 data-fetch-url="${pageContext.request.contextPath}/loans/add-payment?loanItemId=${loan.id}"
                             >
                                 Add Payment
                             </button>
                             <button
-                                class="view-payments-button"
+                                class="page-button"
                                 data-modal-target="loanModal"
                                 data-modal-size="large"
                                 data-fetch-url="${pageContext.request.contextPath}/loans/edit-loan-payments?loanItemId=${loan.id}"
@@ -61,7 +58,7 @@
                                 View Payments
                             </button>
                             <button
-                                class="view-payments-button"
+                                class="page-button"
                                 data-modal-target="loanModal"
                                 data-modal-size="large"
                                 data-fetch-url="${pageContext.request.contextPath}/loans/what-if-loan-table?loanItemId=${loan.id}&interestRate=${loan.interestRate}&loanTerm=${loan.loanTermMonths}"
@@ -69,7 +66,12 @@
                                 What-If Scenario
                             </button>
                             <form action="${pageContext.request.contextPath}/loans/delete-loan-item?loanItemId=${loan.id}" method="post">
-                                <button type="submit">Delete</button>
+                                <button 
+                                    class="page-button"
+                                    type="submit"
+                                >
+                                    Delete
+                                </button>
                             </form>
                         </td>
                     </tr>

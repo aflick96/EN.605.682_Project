@@ -6,7 +6,7 @@
     <title>Loan Items</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/page.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/modal.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/model-form.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/modal-form.css">
     <script src="${pageContext.request.contextPath}/js/components/modal.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/loan/loanScenario.js"></script>
     <script src="${pageContext.request.contextPath}/js/components/loan/loan.js"></script>
@@ -16,7 +16,7 @@
     <jsp:include page="components/base/main-navigation-bar.jsp" />
 
     <div class="page-content">
-        <h2>Loan Items</h2>
+        <h2 class="page-header-h2">Loan Items</h2>
         <jsp:include page="components/loan/loan-logger.jsp" />
     </div>
 

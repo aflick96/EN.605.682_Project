@@ -6,10 +6,11 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/expense/expense-logger.css">
 </head>
 
-<div id="expenseButtonContainer">
+<div class="page-main-button-container">
     <button 
+        class="page-button page-button-big"
         data-modal-target="expenseLogModal"
-        data-modal-size="small"
+        data-modal-size="medium"
         data-fetch-url="${pageContext.request.contextPath}/expenses/add-item?expenseLogId=${expenseLog.id}"
     >
         Add New Expense Item
@@ -17,8 +18,8 @@
 </div>
 
 <c:if test="${not empty expenseLog.items}">
-    <div id="expenseLogsContainer">
-        <table border="1">
+    <div class="page-table-container">
+        <table class="page-table" border="1">
         <tr>
             <th>Expense Name</th>
             <th>Category</th>
@@ -32,14 +33,41 @@
              <c:forEach var="item" items="${expenseLog.items}">
                  <tr>
                     <td>${item.name}</td>
-                    <td>${item.category}</td>
-                    <td>${item.frequency}</td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${item.category == 'RENT'}">Rent</c:when>
+                            <c:when test="${item.category == 'UTILITIES'}">Utilities</c:when>
+                            <c:when test="${item.category == 'TRANSPORTATION'}">Transportation</c:when>
+                            <c:when test="${item.category == 'FOOD'}">Food</c:when>
+                            <c:when test="${item.category == 'INSURANCE'}">Insurance</c:when>
+                            <c:when test="${item.category == 'HEALTHCARE'}">Health Care</c:when>
+                            <c:when test="${item.category == 'ENTERTAINMENT'}">Entertainment</c:when>
+                            <c:when test="${item.category == 'PERSONAL_CARE'}">Personal Care</c:when>
+                            <c:when test="${item.category == 'CHILDCARE'}">Child Care</c:when>
+                            <c:when test="${item.category == 'GIFTS_DONATIONS'}">Gifts/Donations</c:when>
+                            <c:otherwise>Other</c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${item.frequency == 'WEEKLY'}">Weekly</c:when>
+                            <c:when test="${item.frequency == 'BIWEEKLY'}">Bi-Weekly</c:when>
+                            <c:when test="${item.frequency == 'MONTHLY'}">Monthly</c:when>
+                            <c:when test="${item.frequency == 'YEARLY'}">Yearly</c:when>
+                            <c:when test="${item.frequency == 'ONE_TIME'}">Once</c:when>
+                        </c:choose>
+                    </td>                    
                     <td>${item.startDate}</td>
                     <td>${item.endDate}</td>
                     <td>$<fmt:formatNumber value="${item.amount}" type="number" groupingUsed="true" minFractionDigits="2" maxFractionDigits="2" /></td>
                     <td>
                         <form action="${pageContext.request.contextPath}/expenses/delete-item?itemId=${item.id}" method="post">
-                            <button type="submit">Delete</button>
+                            <button 
+                                class="page-button"
+                                type="submit"
+                            >
+                                Delete
+                            </button>
                         </form>
                     </td>
                     <td>
@@ -55,12 +83,16 @@
                         </c:url>
                         
                         <form class="edit-expense-button"
-                              data-modal-target="expenseLogDetailModal"
-                              data-modal-size="small"
-                              data-fetch-url="${editUrl}">
-                            <button type="button">Edit</button>
+                            data-modal-target="expenseLogModal"
+                            data-modal-size="medium"
+                            data-fetch-url="${editUrl}">
+                            <button 
+                                class="page-button"
+                                type="button"
+                            >
+                                Edit
+                            </button>
                         </form>
-                        
                     </td>
                 </tr>
             </c:forEach>
@@ -69,16 +101,15 @@
     </div>
 </c:if>
 
-<c:if test="${empty expenseLog.items}">
+<!-- <c:if test="${empty expenseLog.items}">
     <div id="expenseLogEmptyContainer">
         <span>No expenses added yet.</span>
     </div>
-</c:if>
+</c:if> -->
 
-
-<div id="expenseLogDetailModal" class="modal" data-modal-id="expenseLogDetailModal">
+<!-- <div id="expenseLogDetailModal" class="modal" data-modal-id="expenseLogDetailModal">
     <div class="modal-content">
         <span class="modal-close">&times;</span>
         <div class="modal-content-body"></div>
     </div>
-</div>
+</div> -->

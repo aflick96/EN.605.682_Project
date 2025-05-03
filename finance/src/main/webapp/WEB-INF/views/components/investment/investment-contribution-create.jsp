@@ -5,16 +5,16 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/investment/investment-contribution.css">
 </head>
 
-<div id="investmentContributionContainer">
+<div class="modal-form-container">
     <h2>Investment Contribution</h2>
 
     <div>
-        <button type="button" onclick="togglePaymentForm('single')">Single Payment</button>
-        <button type="button" onclick="togglePaymentForm('recurring')">Recurring Payment</button>
+        <button class="page-button" type="button" onclick="togglePaymentForm('single')">Single Payment</button>
+        <button class="page-button" type="button" onclick="togglePaymentForm('recurring')">Recurring Payment</button>
     </div>
 
-    <div id="singlePaymentForm">
-        <form:form id="investmentContributionForm" modelAttribute="investmentContribution" method="post" action="${pageContext.request.contextPath}/investment/add-investment-contribution">
+    <div class="modal-form-container" id="singlePaymentForm">
+        <form:form class="modal-form" id="investmentContributionForm" modelAttribute="investmentContribution" method="post" action="${pageContext.request.contextPath}/investment/add-investment-contribution">
             <label for="contribution-date">Contribution Date</label>
             <form:input path="contributionDate" id="contribution-date" type="date" required="true"/><br/>
 
@@ -26,8 +26,8 @@
             <button type="submit">Save</button>
         </form:form>       
     </div>
-    <div id="recurringPaymentForm" style="display:none;">
-        <form:form id="investmentRecurringContributionForm" modelAttribute="investmentContributions" method="post" action="${pageContext.request.contextPath}/investment/add-investment-contributions">
+    <div class="modal-form-container" id="recurringPaymentForm" style="display:none;">
+        <form:form class="modal-form" id="investmentRecurringContributionForm" modelAttribute="investmentContributions" method="post" action="${pageContext.request.contextPath}/investment/add-investment-contributions">
             <label for="startDate">Start Date</label>
             <form:input path="startDate" id="startDate" type="month" required="true"/><br/>
 

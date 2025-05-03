@@ -12,7 +12,7 @@
     <jsp:include page="components/base/main-navigation-bar.jsp" />
 
     <c:if test="${not empty user}">
-        <h1>Profile</h1>
+        <h2 class="page-header-h2">Profile</h2>
         <p><strong>Name:</strong> ${user.firstName}</p>
         <p><strong>Last Name:</strong> ${user.lastName}</p>
         <p><strong>Email:</strong> ${user.email}</p>

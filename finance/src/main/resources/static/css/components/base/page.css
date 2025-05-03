@@ -9,26 +9,20 @@
     background-size: cover;
 }
 
-h2 {
-    font-size: 2rem;
+.page-header-h2 {
+    font-size: 2.5rem;
     color: #2c3e50;
     margin-top: 20px;
     text-align: center;
+    margin: 10px 0;
 }
 
-p {
-    font-size: 1.1rem;
-    color: #7f8c8d;
-    text-align: center;
-}
-
-a {
-    color: #db3434;
-    text-decoration: none;
-    font-size: 1rem;
-    margin-top: 20px;
-    display: block;
-    text-align: center;
+.page-main-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px 0;
 }
 
 .page-component {
@@ -40,6 +34,72 @@ a {
     max-height: 800px;
 }
 
+.page-button {
+    background-color: transparent;
+    color: #0052cc;
+    border: 1px solid #0052cc;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.page-button:hover {
+    background-color: #e6f0ff;
+}
+
+.page-button-big {
+    padding: 12px 24px;
+    font-size: 1rem;
+}
+
+.page-table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px 0;
+}   
+
+/* Table styling */
+.page-table {
+    max-width: 960px;
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 0 20px rgba(0,0,0,0.25);
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.page-table th, .page-table td {
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e0e0e0;
+    white-space: nowrap;
+}
+
+.page-table th {
+    background-color: #f4f6f8;
+    font-weight: 800;
+    color: #333;
+    text-align: center;
+    font-size: .9rem;
+}
+
+.page-table tr:hover {
+    background-color: #f1faff;
+}
+
+.page-table td > button,
+.page-table td > form {
+    display: inline-block;
+    margin: 0 4px;
+}
+
+/* Error message overlay styling */
 .client-message-overlay {
     position: absolute;
     bottom: 5%;

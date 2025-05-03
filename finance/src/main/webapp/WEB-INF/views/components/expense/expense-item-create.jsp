@@ -5,9 +5,9 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/expense/expense-log-create.css">
 </head>
 
-<div id="expenseLogItemCreateForm">
+<div class="modal-form-container">
     <h2>Create Expense Item</h2>
-    <form:form id="expenseLogItemCreateForm" modelAttribute="item" method="post" action="${pageContext.request.contextPath}/expenses/add-item">
+    <form:form class="modal-form" modelAttribute="item" method="post" action="${pageContext.request.contextPath}/expenses/add-item">
         <label for="name">Expense Name</label>
         <form:input path="name" id="name" required="true"/><br/>
 

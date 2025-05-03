@@ -5,9 +5,9 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/loan/loan-create.css">
 </head>
 
-<div id="loanCreateContainer">
+<div class="modal-form-container">
     <h2>Create Loan Item</h2>
-    <form:form id="loanCreateForm" modelAttribute="loanItem" method="post" action="${pageContext.request.contextPath}/loans/add-item">
+    <form:form class="modal-form" modelAttribute="loanItem" method="post" action="${pageContext.request.contextPath}/loans/add-item">
         <label for="name">Loan Name</label>
         <form:input path="name" id="name" required="true"/><br/>
 

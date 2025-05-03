@@ -5,9 +5,9 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/investment/investment-create.css">
 </head>
 
-<div id="investmentCreateContainer">
+<div class="modal-form-container">
     <h2>Create Investment Item</h2>
-    <form:form id="investmentCreateForm" modelAttribute="investmentLog" method="post" action="${pageContext.request.contextPath}/investment/add-investment-log">
+    <form:form class="modal-form" modelAttribute="investmentLog" method="post" action="${pageContext.request.contextPath}/investment/add-investment-log">
         <label for="name">Investment Name</label>
         <form:input path="name" id="name" required="true"/><br/>
 

@@ -124,7 +124,7 @@ public class InvestmentController extends AuthenticatedController {
 
         // Display a message if no investment contributions are found for this log
         if (investmentContributions == null || investmentContributions.length == 0) {
-            response.setHeader("X-Client-Message", "No investment contributions found for this log.");
+            response.setHeader("X-Client-Message", "No investment contributions found for this investment item.");
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
             return null;
         }

@@ -1,41 +1,41 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <head>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/expense/expense-log-create.css">
 </head>
 
-<div id="expenseItemUpdateContainer">
+<div class="modal-form-container" id="expenseItemUpdateContainer">
     <h2>Update Expense Item</h2>
-    <form:form id="expenseItemUpdateForm" modelAttribute="item" method="post" action="${pageContext.request.contextPath}/expenses/update-item">
+    <form:form class="modal-form" id="expenseItemUpdateForm" modelAttribute="item" method="post" action="${pageContext.request.contextPath}/expenses/update-item">
         <label for="name">Expense Name</label>
         <form:input path="name" id="name" required="true"/><br/>
 
         <label for="category">Category</label>
         <form:select path="category" id="category" required="true">
-            <option value="RENT">Rent</option>
-            <option value="UTILITIES">Transportation</option>
-            <option value="TRANSPORTATION">Food</option>
-            <option value="FOOD">Utilities</option>
-            <option value="INSURANCE">Insurance</option>
-            <option value="HEALTHCARE">Healthcare</option>
-            <option value="ENTERTAINMENT">Savings</option>
-            <option value="PERSONAL_CARE">Personal</option>
-            <option value="CHILDCARE">Entertainment</option>
-            <option value="GIFTS_DONATIONS">Miscellaneous</option>
-            <option value="OTHER">Other</option>
+            <form:option value="RENT">Rent</form:option>
+            <form:option value="TRANSPORTATION">Transportation</form:option>
+            <form:option value="FOOD">Food</form:option>
+            <form:option value="UTILITIES">Utilities</form:option>
+            <form:option value="INSURANCE">Insurance</form:option>
+            <form:option value="HEALTHCARE">Healthcare</form:option>
+            <form:option value="PERSONAL_CARE">Personal</form:option>
+            <form:option value="ENTERTAINMENT">Entertainment</form:option>
+            <form:option value="CHILDCARE">Child Care</form:option>
+            <form:option value="GIFTS_DONATIONS">Gifts/Donations</form:option>
+            <form:option value="OTHER">Other</form:option>
         </form:select><br/>
 
         <label for="frequency">Frequency</label>
         <form:select path="frequency" id="frequency" required="true">
-            <option value="WEEKLY">Weekly</option>
-            <option value="BIWEEKLY">Bi-Weekly</option>
-            <option value="MONTHLY">Monthly</option>
-            <option value="YEARLY">Yearly</option>
-            <option value="ONE_TIME">Once</option>
+            <form:option value="WEEKLY">Weekly</form:option>
+            <form:option value="BIWEEKLY">Bi-Weekly</form:option>
+            <form:option value="MONTHLY">Monthly</form:option>
+            <form:option value="YEARLY">Yearly</form:option>
+            <form:option value="ONE_TIME">Once</form:option>
         </form:select><br/>
 
-        <p>DEBUG startDate: ${item.startDate}</p>
         <label for="startDate">Start Date</label>
         <form:input path="startDate" id="startDate" type="date" required="true"/><br/>
 
@@ -49,6 +49,5 @@
         <form:hidden path="id" />
         <br/>
         <button type="submit">Save</button>
-
     </form:form> 
 </div>

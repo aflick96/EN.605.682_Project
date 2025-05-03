@@ -1,8 +1,7 @@
 package edu.fin.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import edu.fin.dtos.dashboard.LoanCompletion;
+import edu.fin.dtos.dashboard.LoanCompletionData;
 import edu.fin.dtos.loan.LoanItemRequest;
 import edu.fin.dtos.loan.LoanPaymentRequest;
 import edu.fin.dtos.loan.LoanPaymentsRequest;
@@ -11,7 +10,8 @@ import edu.fin.entities.user.User;
 import edu.fin.repositories.loan.LoanItemRepository;
 import edu.fin.repositories.loan.LoanPaymentRepository;
 import edu.fin.repositories.user.UserRepository;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -264,7 +264,48 @@ public class LoanService {
 		return loanItemValueMap;
 	}
 	
-	
+	// Get the loan completion data for the loan items associated with a user
+	public LoanCompletion getLoanCompletions(Long uid) {
+		User user = userRepository.findById(uid).orElse(null);
+		if (user == null) return null;
+		
+		List<LoanItem> items = loanItemRepository.findByUserId(uid);
+		if (items == null || items.isEmpty()) return null;
+
+		LoanCompletion completion = new LoanCompletion();
+
+		completion.setLoanCompletionData(items.stream().map(item -> {
+			LoanCompletionData data = new LoanCompletionData();
+			List<LoanPayment> payments = loanPaymentRepository.findByLoanItemIdOrderByPaymentDateAsc(item.getId());
+			
+			if (payments == null || payments.isEmpty()) {
+				data.setLoanName(item.getName());
+				data.setTotalAmount(item.getLoanAmount());
+				data.setAmountPaid(0.0);
+				data.setRemainingAmount(item.getLoanAmount());
+				data.setPercentageCompleted(0.0);
+				return data;
+			}
+			
+			double loanAmount = item.getLoanAmount();
+			double totalPaid = payments.stream().mapToDouble(LoanPayment::getPaymentAmount).sum();		
+			data.setLoanName(item.getName());
+			data.setTotalAmount(item.getLoanAmount());
+			data.setAmountPaid(totalPaid);
+			data.setRemainingAmount(item.getLoanAmount() - totalPaid);
+			data.setPercentageCompleted((totalPaid / loanAmount) * 100.0);
+			
+			// Set the percentage completed to 100% if the loan is fully paid
+			if (data.getRemainingAmount() <= 0) {
+				data.setPercentageCompleted(100.0);
+			}
+			
+			return data;
+
+		}).toList());
+
+		return completion;
+	}
 
 	public void populatePaymentBreakdown(LoanItem loanItem, List<LoanPayment> previousPayments, LoanPayment newPayment) {
 		double remainingBalance = calculateRemainingBalance(loanItem, previousPayments);

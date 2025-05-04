@@ -10,6 +10,7 @@ public class InvestmentContributionRequest {
 
     public InvestmentContributionRequest() {}
     public InvestmentContributionRequest(Long id, Long investmentLogId, LocalDate contributionDate, double contributionAmount) {
+        this.id = id;
         this.investmentLogId = investmentLogId;
         this.contributionDate = contributionDate;
         this.contributionAmount = contributionAmount;
@@ -31,7 +32,7 @@ public class InvestmentContributionRequest {
     public String toString() {
         return "InvestmentContribution{" +
                 "id=" + id +
-                "investmentLogId=" + investmentLogId +
+                ", investmentLogId=" + investmentLogId +
                 ", contributionDate=" + contributionDate +
                 ", contributionAmount=" + contributionAmount +
                 '}';

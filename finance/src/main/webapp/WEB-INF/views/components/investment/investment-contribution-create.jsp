@@ -9,8 +9,8 @@
     <h2>Investment Contribution</h2>
 
     <div>
-        <button class="page-button" type="button" onclick="togglePaymentForm('single')">Single Payment</button>
-        <button class="page-button" type="button" onclick="togglePaymentForm('recurring')">Recurring Payment</button>
+        <button class="page-button" type="button" onclick="togglePaymentForm('single')">Single Contribution</button>
+        <button class="page-button" type="button" onclick="togglePaymentForm('recurring')">Recurring Contribution</button>
     </div>
 
     <div class="modal-form-container" id="singlePaymentForm">
@@ -51,7 +51,7 @@
 
             <form:hidden path="investmentLogId"/>
             <br/>
-            <button type="submit">Create Payments</button>
+            <button type="submit">Create Contributions</button>
         </form:form>
     </div>
 </div>

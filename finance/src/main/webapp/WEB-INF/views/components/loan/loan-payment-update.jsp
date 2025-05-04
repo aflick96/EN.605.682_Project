@@ -14,19 +14,23 @@
                 <th>#</th>
                 <th>Payment Date</th>
                 <th>Payment Amount</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             <c:forEach var="payment" items="${loanPaymentsWrapper.loanPayments}" varStatus="status">
-                <tr>
+                <tr id="payment-${status.index}">
                     <form:input path="loanPayments[${status.index}].id" type="hidden" />
                     <td>${status.index + 1}</td>
                     <td>
                         <form:input path="loanPayments[${status.index}].paymentDate" type="date" />
                     </td>
                     <td>
-                        <form:input path="loanPayments[${status.index}].paymentAmount" type="number" step="0.01" />
+                        <form:input path="loanPayments[${status.index}].paymentAmount" id="amount-${status.index}" type="number" step="0.01" />
                     </td>
+                    <td>
+                        <button type="button" class="delete-button" onclick="deletePayment('${status.index}')">&times;</button>
+                    </td>   
                 </tr>
             </c:forEach>
         </tbody>

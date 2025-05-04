@@ -229,18 +229,18 @@ public class LoanService {
 			// Initialize variables
 			double loanBalance = loanItem.getLoanAmount();
 			double monthlyRate = (loanItem.getInterestRate() != null ? loanItem.getInterestRate() : 0.0) / 100.0 / 12.0;
-			double itemValue = loanItem.getItemValue(); // Asset value (e.g., car, house)
+			//double itemValue = loanItem.getItemValue(); // Asset value (e.g., car, house)
 			LocalDate initialMonth = loanItem.getStartDate().withDayOfMonth(1);
 			int loanTermMonths = loanItem.getLoanTermMonths();
 
 			for (int i = 0; i < loanTermMonths && loanBalance > 0; i++) {
 				LocalDate currentMonth = initialMonth.plusMonths(i);
 
-				// 1. Apply interest to balance
+				//Apply interest to balance
 				double interestThisMonth = loanBalance * monthlyRate;
 				loanBalance += interestThisMonth;
 
-				// 2. Sum payments for this month
+				//Sum payments for this month
 				double paymentsThisMonth = payments.stream()
 						.filter(p -> {
 							LocalDate date = p.getPaymentDate();
@@ -249,15 +249,10 @@ public class LoanService {
 						.mapToDouble(LoanPayment::getPaymentAmount)
 						.sum();
 
-				// 3. Deduct payments
 				loanBalance -= paymentsThisMonth;
-				loanBalance = Math.max(loanBalance, 0.0); // Prevent negative balance
+				loanBalance = Math.max(loanBalance, 0.0);
 
-				// 4. Calculate net worth impact (asset - liability)
-				double netWorthImpact = itemValue - loanBalance;
-
-				// 5. Store in map
-				loanItemValueMap.put(currentMonth, netWorthImpact);
+				loanItemValueMap.merge(currentMonth, loanBalance, Double::sum);
 			}
 		}
 	

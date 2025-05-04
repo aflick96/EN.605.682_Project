@@ -91,8 +91,8 @@ public class InvestmentService {
 		String contributionFrequency = contributions.getContributionDay();
 		double contributionAmount = contributions.getContributionAmount();
 		Integer specificDay = contributions.getSpecificDay();
-		LocalDate start = LocalDate.parse(startDate);
-		LocalDate end = LocalDate.parse(endDate);
+		LocalDate start = LocalDate.parse(startDate + "-01");
+		LocalDate end = LocalDate.parse(endDate + "-01");
 
 		if (contributionFrequency == "FIRST") {
 			start = start.withDayOfMonth(1);
@@ -108,12 +108,13 @@ public class InvestmentService {
 		}
 
 		LocalDate current = start;
-		while (!current.isBefore(end) || !current.isEqual(end)) {
+		while (current.isBefore(end) || current.isEqual(end)) {
 			InvestmentContribution contribution = new InvestmentContribution();
 			contribution.setInvestmentLog(log);
 			contribution.setContributionDate(current);
 			contribution.setContributionAmount(contributionAmount);
 			investmentContributionRepository.save(contribution);
+			current = current.plusMonths(1);
 		}
 	}
 
@@ -167,7 +168,7 @@ public class InvestmentService {
 		if (log == null) return null;
 
 		List<InvestmentContribution> contributions = investmentContributionRepository.findByInvestmentLogId(investmentLogId);
-		return contributions.stream().map(contribution -> {
+		List<InvestmentContributionRequest> req_contributions = contributions.stream().map(contribution -> {			
 			return new InvestmentContributionRequest(
 				contribution.getId(),
 				investmentLogId,
@@ -175,6 +176,8 @@ public class InvestmentService {
 				contribution.getContributionAmount()
 			);
 		}).toList();
+
+		return req_contributions;
 	}
 
 	public void deleteInvestmentLogById(Long userId, Long investmentLogId) {
@@ -227,7 +230,7 @@ public class InvestmentService {
 				totalValue += contributionsThisMonth;
 	
 				if (totalValue > 0) {
-					investmentValueMap.put(currentMonth, totalValue);
+					investmentValueMap.merge(currentMonth, totalValue, Double::sum);
 				}
 
 				currentMonth = currentMonth.plusMonths(1);

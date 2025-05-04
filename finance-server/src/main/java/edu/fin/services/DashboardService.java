@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,48 +41,46 @@ public class DashboardService {
         User user = userRepository.findById(userId).orElse(null);
         if (user == null) return null;
 
-        Map<LocalDate, Double> incomeMap = incomeByPayFrequencyService.getIncomeByDate(userId);
-        Map<LocalDate, Double> expenseMap = expenseService.getExpensesByDate(userId);
-        Map<LocalDate, Double> investmentMap = investmentService.getInvestmentValueByDate(userId);
-        Map<LocalDate, Double> loanMap = loanService.getLoanItemValueByDate(userId);
+        Map<LocalDate, Double> incomeFlow = incomeByPayFrequencyService.getIncomeByDate(userId);
+        Map<LocalDate, Double> expenseFlow = expenseService.getExpensesByDate(userId);
+        Map<LocalDate, Double> investmentBal = investmentService.getInvestmentValueByDate(userId);
+        Map<LocalDate, Double> loanBal = loanService.getLoanItemValueByDate(userId);
 
-        Set<LocalDate> allDates = new HashSet<>();
-        allDates.addAll(incomeMap.keySet());
-        allDates.addAll(expenseMap.keySet());
-        allDates.addAll(investmentMap.keySet());
-        allDates.addAll(loanMap.keySet());
+        Set<LocalDate> allDates = new TreeSet<>();
+        allDates.addAll(incomeFlow.keySet());
+        allDates.addAll(expenseFlow.keySet());
+        allDates.addAll(investmentBal.keySet());
+        allDates.addAll(loanBal.keySet());
 
         double cumulativeIncome = 0.0;
         double cumulativeExpense = 0.0;
-        double cumulativeInvestment = 0.0;
-        double cumulativeLoan = 0.0;
 
         Map<LocalDate, Double> netWorthMap = new TreeMap<>();
         Map<LocalDate, Double> cumulativeIncomeMap = new TreeMap<>();
         Map<LocalDate, Double> cumulativeExpenseMap = new TreeMap<>();
-        Map<LocalDate, Double> cumulativeInvestmentMap = new TreeMap<>();
-        Map<LocalDate, Double> cumulativeLoanMap = new TreeMap<>();
+        Map<LocalDate, Double> investmentBalanceMap = new TreeMap<>();
+        Map<LocalDate, Double> loanBalanceMap = new TreeMap<>();
 
         for (LocalDate date : allDates) {
-            cumulativeIncome += incomeMap.getOrDefault(date, 0.0);
-            cumulativeExpense += expenseMap.getOrDefault(date, 0.0);
-            cumulativeInvestment += investmentMap.getOrDefault(date, 0.0);
-            cumulativeLoan += loanMap.getOrDefault(date, 0.0);
-
-            double netWorth = cumulativeIncome - cumulativeExpense + cumulativeInvestment + cumulativeLoan;
-            netWorthMap.put(date, netWorth);
+            cumulativeIncome += incomeFlow.getOrDefault(date, 0.0);
+            cumulativeExpense += expenseFlow.getOrDefault(date, 0.0);
+            double investmentBalance = investmentBal.getOrDefault(date, 0.0);
+            double loanBalance = loanBal.getOrDefault(date, 0.0);
+            double networth = cumulativeIncome - cumulativeExpense + investmentBalance - loanBalance;
+            
+            netWorthMap.put(date, networth);
             cumulativeIncomeMap.put(date, cumulativeIncome);
             cumulativeExpenseMap.put(date, cumulativeExpense);
-            cumulativeInvestmentMap.put(date, cumulativeInvestment);
-            cumulativeLoanMap.put(date, cumulativeLoan);
+            investmentBalanceMap.put(date, investmentBalance);
+            loanBalanceMap.put(date, loanBalance);
         }
 
         NetWorthBreakdown result = new NetWorthBreakdown();
-        result.setNetWorth(new TreeMap<>(netWorthMap));
-        result.setIncome(new TreeMap<>(cumulativeIncomeMap));
-        result.setExpenses(new TreeMap<>(cumulativeExpenseMap));
-        result.setInvestments(new TreeMap<>(cumulativeInvestmentMap));
-        result.setLoans(new TreeMap<>(cumulativeLoanMap));
+        result.setNetWorth(netWorthMap);
+        result.setIncome(cumulativeIncomeMap);
+        result.setExpenses(cumulativeExpenseMap);
+        result.setInvestments(investmentBalanceMap);
+        result.setLoans(loanBalanceMap);
 
         return result;
     }

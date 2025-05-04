@@ -22,7 +22,7 @@
 			<jsp:include page="components/dashboard/net-worth.jsp" />
 		</div>
 	
-		<div class="dashboard-graphic-component-container">
+		<div class="dashboard-graphic-small-component-container">
 			<jsp:include page="components/dashboard/expense-by-category.jsp" />
 		</div>
 
@@ -30,7 +30,7 @@
 			<jsp:include page="components/dashboard/monthly-cash-flow.jsp" />
 		</div>
 
-		<div class="dashboard-graphic-component-container">
+		<div class="dashboard-graphic-small-component-container">
 			<jsp:include page="components/dashboard/loan-completion.jsp" />
 		</div>
 	</div>

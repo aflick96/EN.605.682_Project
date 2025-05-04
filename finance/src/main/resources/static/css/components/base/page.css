@@ -5,6 +5,8 @@
     height: 100vh;
     margin: 0px;
     padding: 0px;
+    overflow-x: hidden;
+    overflow-y: auto;
     background-image: url('../../../img/bgpic2.webp');
     background-size: cover;
 }

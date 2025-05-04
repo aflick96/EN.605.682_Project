@@ -87,6 +87,7 @@ public class InvestmentController extends AuthenticatedController {
         InvestmentContribution investmentContribution = new InvestmentContribution();
         InvestmentContributions investmentContributions = new InvestmentContributions();
         investmentContribution.setInvestmentLogId(investmentLogId);
+        investmentContributions.setInvestmentLogId(investmentLogId);
         model.addAttribute("investmentContribution", investmentContribution);
         model.addAttribute("investmentContributions", investmentContributions);
         return "components/investment/investment-contribution-create";

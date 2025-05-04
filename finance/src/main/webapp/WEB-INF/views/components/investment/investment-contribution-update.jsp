@@ -14,19 +14,23 @@
                 <th>#</th>
                 <th>Contribution Date</th>
                 <th>Contribution Amount</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             <c:forEach var="contribution" items="${investmentContributionsWrapper.investmentContributions}" varStatus="status">
-                <tr>
+                <tr id="contribution-${status.index}">
                     <form:input path="investmentContributions[${status.index}].id" type="hidden" />
                     <td>${status.index + 1}</td>
                     <td>
                         <form:input path="investmentContributions[${status.index}].contributionDate" type="date"/>
                     </td>
                     <td>
-                        <form:input path="investmentContributions[${status.index}].contributionAmount" type="number" step="0.01"/>
+                        <form:input path="investmentContributions[${status.index}].contributionAmount" id="amount-${status.index}" type="number" step="0.01"/>
                     </td>
+                    <td>
+                        <button type="button" class="delete-button" onclick="deleteContribution('${status.index}')">&times;</button>
+                    </td>                
                 </tr>
             </c:forEach>
         </tbody>

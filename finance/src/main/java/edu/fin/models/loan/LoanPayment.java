@@ -28,7 +28,7 @@ public class LoanPayment {
     public String toString() {
         return "LoanPayment{" +
                 "id=" + id +
-                "loanItemId=" + loanItemId +
+                ", loanItemId=" + loanItemId +
                 ", paymentDate=" + paymentDate +
                 ", paymentAmount=" + paymentAmount +
                 '}';

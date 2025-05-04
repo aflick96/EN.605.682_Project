@@ -26,3 +26,13 @@ function hideSpecificDay() {
     document.getElementById("specificDay").value = "";
   }
 }
+
+function deletePayment(index) {
+  const row = document.getElementById(`payment-${index}`);
+  const amountInput = document.getElementById(`amount-${index}`);
+
+  if (!row || !amountInput) return;
+
+  amountInput.value = "0";
+  row.style.display = "none";
+}

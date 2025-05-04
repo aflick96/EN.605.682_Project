@@ -26,7 +26,7 @@ public class InvestmentContribution {
     public String toString() {
         return "InvestmentContribution{" +
                 "id=" + id +
-                "investmentLogId=" + investmentLogId +
+                ", investmentLogId=" + investmentLogId +
                 ", contributionDate=" + contributionDate +
                 ", contributionAmount=" + contributionAmount +
                 '}';

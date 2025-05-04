@@ -5,6 +5,7 @@
     overflow: hidden;
     display: flex;
     justify-content: space-around;
+    min-height: 5%;
     padding: 12px 0;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for modern feel */
     border-radius: 8px; /* Rounded corners for a sleek design */

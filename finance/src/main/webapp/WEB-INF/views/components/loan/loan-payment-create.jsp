@@ -1,10 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-<head>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/loan/loan-payment-create.css">
-</head>
-
 <div class="modal-form-container">
     <h2>Create Loan Payment</h2>
     
@@ -14,7 +10,7 @@
     </div>
     
     <div class="modal-form-container" id="singlePaymentForm">
-        <form:form class="modal-form" id="loanPaymentCreateForm" modelAttribute="loanPayment" method="post" action="${pageContext.request.contextPath}/loans/add-payment">
+        <form:form class="modal-form" id="loanPaymentCreateForm" modelAttribute="loanPayment" method="post" action="${pageContext.request.contextPath}/loans/add-payment" data-start="${loanStartDate}" data-end="${loanEndDate}">
             <label for="paymentDate">Payment Date</label>
             <form:input path="paymentDate" id="paymentDate" type="date" required="true"/><br/>
 
@@ -28,7 +24,7 @@
         </form:form>
     </div>
     <div class="modal-form-container" id="recurringPaymentForm" style="display:none;">
-        <form:form class="modal-form" id="loanRecurringPaymentForm" modelAttribute="loanPayments" method="post" action="${pageContext.request.contextPath}/loans/add-payments">
+        <form:form class="modal-form" id="loanRecurringPaymentForm" modelAttribute="loanPayments" method="post" action="${pageContext.request.contextPath}/loans/add-payments" data-start="${loanStartDate}" data-end="${loanEndDate}">
             <label for="startDate">Start Date</label>
             <form:input path="startDate" id="startDate" type="month" required="true"/><br/>
         

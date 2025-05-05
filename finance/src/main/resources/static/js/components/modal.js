@@ -32,8 +32,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
           if (modalContentBody.querySelector("#investmentLogId")) {
             attachWhatIfInvestment(modalContentBody);
-          } else if (modalContentBody.querySelector("#loanItemId")) {
+          }
+
+          if (
+            modalContentBody.querySelector("#investmentContributionForm") ||
+            modalContentBody.querySelector(
+              "#investmentRecurringContributionForm"
+            )
+          ) {
+            if (typeof setupInvestmentDateConstraints === "function") {
+              setupInvestmentDateConstraints();
+            }
+          }
+
+          if (modalContentBody.querySelector("#loanItemId")) {
             attachWhatIfLoan(modalContentBody);
+          }
+
+          if (
+            modalContentBody.querySelector("#loanPaymentCreateForm") ||
+            modalContentBody.querySelector("#loanRecurringPaymentForm")
+          ) {
+            if (typeof setupLoanPaymentDateConstraints === "function") {
+              setupLoanPaymentDateConstraints();
+            }
           }
         })
         .catch((error) => {

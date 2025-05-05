@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -84,14 +85,23 @@ public class LoanController extends AuthenticatedController {
      */
     @GetMapping("/add-payment")
     public String showLoanPaymentForm(@RequestParam(value = "loanItemId", required = false) Long loanItemId, Model model, HttpSession session) {
-        require(session);
+        Long userId = requireUserId(session);
 
+        String loanItemUrl = ac.getBaseUrl() + "/loans/user/" + userId + "/item/" + loanItemId;
+        LoanItem loanItem = rt.getForObject(loanItemUrl, LoanItem.class);
+        if (loanItem == null) return "redirect:/loans"; 
+        
+        LocalDate loanStartDate = loanItem.getStartDate();
+        LocalDate loanEndDate = loanStartDate.plusMonths(loanItem.getLoanTermMonths());
         LoanPayment loanPayment = new LoanPayment();
         LoanPayments loanPayments = new LoanPayments();
         loanPayment.setLoanItemId(loanItemId);
         loanPayments.setLoanItemId(loanItemId);
         model.addAttribute("loanPayment", loanPayment);
         model.addAttribute("loanPayments", loanPayments);
+        model.addAttribute("loanStartDate", loanStartDate);
+        model.addAttribute("loanEndDate", loanEndDate);
+
         return "components/loan/loan-payment-create";
     }
 

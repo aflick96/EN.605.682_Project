@@ -6,6 +6,7 @@ import edu.fin.services.InvestmentService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,15 +82,24 @@ public class InvestmentController extends AuthenticatedController {
     // This creates a new investment contribution item and displays the form to fill out
     @GetMapping("/add-investment-contribution")
     public String showInvestmentContributionCreateForm(@RequestParam(value="investmentLogId", required=false) Long investmentLogId, Model model, HttpSession session) {
-        require(session);
+        Long userId = requireUserId(session);
+
+        String investmentItemUrl = ac.getBaseUrl() + "/investments/user/" + userId + "/log/" + investmentLogId;
+        InvestmentLog investmentLog = rt.getForObject(investmentItemUrl, InvestmentLog.class);
+        if (investmentLog == null) return "redirect:/investment";
 
         // Create a new investment contribution object and add the investment log id of the one triggered
+        LocalDate investmentStartDate = investmentLog.getStartDate();
+        LocalDate investmentEndDate = investmentLog.getEndDate();
         InvestmentContribution investmentContribution = new InvestmentContribution();
         InvestmentContributions investmentContributions = new InvestmentContributions();
         investmentContribution.setInvestmentLogId(investmentLogId);
         investmentContributions.setInvestmentLogId(investmentLogId);
         model.addAttribute("investmentContribution", investmentContribution);
         model.addAttribute("investmentContributions", investmentContributions);
+        model.addAttribute("investmentStartDate", investmentStartDate);
+        model.addAttribute("investmentEndDate", investmentEndDate);
+
         return "components/investment/investment-contribution-create";
     }
 

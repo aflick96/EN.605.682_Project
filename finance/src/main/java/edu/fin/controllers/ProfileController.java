@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * Handles GET requests to /profile route.
+ */
 @Controller
 @RequestMapping("/profile")
 public class ProfileController extends AuthenticatedController {
@@ -21,6 +24,9 @@ public class ProfileController extends AuthenticatedController {
 
     public ProfileController() {}
 
+    /**
+     * Retrieves the currently logged-in user's profile information and passes it to the view.
+     */
     @GetMapping
     public String showProfile(Model model, HttpSession session) {
         Long userId = requireUserId(session);

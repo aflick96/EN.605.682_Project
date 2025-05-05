@@ -25,6 +25,10 @@ public class DashboardController extends AuthenticatedController {
 
     public DashboardController() {}
 
+    /**
+     * Handles GET requests to the dashboard.
+     * Retrieves all dashboard data for the authenticated user and loads the view.
+     */
     @GetMapping
     public String showDashboard(Model model, HttpSession session) {
         Long userId = requireUserId(session);

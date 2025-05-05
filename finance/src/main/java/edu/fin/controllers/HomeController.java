@@ -4,6 +4,10 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+/**
+ * Handles GET requests to the root URL ("/").
+ * Redirects the user to the dashboard if logged in, or to the login page if not.
+ */
 @Controller
 public class HomeController extends AuthenticatedController {
 	

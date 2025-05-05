@@ -23,6 +23,10 @@ import org.springframework.http.HttpEntity;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * Controller to manage loan-related operations including
+ * creating, editing, deleting, and what-if loan payments.
+ */
 @Controller
 @RequestMapping("/loans")
 public class LoanController extends AuthenticatedController {
@@ -37,6 +41,9 @@ public class LoanController extends AuthenticatedController {
 
     public LoanController() {}
 
+    /**
+     * Displays all loans for the logged-in user.
+     */
     @GetMapping
     public String showLoans(Model model, HttpSession session) {
         Long userId = requireUserId(session);
@@ -47,6 +54,9 @@ public class LoanController extends AuthenticatedController {
         return "loans";
     }
 
+    /**
+     * Shows the form to add a new loan item by popping out the loan-create modal.
+     */
     @GetMapping("/add-item")
     public String showLoanItemCreateForm(Model model, HttpSession session) {
         require(session);
@@ -56,6 +66,9 @@ public class LoanController extends AuthenticatedController {
         return "components/loan/loan-create";
     }
 
+    /**
+     * Submits the new loan item to the backend API.
+     */
     @PostMapping("/add-item")
     public String addLoanItem(@ModelAttribute("loanItem") LoanItem loanItem, HttpSession session) {
         Long userId = requireUserId(session);
@@ -66,6 +79,9 @@ public class LoanController extends AuthenticatedController {
         return "redirect:/loans";
     }
 
+    /**
+     * Shows the form to add a single loan payment by popping out the loan-payment-create modal.
+     */
     @GetMapping("/add-payment")
     public String showLoanPaymentForm(@RequestParam(value = "loanItemId", required = false) Long loanItemId, Model model, HttpSession session) {
         require(session);
@@ -79,6 +95,9 @@ public class LoanController extends AuthenticatedController {
         return "components/loan/loan-payment-create";
     }
 
+    /**
+     * Submits a single loan payment to the backend.
+     */
     @PostMapping("/add-payment")
     public String addLoanPayment(@RequestParam(value="loanItemId", required=false) Long loanItemId, @ModelAttribute LoanPayment loanPayment, HttpSession session) {
         Long userId = requireUserId(session);
@@ -89,6 +108,9 @@ public class LoanController extends AuthenticatedController {
         return "redirect:/loans";
     }
 
+    /**
+     * Submits multiple loan payments to the backend.
+     */
     @PostMapping("/add-payments")
     public String addLoanPayments(@RequestParam(value="loanItemId", required=false) Long loanItemId, @ModelAttribute LoanPayments loanPayments, HttpSession session) {
         Long userId = requireUserId(session);
@@ -130,6 +152,9 @@ public class LoanController extends AuthenticatedController {
         return "redirect:/loans";
     }
 
+    /**
+     * Deletes a loan item based on its ID.
+     */
     @PostMapping("/delete-loan-item")
     public String deleteLoanItem(@RequestParam(value = "loanItemId", required = false) Long loanItemId, HttpSession session) {
         Long userId = requireUserId(session);
@@ -139,6 +164,9 @@ public class LoanController extends AuthenticatedController {
         return "redirect:/loans";
     }
 
+    /**
+     * Shows a "What-if" loan repayment scenario table based on modified terms.
+     */
     @GetMapping("/what-if-loan-table")
     public String showWhatIfLoanTable(
         @RequestParam(value = "loanItemId", required = false) Long loanItemId,

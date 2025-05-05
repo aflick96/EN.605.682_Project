@@ -21,16 +21,23 @@ public class AuthController {
 	
 	public AuthController() {}
 	
+	// Render the login page
 	@GetMapping("/login")
 	public String showLoginPage() {
 		return "login";
 	}
 	
+	// Render the registration page
 	@GetMapping("/register")
 	public String showRegisterPage() {
 		return "register";
 	}
 	
+	/**
+     * Handle user login submission.
+     * If credentials are valid, save user in session and redirect to dashboard.
+     * Otherwise, reload login page with an error message.
+     */
 	@PostMapping("/login")
 	public String login(@RequestParam String email, @RequestParam String password, Model model, HttpSession session) {
         try {
@@ -45,6 +52,10 @@ public class AuthController {
         }
 	}
 	
+	/**
+     * Handle user registration submission.
+     * On success, redirect to login page. On failure, show error.
+     */
 	@PostMapping("/register")
 	public String register(@ModelAttribute User user, Model model) {
 		RestTemplate rt = new RestTemplate();
@@ -58,6 +69,9 @@ public class AuthController {
 		}
 	}
 
+	/**
+     * Handle logout by invalidating the session.
+     */
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();

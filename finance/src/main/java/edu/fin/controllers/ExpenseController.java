@@ -27,7 +27,10 @@ public class ExpenseController extends AuthenticatedController{
     public ExpenseController() {}
 
     /* Expense Logs */
-    //##################################################################
+    
+    /**
+     * Displays the user's expense log.
+     */
     @GetMapping
     public String showExpenseLog(Model model, HttpSession session) {
         Long userId = requireUserId(session);
@@ -38,7 +41,10 @@ public class ExpenseController extends AuthenticatedController{
         // System.out.println("Expense Log: " + expenseLog);
         return "expenses";
     }
-
+    
+    /**
+     * Displays the form for creating a new expense item by popping out the expense-create modal.
+     */
     @GetMapping("add-item")
     public String showExpenseItemForm(@RequestParam(value="expenseLogId", required = false) Long expenseLogId, Model model, HttpSession session) {
         require(session);
@@ -52,6 +58,9 @@ public class ExpenseController extends AuthenticatedController{
         return "components/expense/expense-item-create";
     }
     
+     /**
+     * Handles POST requests to create a new expense item.
+     */
     @PostMapping("/add-item")
     public String addExpenseItem(@ModelAttribute("item") ExpenseItem item, HttpSession session) {
         User user = requireUser(session);
@@ -62,6 +71,9 @@ public class ExpenseController extends AuthenticatedController{
         return "redirect:/expenses";
     }
 
+    /**
+     * Displays the form to update an existing expense item by popping out the expense-item-update modal.
+     */
     @GetMapping("/update-item")
     public String showUpdateExpenseItemForm(@ModelAttribute ExpenseItem item, Model model, HttpSession session) {
         require(session);
@@ -69,6 +81,9 @@ public class ExpenseController extends AuthenticatedController{
         return "components/expense/expense-item-update";
     }
 
+    /**
+     * Handles the submission of an updated expense item.
+     */
     @PostMapping("/update-item")
     public String updateExpenseItem(@ModelAttribute("item") ExpenseItem item, HttpSession session) {
         User user = requireUser(session);
@@ -79,6 +94,9 @@ public class ExpenseController extends AuthenticatedController{
         return "redirect:/expenses";
     }  
 
+    /**
+     * Handles the deletion of a specific expense item.
+     */
     @PostMapping("/delete-item")
     public String deleteExpenseItem(@RequestParam(value="itemId") Long itemId, HttpSession session) {
         User user = requireUser(session);
@@ -87,5 +105,5 @@ public class ExpenseController extends AuthenticatedController{
         rt.delete(url);
         return "redirect:/expenses";
     }
-    //##################################################################
+   
 }

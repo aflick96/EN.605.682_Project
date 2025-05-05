@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 	<title>Login</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/login.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/components/base/page.css">
 </head>
 <body class="page-container">
 	<div id="loginRegisterFormContainer">
@@ -23,7 +25,22 @@
     </div>
 	
     <c:if test="${not empty error}">
-        <p style="color: red;">${error}</p>
+        <div class="client-message-overlay" id="clientMessageOverlay">
+            <p>${error}</p>
+        </div>
     </c:if>
+
+    <script>
+        window.onload = function () {
+            const errorMsg = document.getElementById("clientMessageOverlay");
+            if (errorMsg && errorMsg.innerText.trim() === "") {
+                errorMsg.style.display = "none";
+            } else if (errorMsg) {
+                setTimeout(() => {
+                    setTimeout(() => errorMsg.style.display = "none", 500);
+                }, 3000);
+            }
+        };
+    </script>
 </body>
 </html>

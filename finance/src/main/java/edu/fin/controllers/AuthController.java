@@ -28,13 +28,15 @@ public class AuthController {
 	
 	// Render the login page
 	@GetMapping("/login")
-	public String showLoginPage() {
+	public String showLoginPage(Model model) {
+		model.addAttribute("error", null);
 		return "login";
 	}
 	
 	// Render the registration page
 	@GetMapping("/register")
-	public String showRegisterPage() {
+	public String showRegisterPage(Model model) {
+		model.addAttribute("error", null);
 		return "register";
 	}
 	
@@ -68,8 +70,8 @@ public class AuthController {
 			rt.postForObject(url, user, String.class);
 			return "redirect:/auth/login";
 		} catch (Exception e) {
-			model.addAttribute("error", "Register failed, try again later.");
-			return "signup";
+			model.addAttribute("error", "Registeration failed, try again later.");
+			return "register";
 		}
 	}
 

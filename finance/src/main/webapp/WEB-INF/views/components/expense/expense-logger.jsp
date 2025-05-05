@@ -100,16 +100,3 @@
         </table>
     </div>
 </c:if>
-
-<!-- <c:if test="${empty expenseLog.items}">
-    <div id="expenseLogEmptyContainer">
-        <span>No expenses added yet.</span>
-    </div>
-</c:if> -->
-
-<!-- <div id="expenseLogDetailModal" class="modal" data-modal-id="expenseLogDetailModal">
-    <div class="modal-content">
-        <span class="modal-close">&times;</span>
-        <div class="modal-content-body"></div>
-    </div>
-</div> -->

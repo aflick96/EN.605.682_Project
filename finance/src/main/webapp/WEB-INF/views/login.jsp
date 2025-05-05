@@ -11,10 +11,10 @@
         <form action="${pageContext.request.contextPath}/auth/login" method="post">
             <h2 class="page-header-h2">Login</h2>
             <label>Email:</label><br>
-            <input type="email" name="email" value="aflick96@gmail.com" required><br>
+            <input type="email" name="email" required><br>
     
             <label>Password:</label><br>
-            <input type="password" name="password" value="a" required>
+            <input type="password" name="password" required>
 
             <br><br>
             <button type="submit">Login</button>

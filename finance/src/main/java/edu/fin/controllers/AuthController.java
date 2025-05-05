@@ -50,7 +50,7 @@ public class AuthController {
 			String url = ac.getBaseUrl() + "/users/login";
             User user = rt.postForObject(url, user_, User.class);
             session.setAttribute("user", user);
-            return "redirect:/dashboard";        
+            return "redirect:/income";        
         } catch (Exception ex) {
             model.addAttribute("error", "Invalid credentials");
             return "login";
@@ -63,7 +63,6 @@ public class AuthController {
      */
 	@PostMapping("/register")
 	public String register(@ModelAttribute User user, Model model) {
-		RestTemplate rt = new RestTemplate();
 		try {
 			String url = ac.getBaseUrl() + "/users/register";
 			rt.postForObject(url, user, String.class);

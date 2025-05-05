@@ -1,8 +1,13 @@
+/*
+ * AuthController.java
+ * 
+ * This controller handles user authentication, including login, registration, and logout.
+ */
+
 package edu.fin.controllers;
 
 import edu.fin.models.user.User;
 import edu.fin.config.APIConfig;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

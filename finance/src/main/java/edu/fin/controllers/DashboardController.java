@@ -1,3 +1,8 @@
+/*
+ * DashboardController.java
+ * 
+ * This class handles the dashboard functionality for the application.
+ */
 package edu.fin.controllers;
 
 import edu.fin.models.user.User;
@@ -6,7 +11,6 @@ import edu.fin.models.dashboard.NetWorthBreakdown;
 import edu.fin.models.dashboard.ExpenseByCategory;
 import edu.fin.models.dashboard.LoanCompletion;
 import edu.fin.models.dashboard.MonthlyCashFlow;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

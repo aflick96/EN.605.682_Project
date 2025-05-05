@@ -1,3 +1,8 @@
+/*
+ * PosttaxDeduction.java
+ * 
+ * This class represents a post-tax deduction associated with an income log.
+ */
 package edu.fin.models.income;
 
 public class PosttaxDeduction {
@@ -6,10 +11,8 @@ public class PosttaxDeduction {
     private String description;
     private double amount;
 
-    // default constructor
+    // constructors
     public PosttaxDeduction() {}
-
-    // constructor
     public PosttaxDeduction(Long posttaxDeductionId, Long incomeLogId, String description, double amount) {
         this.posttaxDeductionId = posttaxDeductionId;
         this.incomeLogId = incomeLogId;

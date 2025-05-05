@@ -1,3 +1,8 @@
+/*
+ * WhatIfScenarioRow.java
+ * 
+ * This class represents a row in the "What If" scenario table for investment contributions.
+ */
 package edu.fin.models.investment;
 
 import java.time.LocalDate;
@@ -11,8 +16,19 @@ public class WhatIfScenarioRow {
     private double totalGrowth;
     private double endBalance;
 
+    // constructors
     public WhatIfScenarioRow() {}
+    public WhatIfScenarioRow(LocalDate weekStart, double realContribution, double scenarioContribution, double totalContributions, double growthThisWeek, double totalGrowth, double endBalance) {
+        this.weekStart = weekStart;
+        this.realContribution = realContribution;
+        this.scenarioContribution = scenarioContribution;
+        this.totalContributions = totalContributions;
+        this.growthThisWeek = growthThisWeek;
+        this.totalGrowth = totalGrowth;
+        this.endBalance = endBalance;
+    }
 
+    // getters and setters
     public LocalDate getWeekStart() { return weekStart; }
     public void setWeekStart(LocalDate weekStart) { this.weekStart = weekStart; }
 

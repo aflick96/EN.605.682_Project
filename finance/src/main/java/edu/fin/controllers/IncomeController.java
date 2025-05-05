@@ -1,3 +1,8 @@
+/*
+ * IncomeController.java
+ * 
+ * This class handles the income-related requests and responses for the web application.
+ */
 package edu.fin.controllers;
 
 import edu.fin.config.APIConfig;
@@ -45,7 +50,7 @@ public class IncomeController extends AuthenticatedController {
         return "income";
     }
 
-
+    // show income log create form
     @GetMapping("/create")
     public String showIncomeLogCreateForm(Model model, HttpSession session) {
         require(session);

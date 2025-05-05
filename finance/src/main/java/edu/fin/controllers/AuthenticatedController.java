@@ -1,3 +1,9 @@
+/*
+ * AuthenticatedController.java
+ * 
+ * This abstract class provides methods to check if a user is authenticated and has a valid session.
+ */
+
 package edu.fin.controllers;
 
 import edu.fin.models.user.User;
@@ -21,6 +27,7 @@ public abstract class AuthenticatedController {
         return user;
     }
 
+    // Check if the user is authenticated and has a valid session
     protected void require(HttpSession session) {
         if (Session.checkSessionGetUserId(session) == null) throw new NotAuthenticatedException();
     }

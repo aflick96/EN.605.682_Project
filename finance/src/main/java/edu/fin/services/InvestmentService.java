@@ -1,3 +1,8 @@
+/*
+ * InvestmentService.java
+ * 
+ * This class provides methods to compute investment scenarios and contributions.
+ */
 package edu.fin.services;
 
 import edu.fin.models.investment.InvestmentLog;
@@ -11,11 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 @Service
 public class InvestmentService {
     public InvestmentScenarioResult computeInvestmentScenarioTable(InvestmentLog investment, InvestmentContribution[] contributions, double scenarioContributions, double expectedReturn) {
-        // Base fields
+        // initialize variables
         LocalDate start = investment.getStartDate();
         LocalDate end = investment.getEndDate() != null ? investment.getEndDate() : start.plusYears(1);
         LocalDate current = start;
@@ -48,6 +52,7 @@ public class InvestmentService {
                 }
             }
 
+            // Calculate contributions and growth for the week
             double scenarioThisWeek = !current.isBefore(startOfCurrentMonth) ? scenarioContributions : 0.0;
             double totalContributionThisWeek = contributionThisWeek + scenarioThisWeek;
             double growthThisWeek = runningBalance * weeklyReturnRate;

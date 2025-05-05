@@ -1,3 +1,8 @@
+/*
+ * NetWorthBreakdown.java
+ * 
+ * This class represents the breakdown of a user's net worth over time. 
+ */
 package edu.fin.models.dashboard;
 
 import java.time.LocalDate;
@@ -10,8 +15,8 @@ public class NetWorthBreakdown {
     private Map<LocalDate, Double> investments;
     private Map<LocalDate, Double> loans;
 
+    // constructors
     public NetWorthBreakdown() {}
-
     public NetWorthBreakdown(Map<LocalDate, Double> netWorth, Map<LocalDate, Double> income, Map<LocalDate, Double> expenses, Map<LocalDate, Double> investments, Map<LocalDate, Double> loans) {
         this.netWorth = netWorth;
         this.income = income;
@@ -20,6 +25,7 @@ public class NetWorthBreakdown {
         this.loans = loans;
     }
 
+    // getters and setters
     public Map<LocalDate, Double> getNetWorth() { return netWorth; }
     public void setNetWorth(Map<LocalDate, Double> netWorth) { this.netWorth = netWorth; }
 

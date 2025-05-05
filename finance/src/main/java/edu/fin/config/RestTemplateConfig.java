@@ -1,3 +1,8 @@
+/*
+ * RestTemplateConfig.java
+ * 
+ * This class configures a RestTemplate bean with SSL support using a custom truststore.
+ */
 package edu.fin.config;
 
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -21,11 +26,13 @@ public class RestTemplateConfig {
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) throws Exception {
+        // Load the custom truststore from resources
         KeyStore truststore = KeyStore.getInstance("JKS");
         try (InputStream is = getClass().getClassLoader().getResourceAsStream("truststore.jks")) {
             truststore.load(is, "password".toCharArray());
         }
 
+        // Create an SSLContext with the truststore
         SSLContext sslContext = SSLContexts.custom()
                 .loadTrustMaterial(truststore, null)
                 .build();
@@ -34,6 +41,7 @@ public class RestTemplateConfig {
                 .setSslContext(sslContext)
                 .build();
 
+        // Create a connection manager with the custom SSL socket factory
         HttpClientConnectionManager connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
                 .setSSLSocketFactory(sslSocketFactory)
                 .build();
@@ -42,6 +50,7 @@ public class RestTemplateConfig {
                 .setConnectionManager(connectionManager)
                 .build();
 
+        // Create a RestTemplate with the custom HttpClient
         return builder
                 .requestFactory(() -> new HttpComponentsClientHttpRequestFactory(httpClient))
                 .build();

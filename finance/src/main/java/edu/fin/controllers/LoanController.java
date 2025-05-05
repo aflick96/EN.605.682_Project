@@ -1,3 +1,9 @@
+/*
+ * LoanController.java
+ * 
+ * This controller manages loan-related operations including creating, editing,
+ */
+
 package edu.fin.controllers;
 
 import edu.fin.config.APIConfig;
@@ -7,22 +13,18 @@ import edu.fin.models.loan.LoanPayments;
 import edu.fin.models.loan.LoanPaymentsWrapper;
 import edu.fin.models.loan.LoanScenarioResult;
 import edu.fin.services.LoanService;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 /**
  * Controller to manage loan-related operations including

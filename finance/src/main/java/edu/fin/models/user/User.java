@@ -7,7 +7,6 @@
 package edu.fin.models.user;
 
 public class User {
-	// Fields
     private Long id;
     private String firstName;
     private String lastName;
@@ -17,15 +16,12 @@ public class User {
 	private String filingStatus;
 	private int dependents;
     
-	// Default Constructor
+	//constructors
     public User() {}
-
 	public User(String email, String password) {
 		this.email = email;
 		this.password = password;
 	}
-    
-	// Constructor
     public User(String firstName, String lastName, String email, String password, String state, String filingStatus, int dependents) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,7 +32,7 @@ public class User {
 		this.dependents = dependents;
     }
 
-	// Getters and Setters
+	// getters and setters
 	public Long getId() { return id; }
 	public void setId(Long id) { this.id = id; }
 

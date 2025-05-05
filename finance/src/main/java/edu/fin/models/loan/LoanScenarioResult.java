@@ -1,3 +1,8 @@
+/*
+ * LoanScenarioResult.java
+ * 
+ * This class represents the result of a loan scenario calculation.
+ */
 package edu.fin.models.loan;
 
 import java.util.List;
@@ -7,12 +12,15 @@ public class LoanScenarioResult {
     private int loanTerms;
     private List<WhatIfScenarioRow> tableRows;
 
+    // constructors
+    public LoanScenarioResult() {}
     public LoanScenarioResult(double scenarioPayment, int loanTerms, List<WhatIfScenarioRow> tableRows) {
         this.scenarioPayment = scenarioPayment;
         this.loanTerms = loanTerms;
         this.tableRows = tableRows;
     }
 
+    // getters and setters
     public double getScenarioPayment() { return scenarioPayment; }
     public void setScenarioPayment(double scenarioPayment) { this.scenarioPayment = scenarioPayment; }
 

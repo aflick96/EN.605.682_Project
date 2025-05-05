@@ -1,3 +1,8 @@
+/*
+ * IncomeByPayFrequencyDetail.java
+ * 
+ * This class represents the details of income by pay frequency for a user.
+ */
 package edu.fin.models.income;
 
 import java.time.LocalDate;
@@ -13,10 +18,8 @@ public class IncomeByPayFrequencyDetail {
     private Double posttaxDeductions;
     private Double netIncome;
 
-    //Default Constructor
+    //constructors
     public IncomeByPayFrequencyDetail() {}
-
-    //Constructor
     public IncomeByPayFrequencyDetail(LocalDate payDate, Double grossIncome, Double additionalIncome, Double pretaxDeductions, Double taxableIncome, Double federalTax, Double stateTax, Double posttaxDeductions, Double netIncome) {
         this.payDate = payDate;
         this.grossIncome = grossIncome;

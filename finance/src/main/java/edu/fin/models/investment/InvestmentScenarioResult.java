@@ -3,7 +3,6 @@
  * 
  * This class represents the result of an investment scenario calculation.
  */
-
 package edu.fin.models.investment;
 
 import java.util.List;
@@ -13,7 +12,8 @@ public class InvestmentScenarioResult {
     private double expectedReturn;
     private List<WhatIfScenarioRow> tableRows;
 
-    // constructor
+    // constructors
+    public InvestmentScenarioResult() {}
     public InvestmentScenarioResult(double scenarioContribution, double expectedReturn, List<WhatIfScenarioRow> tableRows) {
         this.scenarioContribution = scenarioContribution;
         this.expectedReturn = expectedReturn;

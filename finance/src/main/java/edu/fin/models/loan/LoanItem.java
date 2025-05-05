@@ -1,3 +1,9 @@
+/*
+ * LoanItem.java
+ * 
+ * This class represents a loan item with its details such as name, item value, loan amount,
+ * interest rate, start date, and loan term in months.
+ */
 package edu.fin.models.loan;
 
 import java.time.LocalDate;
@@ -11,6 +17,18 @@ public class LoanItem {
     private Double interestRate;
     private LocalDate startDate;
     private Integer loanTermMonths;
+
+    // Constructors
+    public LoanItem() {}
+    public LoanItem(Long id, String name, Double itemValue, Double loanAmount, Double interestRate, LocalDate startDate, Integer loanTermMonths) {
+        this.id = id;
+        this.name = name;
+        this.itemValue = itemValue;
+        this.loanAmount = loanAmount;
+        this.interestRate = interestRate;
+        this.startDate = startDate;
+        this.loanTermMonths = loanTermMonths;
+    }
 
     // Getters and setters
     public Long getId() { return id; }

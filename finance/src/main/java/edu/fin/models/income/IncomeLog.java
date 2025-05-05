@@ -1,3 +1,9 @@
+/*
+ * IncomeLog.java
+ * 
+ * This class represents the income log for a user, including details about the income amount,
+ * pay frequency, deductions, and additional income.
+ */
 package edu.fin.models.income;
 
 import edu.fin.models.income.enums.PayFrequency;
@@ -17,10 +23,8 @@ public class IncomeLog {
     private List<PosttaxDeduction> posttaxDeductions;
     private List<AdditionalIncome> additionalIncomes;
 
-    // default constructor
+    // constructors
     public IncomeLog() {}
-
-    // constructor
     public IncomeLog(Long incomeLogId, Long userId, LocalDate startDate, LocalDate endDate, PayFrequency annualPayFrequency) {
         this.incomeLogId = incomeLogId;
         this.userId = userId;

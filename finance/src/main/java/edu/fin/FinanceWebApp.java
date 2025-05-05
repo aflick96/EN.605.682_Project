@@ -1,3 +1,8 @@
+/*
+ * FinanceWebApp.java
+ * 
+ * This is the main entry point for the Spring Boot application.
+ */
 package edu.fin;
 
 import org.springframework.boot.SpringApplication;

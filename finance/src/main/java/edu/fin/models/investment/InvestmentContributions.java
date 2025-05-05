@@ -3,7 +3,6 @@
  * 
  * This class represents a range of investment contributions.
  */
-
 package edu.fin.models.investment;
 
 public class InvestmentContributions {
@@ -14,6 +13,18 @@ public class InvestmentContributions {
     private Integer specificDay;
     private Long investmentLogId;
 
+    // constructors
+    public InvestmentContributions() {}
+    public InvestmentContributions(String startDate, String endDate, double contributionAmount, String contributionDay, Integer specificDay, Long investmentLogId) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.contributionAmount = contributionAmount;
+        this.contributionDay = contributionDay;
+        this.specificDay = specificDay;
+        this.investmentLogId = investmentLogId;
+    }
+
+    // getters and setters
     public String getStartDate() { return startDate; }
     public void setStartDate(String startDate) { this.startDate = startDate; }
 

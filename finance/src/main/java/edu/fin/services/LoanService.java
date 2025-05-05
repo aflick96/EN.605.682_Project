@@ -3,7 +3,6 @@
  * 
  * This class represents the result of an investment scenario calculation.
  */
-
 package edu.fin.services;
 
 import edu.fin.models.loan.LoanItem;
@@ -20,9 +19,11 @@ import java.util.Map;
 @Service
 public class LoanService {
     public LoanScenarioResult computeLoanScenarioTable(LoanItem loanItem, LoanPayment[] payments, Double monthlyPayment, Double interestRate, Integer loanTerm) {        
+        // Set default values if not provided
         double monthlyInterestRate = (interestRate > 0.0) ? interestRate / 100.0 / 12.0 : (loanItem.getInterestRate() != null) ? loanItem.getInterestRate() / 100.0 / 12.0 : 0.0;    
         loanTerm = (loanTerm == 0) ? loanItem.getLoanTermMonths() : loanTerm;
 
+        // Calculate the monthly payment if not provided
         double scenarioPayment = monthlyPayment;
         if (scenarioPayment <= 0) {
             if (monthlyInterestRate > 0.0) {
@@ -32,6 +33,7 @@ public class LoanService {
             }
         }
         
+        // initialize variables
         LocalDate start = loanItem.getStartDate();
         LocalDate end = start.plusMonths(loanTerm);
         LocalDate current = start;
@@ -64,13 +66,14 @@ public class LoanService {
                 }
             }
 
+            // Calculate payments, interest, and principal for the month
             double scenarioThisMonth = !current.isBefore(startOfCurrentMonth) ? scenarioPayment : 0.0;
             double totalPaymentThisMonth = paymentThisMonth + scenarioThisMonth;
             double interestThisMonth = runningBalance * monthlyInterestRate;
-            double principalThisMonth = totalPaymentThisMonth - interestThisMonth;            if (principalThisMonth > runningBalance) {
+            double principalThisMonth = totalPaymentThisMonth - interestThisMonth;            
+            if (principalThisMonth > runningBalance) {
                 principalThisMonth = runningBalance;
             }
-
             runningBalance -= principalThisMonth;
             runningInterest += interestThisMonth;
             runningPrincipal += principalThisMonth;
@@ -91,6 +94,7 @@ public class LoanService {
             rows.add(row);
             current = current.plusMonths(1);
 
+            // Check if the loan is paid off
             if (runningBalance <= 0.0) {
                 break;
             }

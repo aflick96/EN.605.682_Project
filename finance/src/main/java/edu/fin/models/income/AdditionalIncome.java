@@ -1,3 +1,8 @@
+/*
+ * AdditionalIncome.java
+ * 
+ * This class represents additional income entries for a user.
+ */
 package edu.fin.models.income;
 
 public class AdditionalIncome {
@@ -6,10 +11,8 @@ public class AdditionalIncome {
     private String description;
     private double amount;
 
-    // default constructor
+    // constructors
     public AdditionalIncome() {}
-
-    // constructor
     public AdditionalIncome(Long additionalIncomeId, Long incomeLogId, String description, double amount) {
         this.additionalIncomeId = additionalIncomeId;
         this.incomeLogId = incomeLogId;

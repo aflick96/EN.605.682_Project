@@ -1,24 +1,26 @@
+/*
+ * WhatIfScenarioRow.java
+ * 
+ * This class represents a row in the "What If" scenario table for loan payments.
+ */
 package edu.fin.models.loan;
 
 import java.time.LocalDate;
 
 public class WhatIfScenarioRow {
     private LocalDate monthStartDate;
-    // payments
     private double scenarioPayment;
     private double paymentThisMonth;
     private double principalThisMonth;
     private double interestThisMonth;
-    // totals
     private double totalPrincipal;
     private double totalInterest;
     private double totalPaid;
-    //balances
     private double principalRemaining;
     private double endBalance;
-    // actual payments
     private double realPayment;
 
+    // constructors
     public WhatIfScenarioRow() {}
     public WhatIfScenarioRow(LocalDate monthStartDate, double scenarioPayment, double paymentThisMonth, double principalThisMonth, double interestThisMonth,
                           double totalPrincipal, double totalInterest, double totalPaid, double principalRemaining,
@@ -36,6 +38,7 @@ public class WhatIfScenarioRow {
         this.realPayment = realPayment;
     }
 
+    // getters and setters
     public LocalDate getMonthStartDate() { return monthStartDate; }
     public void setMonthStartDate(LocalDate monthStartDate) { this.monthStartDate = monthStartDate; }
 

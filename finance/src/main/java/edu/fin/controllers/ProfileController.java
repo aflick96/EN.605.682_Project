@@ -1,8 +1,12 @@
+/*
+ * ProfileController.java
+ * 
+ * This class handles profile-related requests for the application.
+ */
 package edu.fin.controllers;
 
 import edu.fin.config.APIConfig;
 import edu.fin.models.user.User;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

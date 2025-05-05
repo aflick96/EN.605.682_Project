@@ -1,3 +1,8 @@
+/*
+ * ExpenseItem.java
+ * 
+ * This class represents an expense item in the user's expense log.
+ */
 package edu.fin.models.expense;
 
 import java.time.LocalDate;
@@ -12,6 +17,20 @@ public class ExpenseItem {
     private LocalDate startDate;
     private LocalDate endDate;
 
+	//constructors
+	public ExpenseItem() {}
+	public ExpenseItem(Long expenseLogId, Long id, String name, String category, String frequency, double amount, LocalDate startDate, LocalDate endDate) {
+		this.expenseLogId = expenseLogId;
+		this.id = id;
+		this.name = name;
+		this.category = category;
+		this.frequency = frequency;
+		this.amount = amount;
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+
+	//getters and setters
 	public Long getExpenseLogId() { return expenseLogId; }
 	public void setExpenseLogId(Long expenseLogId) { this.expenseLogId = expenseLogId; }
 

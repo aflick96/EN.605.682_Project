@@ -1,3 +1,8 @@
+/*
+ * LoanPayment.java
+ * 
+ * This class represents a loan payment made by a user.
+ */
 package edu.fin.models.loan;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,8 +15,16 @@ public class LoanPayment {
     private LocalDate paymentDate;
     private double paymentAmount;
 
+    // constructors
     public LoanPayment() {}
+    public LoanPayment(Long id, Long loanItemId, LocalDate paymentDate, double paymentAmount) {
+        this.id = id;
+        this.loanItemId = loanItemId;
+        this.paymentDate = paymentDate;
+        this.paymentAmount = paymentAmount;
+    }
 
+    // getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

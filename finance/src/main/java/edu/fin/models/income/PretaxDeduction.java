@@ -1,3 +1,8 @@
+/*
+ * PretaxDeduction.java
+ * 
+ * This class represents a pretax deduction associated with an income log.
+ */
 package edu.fin.models.income;
 
 public class PretaxDeduction {
@@ -6,10 +11,8 @@ public class PretaxDeduction {
     private String description;
     private double amount;
 
-    // default constructor
+    // constructors
     public PretaxDeduction() {}
-
-    // constructor
     public PretaxDeduction(Long pretaxDeductionId, Long incomeLogId, String description, double amount) {
         this.pretaxDeductionId = pretaxDeductionId;
         this.incomeLogId = incomeLogId;

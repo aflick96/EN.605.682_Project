@@ -1,18 +1,20 @@
+/*
+ * ExpenseController.java
+ * 
+ * This class handles the expense-related operations in the application.
+ */
 package edu.fin.controllers;
 
 import edu.fin.config.APIConfig;
 import edu.fin.models.user.User;
 import edu.fin.models.expense.ExpenseLog;
 import edu.fin.models.expense.ExpenseItem;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-// import org.springframework.http.HttpEntity;
-// import org.springframework.http.ResponseEntity;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -105,5 +107,4 @@ public class ExpenseController extends AuthenticatedController{
         rt.delete(url);
         return "redirect:/expenses";
     }
-   
 }

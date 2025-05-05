@@ -1,3 +1,8 @@
+/*
+ * InvestmentController.java
+ * 
+ * This class handles the investment-related requests and responses for the web application.
+ */
 package edu.fin.controllers;
 
 import edu.fin.config.APIConfig;
@@ -11,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +39,7 @@ public class InvestmentController extends AuthenticatedController {
 
     public InvestmentController() {}
 
-    // Called when the Investments page on the main navigation bar is clicked
-    // This retrieves any investment logs associated with the user and displays them
+    // Show all investments for the user
     @GetMapping
     public String showInvestments(Model model, HttpSession session) {
         Long userId = requireUserId(session);
@@ -47,9 +50,7 @@ public class InvestmentController extends AuthenticatedController {
         return "investments";
     }
 
-    // #################################################################################
-    // Called when the Add New Investment Item button is clicked
-    // This creates a new investment log item and displays the form to fill out
+    // Render the investment log creation form
     @GetMapping("/add-investment-log")
     public String showInvestmentCreateForm(Model model, HttpSession session) {
         require(session);
@@ -59,27 +60,19 @@ public class InvestmentController extends AuthenticatedController {
         return "components/investment/investment-create";
     }
 
-    // Called when the form to add a new investment log is submitted
-    // This sends the investment log to the API and redirects to the investments page
+    // Create a new investment log
     @PostMapping("/add-investment-log")
     public String addInvestment(@ModelAttribute("investmentLog") InvestmentLog investmentLog, HttpSession session) {
         Long userId = requireUserId(session);
 
         String url = ac.getBaseUrl() + "/investments/user/" + userId;
         HttpEntity<InvestmentLog> request = new HttpEntity<>(investmentLog);
-        ResponseEntity<InvestmentLog> response = rt.postForEntity(url, request, InvestmentLog.class);
+        rt.postForEntity(url, request, InvestmentLog.class);
         
-        if (response.getStatusCode().is2xxSuccessful()) {
-            return "redirect:/investment?success=true";
-        } else {
-            return "redirect:/investment?error=true";
-        }
+        return "redirect:/investment"; 
     }
-    // #################################################################################
 
-    // ##################################################################################
-    // Called when the Add New Investment Contribution button is clicked
-    // This creates a new investment contribution item and displays the form to fill out
+    // Render the investment contribution creation form
     @GetMapping("/add-investment-contribution")
     public String showInvestmentContributionCreateForm(@RequestParam(value="investmentLogId", required=false) Long investmentLogId, Model model, HttpSession session) {
         Long userId = requireUserId(session);
@@ -103,8 +96,7 @@ public class InvestmentController extends AuthenticatedController {
         return "components/investment/investment-contribution-create";
     }
 
-    // Called when the form to add a new investment contribution is submitted
-    // This sends the investment contribution to the API and redirects to the investments page
+    // Create a new investment contribution
     @PostMapping("/add-investment-contribution")
     public String addInvestmentContribution(@RequestParam(value="investmentLogId", required=false) Long investmentLogId, @ModelAttribute InvestmentContribution investmentContribution, HttpSession session) {
         Long userId = requireUserId(session);
@@ -114,8 +106,8 @@ public class InvestmentController extends AuthenticatedController {
         rt.postForObject(url, request, String.class);
         return "redirect:/investment";
     }
-    // ##################################################################################
 
+    // Create multiple investment contributions at once
     @PostMapping("/add-investment-contributions")
     public String addInvestmentContributions(@RequestParam(value="investmentLogId", required=false) Long investmentLogId, @ModelAttribute InvestmentContributions investmentContributions, HttpSession session) {
         Long userId = requireUserId(session);
@@ -126,6 +118,7 @@ public class InvestmentController extends AuthenticatedController {
         return "redirect:/investment";
     }
 
+    // Render the investment contribution update form
     @GetMapping("/edit-investment-contributions")
     public String showInvestmentContributionUpdateForm(@RequestParam(value="investmentLogId", required=false) Long investmentLogId, Model model, HttpSession session, HttpServletResponse response) throws IOException {
         Long userId = requireUserId(session);
@@ -146,6 +139,7 @@ public class InvestmentController extends AuthenticatedController {
         return "components/investment/investment-contribution-update";
     }
 
+    // Update multiple investment contributions
     @PostMapping("/edit-investment-contributions")
     public String updateInvestmentContributions(@RequestParam(value="investmentLogId", required=false) Long investmentLogId, @ModelAttribute("investmentContributionsWrapper") InvestmentContributionsWrapper wrapper, HttpSession session) {
         Long userId = requireUserId(session);
@@ -155,7 +149,7 @@ public class InvestmentController extends AuthenticatedController {
         return "redirect:/investment";
     }
 
-    // Called when the delete button on an investment log is clicked
+    // Delete an investment log
     @PostMapping("/delete-investment-log")
     public String deleteInvestmentLog(@RequestParam(value="investmentLogId") Long investmentLogId, HttpSession session) {
         Long userId = requireUserId(session);

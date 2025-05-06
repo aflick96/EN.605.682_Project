@@ -13,17 +13,17 @@
 
         <label for="category">Category</label>
         <form:select path="category" id="category" required="true">
-            <option value="RENT">Rent</option>
-            <option value="UTILITIES">Transportation</option>
-            <option value="TRANSPORTATION">Food</option>
-            <option value="FOOD">Utilities</option>
-            <option value="INSURANCE">Insurance</option>
-            <option value="HEALTHCARE">Healthcare</option>
-            <option value="ENTERTAINMENT">Savings</option>
-            <option value="PERSONAL_CARE">Personal</option>
-            <option value="CHILDCARE">Entertainment</option>
-            <option value="GIFTS_DONATIONS">Miscellaneous</option>
-            <option value="OTHER">Other</option>
+            <form:option value="RENT">Rent</form:option>
+            <form:option value="TRANSPORTATION">Transportation</form:option>
+            <form:option value="FOOD">Food</form:option>
+            <form:option value="UTILITIES">Utilities</form:option>
+            <form:option value="INSURANCE">Insurance</form:option>
+            <form:option value="HEALTHCARE">Healthcare</form:option>
+            <form:option value="PERSONAL_CARE">Personal</form:option>
+            <form:option value="ENTERTAINMENT">Entertainment</form:option>
+            <form:option value="CHILDCARE">Child Care</form:option>
+            <form:option value="GIFTS_DONATIONS">Gifts/Donations</form:option>
+            <form:option value="OTHER">Other</form:option>
         </form:select><br/>
 
         <label for="frequency">Frequency</label>

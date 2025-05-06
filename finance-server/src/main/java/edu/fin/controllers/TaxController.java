@@ -1,3 +1,8 @@
+/**
+ * TaxController.java
+ * 
+ * This controller handles state and federal tax data endpoints.
+ */
 package edu.fin.controllers;
 
 import edu.fin.services.StateTaxService;
@@ -28,11 +33,15 @@ public class TaxController {
 		this.util = new TaxUtil();
 	}
 	
+	/**
+	 * Endpoint to retrieve all state tax data.
+	 */
 	@GetMapping("/all_state_taxes")
 	public StateTax getStateTaxes() throws IOException {
 		return stateTaxService.getStateTaxes();
 	}
 	
+	// Endpoint to get state tax
 	@GetMapping("/state")
 	public ResponseEntity<?> getStateTax(
 			@RequestParam("state") String stateName,
@@ -66,6 +75,7 @@ public class TaxController {
 		}
 	}
 	
+	// endpoint to get fedetal tax
     @GetMapping("/federal")
     public ResponseEntity<?> getFederalTax(
             @RequestParam(value = "filing_status", required = false) String filingStatus,

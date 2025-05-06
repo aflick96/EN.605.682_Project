@@ -1,3 +1,8 @@
+/**
+ * IncomeLogController.java
+ * 
+ * This controller handles income logs and related financial entities.
+ */
 package edu.fin.controllers;
 
 import edu.fin.repositories.income.*;

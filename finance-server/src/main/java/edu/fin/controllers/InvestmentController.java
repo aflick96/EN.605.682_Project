@@ -1,3 +1,8 @@
+/**
+ * InvestmentController.java
+ * 
+ * This controller handles investment contributions and related financial entities.
+ */
 package edu.fin.controllers;
 
 import edu.fin.dtos.investment.InvestmentContributionRequest;

@@ -1,3 +1,8 @@
+/**
+ * UserController.java
+ * 
+ * This controller handles user operations such as registration, login, and lookup.
+ */
 package edu.fin.controllers;
 
 import edu.fin.repositories.user.UserRepository;
@@ -20,12 +25,20 @@ public class UserController {
 		this.util = util;
 	}
 	
+	/**
+	 * Retrieves a user by their ID.
+	 * 
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getUserById(@PathVariable Long id) {
 		Optional<User> user = repo.findById(id);
 		return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	}
 
+	/**
+	 * Registers a new user if the state is valid and the email is unique.
+	 * 
+	 */
 	@PostMapping("/register")
 	public ResponseEntity<String> registerUser(@RequestBody User user) {
 		System.out.println(user);
@@ -41,6 +54,10 @@ public class UserController {
 		return ResponseEntity.ok("User registered successfully");
 	}
 
+	/**
+	 * Authenticates a user based on email and password.
+	 * 
+	 */
 	@PostMapping("/login")
 	public ResponseEntity<?> loginUser(@RequestBody User user) {
 		Optional<User> user_ = repo.findByEmail(user.getEmail());

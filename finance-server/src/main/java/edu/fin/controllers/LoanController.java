@@ -1,3 +1,8 @@
+/**
+ * LoanController.java
+ * 
+ * This controller handles loan logs and related financial entities.
+ */
 package edu.fin.controllers;
 
 import edu.fin.dtos.loan.*;
@@ -15,11 +20,13 @@ public class LoanController {
 	
 	public LoanController() {}
 
+	// Gets all log items for specific user
 	@GetMapping("/user/{userId}")
 	public ResponseEntity<List<LoanItemRequest>> getLoanItemsForUser(@PathVariable Long userId) {
 		return ResponseEntity.ok(service.getLoanItems(userId));
 	}
 	
+	// Create new loan item for specific user
 	@PostMapping("/user/{userId}")
 	public void createLoanItem(@PathVariable Long userId, @RequestBody LoanItemRequest item) {
 		service.createLoanItem(userId, item);
@@ -49,6 +56,7 @@ public class LoanController {
 		service.addPaymentToLoanItem(userId, itemId, payment);
 	}
 
+	// Add reoccuring payment to loan
 	@PostMapping("user/{userId}/item/{itemId}/payments")
 	public void addPayments(@PathVariable Long userId, @PathVariable Long itemId, @RequestBody LoanPaymentsRequest payments) {
 		service.addPaymentsToLoanItem(userId, itemId, payments);

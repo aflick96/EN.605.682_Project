@@ -12,8 +12,8 @@ public class LoanCompletionData {
     private double remainingAmount;
     private double percentageCompleted;
 
+    // constructors
     public LoanCompletionData() {}
-
     public LoanCompletionData(String loanName, double totalAmount, double amountPaid, double remainingAmount, double percentageCompleted) {
         this.loanName = loanName;
         this.totalAmount = totalAmount;
@@ -22,6 +22,7 @@ public class LoanCompletionData {
         this.percentageCompleted = percentageCompleted;
     }
 
+    // getters and setters
     public String getLoanName() { return loanName; }
     public void setLoanName(String loanName) { this.loanName = loanName; }
 

@@ -1,3 +1,8 @@
+/*
+ * InvestmentContributionRequest.java
+ * 
+ * This class represents a request to add a contribution to an investment log. It contains the ID of the investment log, the date of the contribution, and the amount of the contribution.
+ */
 package edu.fin.dtos.investment;
 
 import java.time.LocalDate;
@@ -8,6 +13,7 @@ public class InvestmentContributionRequest {
     private LocalDate contributionDate;
     private double contributionAmount;
 
+    // constructors
     public InvestmentContributionRequest() {}
     public InvestmentContributionRequest(Long id, Long investmentLogId, LocalDate contributionDate, double contributionAmount) {
         this.id = id;
@@ -16,6 +22,7 @@ public class InvestmentContributionRequest {
         this.contributionAmount = contributionAmount;
     }
 
+    // getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

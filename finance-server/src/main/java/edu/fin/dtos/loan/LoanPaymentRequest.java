@@ -1,3 +1,8 @@
+/*
+ * LoanPaymentRequest.java
+ * 
+ * This class represents a request to make a payment on a loan. It contains an ID, the ID of the loan item, the date of the payment, and the amount of the payment.
+ */
 package edu.fin.dtos.loan;
 
 import java.time.LocalDate;
@@ -8,6 +13,7 @@ public class LoanPaymentRequest {
     private LocalDate paymentDate;
     private Double paymentAmount;
 
+    // constructors
     public LoanPaymentRequest() {}
     public LoanPaymentRequest(Long id, Long loanItemId, LocalDate paymentDate, Double paymentAmount) {
         this.id = id;
@@ -16,6 +22,7 @@ public class LoanPaymentRequest {
         this.paymentAmount = paymentAmount;
     }
 
+    // getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

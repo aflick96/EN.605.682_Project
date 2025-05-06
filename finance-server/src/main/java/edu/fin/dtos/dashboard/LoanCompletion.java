@@ -10,11 +10,13 @@ import java.util.List;
 public class LoanCompletion {
     private List<LoanCompletionData> loanCompletionData;
 
+    // constructors
     public LoanCompletion() {}
     public LoanCompletion(List<LoanCompletionData> loanCompletionData) {
         this.loanCompletionData = loanCompletionData;
     }
 
+    // getters and setters
     public List<LoanCompletionData> getLoanCompletionData() { return loanCompletionData; }
     public void setLoanCompletionData(List<LoanCompletionData> loanCompletionData) { this.loanCompletionData = loanCompletionData; }
 

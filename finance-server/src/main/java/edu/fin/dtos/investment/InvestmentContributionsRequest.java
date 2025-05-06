@@ -1,3 +1,8 @@
+/*
+ * InvestmentContributionsRequest.java
+ * 
+ * This class represents a request to add multiple contributions to an investment log. It contains the start date, end date, contribution amount, contribution day, specific day, and investment log ID.
+ */
 package edu.fin.dtos.investment;
 
 public class InvestmentContributionsRequest {
@@ -8,6 +13,18 @@ public class InvestmentContributionsRequest {
     private Integer specificDay;
     private Long investmentLogId;
 
+    // constructors
+    public InvestmentContributionsRequest() {}
+    public InvestmentContributionsRequest(String startDate, String endDate, double contributionAmount, String contributionDay, Integer specificDay, Long investmentLogId) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.contributionAmount = contributionAmount;
+        this.contributionDay = contributionDay;
+        this.specificDay = specificDay;
+        this.investmentLogId = investmentLogId;
+    }
+
+    // getters and setters
     public String getStartDate() { return startDate; }
     public void setStartDate(String startDate) { this.startDate = startDate; }
 

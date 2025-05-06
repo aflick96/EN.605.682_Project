@@ -1,11 +1,14 @@
+/*
+ * ExpenseItem.java
+ * 
+ * This class represents an item in an expense log. It contains details such as the name, category, frequency, amount, start date, end date, and a reference to the associated expense log.
+ */
 package edu.fin.entities.expense;
 
+import edu.fin.entities.expense.enums.*;
 import jakarta.persistence.*;
 import java.time.LocalDate;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
-import edu.fin.entities.expense.enums.*;
 
 @Entity
 @Table(name="expense_items")

@@ -1,3 +1,8 @@
+/*
+ * LoanItemRequest.java
+ * 
+ * This class represents a request to create or update a loan item. It contains an ID, name, item value, loan amount, interest rate, start date, and loan term in months.
+ */
 package edu.fin.dtos.loan;
 
 import java.time.LocalDate;
@@ -11,8 +16,8 @@ public class LoanItemRequest {
     private LocalDate startDate;
     private Integer loanTermMonths;
 
+    // constructors
     public LoanItemRequest() {}
-
     public LoanItemRequest(Long id, String name, Double itemValue, Double loanAmount, Double interestRate, LocalDate startDate, Integer loanTermMonths) {
         this.id = id;
         this.name = name;

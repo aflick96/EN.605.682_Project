@@ -1,11 +1,14 @@
+/*
+ * ExpenseLog.java
+ * 
+ * This class represents an expense log. It contains a unique ID, a user associated with the log, and a list of expense items.
+ */
 package edu.fin.entities.expense;
 
+import edu.fin.entities.user.User;
 import jakarta.persistence.*;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import edu.fin.entities.user.User;
 
 @Entity
 @Table(name="expense_logs")

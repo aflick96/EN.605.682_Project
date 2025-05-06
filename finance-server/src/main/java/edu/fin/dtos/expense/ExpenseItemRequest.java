@@ -1,3 +1,8 @@
+/*
+ * ExpenseItemRequest.java
+ * 
+ * This class represents a request to create or update an expense item. It contains fields for the expense log ID, item ID, name, category, frequency, amount, start date, and end date.
+ */
 package edu.fin.dtos.expense;
 
 import java.time.LocalDate;
@@ -12,6 +17,7 @@ public class ExpenseItemRequest {
     private LocalDate startDate;
     private LocalDate endDate;
 
+    // constructors
     public ExpenseItemRequest() {}
     public ExpenseItemRequest(Long expenseLogId, Long id, String name, String category, String frequency, double amount, LocalDate startDate, LocalDate endDate) {
         this.expenseLogId = expenseLogId;
@@ -24,6 +30,7 @@ public class ExpenseItemRequest {
         this.endDate = endDate;
     }
 
+    // getters and setters
     public Long getExpenseLogId() { return expenseLogId; }
     public void setExpenseLogId(Long expenseLogId) { this.expenseLogId = expenseLogId; }
 

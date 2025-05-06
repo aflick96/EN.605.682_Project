@@ -1,3 +1,8 @@
+/*
+ * InvestmentLogRequest.java
+ * 
+ * This class represents a request to log investments. It contains an ID, name, start date, end date, and expected annual return.
+ */
 package edu.fin.dtos.investment;
 
 import java.time.LocalDate;
@@ -9,8 +14,8 @@ public class InvestmentLogRequest {
     private LocalDate endDate;
     private Double expectedAnnualReturn;
 
+    // constructors
     public InvestmentLogRequest() {}
-
     public InvestmentLogRequest(Long id, String name, LocalDate startDate, LocalDate endDate, Double expectedAnnualReturn) {
         this.id = id;
         this.name = name;
@@ -19,6 +24,7 @@ public class InvestmentLogRequest {
         this.expectedAnnualReturn = expectedAnnualReturn;
     }
 
+    // getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

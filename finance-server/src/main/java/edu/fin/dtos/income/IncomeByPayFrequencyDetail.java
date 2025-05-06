@@ -1,3 +1,8 @@
+/*
+ * IncomeByPayFrequencyDetail.java
+ * 
+ * This class represents the details of income by pay frequency. It contains fields for various income-related attributes such as gross income, additional income, pretax deductions, taxable income, federal tax, state tax, post-tax deductions, and net income.
+ */
 package edu.fin.dtos.income;
 
 import java.time.LocalDate;
@@ -13,7 +18,8 @@ public class IncomeByPayFrequencyDetail {
     private Double posttaxDeductions;
     private Double netIncome;
 
-    //Constructor
+    //constructors
+    public IncomeByPayFrequencyDetail() {}
     public IncomeByPayFrequencyDetail(LocalDate payDate, Double grossIncome, Double additionalIncome, Double pretaxDeductions, Double taxableIncome, Double federalTax, Double stateTax, Double posttaxDeductions, Double netIncome) {
         this.payDate = payDate;
         this.grossIncome = grossIncome;

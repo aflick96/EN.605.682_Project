@@ -7,11 +7,11 @@ import edu.fin.entities.user.User;
 import edu.fin.repositories.income.IncomeLogRepository;
 import edu.fin.repositories.user.UserRepository;
 import edu.fin.utils.common.Util;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -77,7 +77,7 @@ public class IncomeByPayFrequencyService {
 
     public Map<LocalDate, Double> getIncomeByDate(Long uid) {
         User user = userRepository.findById(uid).orElse(null);
-        if (user == null) return null;
+        if (user == null) return Collections.emptyMap();
 
         Map<LocalDate, Double> incomeMap = new TreeMap<>();
 

@@ -40,7 +40,6 @@ public class ExpenseController extends AuthenticatedController{
         String url = ac.getBaseUrl() + "/expenses/user/" + userId;
         ExpenseLog expenseLog = rt.getForObject(url, ExpenseLog.class);
         model.addAttribute("expenseLog", expenseLog);
-        // System.out.println("Expense Log: " + expenseLog);
         return "expenses";
     }
     

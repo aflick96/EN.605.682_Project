@@ -41,7 +41,6 @@ public class UserController {
 	 */
 	@PostMapping("/register")
 	public ResponseEntity<String> registerUser(@RequestBody User user) {
-		System.out.println(user);
 		if (!util.isValidState(user.getState())) {
 			return ResponseEntity.badRequest().body("Invalid state provided");
 		}

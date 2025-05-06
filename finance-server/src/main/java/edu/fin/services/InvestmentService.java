@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -193,7 +194,7 @@ public class InvestmentService {
 	// Get the investment value by date for a user
 	public Map<LocalDate, Double> getInvestmentValueByDate(Long userId) {
 		User user = userRepository.findById(userId).orElse(null);
-		if (user == null) return null;
+		if (user == null) return Collections.emptyMap();
 
 		List<InvestmentLog> logs = investmentLogRepository.findByUserId(userId);
 		Map<LocalDate, Double> investmentValueMap = new TreeMap<>();

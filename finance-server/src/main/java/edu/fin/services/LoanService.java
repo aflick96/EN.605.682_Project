@@ -13,6 +13,7 @@ import edu.fin.repositories.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -217,7 +218,7 @@ public class LoanService {
 
 	public Map<LocalDate, Double> getLoanItemValueByDate(Long userId) {
 		User user = userRepository.findById(userId).orElse(null);
-		if (user == null) return null;
+		if (user == null) return Collections.emptyMap();
 	
 		List<LoanItem> loanItems = loanItemRepository.findByUserId(userId);
 		Map<LocalDate, Double> loanItemValueMap = new TreeMap<>();
